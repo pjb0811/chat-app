@@ -1,7 +1,7 @@
 {
   "name": "create-next-example-app",
   "scripts": {
-    "start": "cross-env NODE_ENV=development PORT=9000 node server",
+    "start": "cross-env NODE_ENV=development PORT=9000 nodemon server",
     "build": "next build",
     "serve": "yarn build && cross-env NODE_ENV=production PORT=9000 node server"
   },

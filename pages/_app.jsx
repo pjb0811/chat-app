@@ -2,13 +2,12 @@ import React from 'react';
 import App, { Container } from 'next/app';
 import { Provider } from 'mobx-react';
 import { initStore } from '../mobx/Store';
-// import { DragDropContext, HTML5Backend } from 'react-dnd-component';
-// import { toJS } from 'mobx';
-
 import getPageContext from '../lib/getPageContext';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
+// import { DragDropContext, HTML5Backend } from 'react-dnd-component';
+// import { toJS } from 'mobx';
 
 class CustomApp extends App {
   static async getInitialProps({ Component, ctx }) {

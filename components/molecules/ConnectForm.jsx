@@ -34,9 +34,9 @@ class ConnectForm extends Component {
     const { classes, isSubmitting, submitForm } = this.props;
     return (
       <Form className={classes.container}>
-        <Typography variant="h5">test</Typography>
+        <Typography variant="h5">Login</Typography>
         <Field
-          name="id"
+          name="userid"
           type="text"
           component={WrappedTextField}
           fullWidth

@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Router } from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
+import io from 'socket.io-client';
 
 const validate = values => {
   const errors = {};
-  if (!values.id) {
-    errors.id = 'ID를 입력해주세요';
+  if (!values.userid) {
+    errors.userid = 'ID를 입력해주세요';
   }
   return errors;
 };
@@ -14,23 +15,30 @@ const validate = values => {
 class Connect extends Component {
   state = {
     form: {
-      id: ''
+      userid: ''
     }
   };
+
+  componentDidMount() {
+    this.socket = io();
+    this.socket.on('login', data => {
+      console.log(data);
+      Router.pushRoute('/list');
+    });
+  }
 
   handleChange = e => {
     this.setState({
       form: {
-        id: e.target.value
+        userid: e.target.value
       }
     });
   };
 
   onConnect = (values, { setSubmitting }) => {
-    setTimeout(() => {
-      setSubmitting(false);
-      Router.pushRoute('/list');
-    }, 1000);
+    this.socket.emit('login', {
+      userid: values.userid
+    });
   };
 
   render() {

@@ -12,7 +12,7 @@ class Index extends Component {
       <Grid container>
         <Grid item xs={12}>
           <Paper className={classes.paper} elevation={1}>
-            <Connect />
+            <Connect {...this.props} />
           </Paper>
         </Grid>
       </Grid>
