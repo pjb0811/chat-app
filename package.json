@@ -11,8 +11,12 @@
     "react-dom": "^16.6.1"
   },
   "devDependencies": {
+    "@material-ui/core": "^3.4.0",
+    "@material-ui/icons": "^3.0.1",
     "express": "^4.16.4",
+    "jss": "^9.8.7",
     "next-routes": "^1.4.2",
+    "react-jss": "^8.6.1",
     "socket.io": "^2.1.1"
   }
 }
