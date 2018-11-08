@@ -2,11 +2,9 @@ const express = require('express')();
 const server = require('http').createServer(express);
 const io = require('socket.io').listen(server);
 
-// const proxyMiddleware = require('http-proxy-middleware');
 const next = require('next');
-// const mobxReact = require('mobx-react');
+const mobxReact = require('mobx-react');
 
-// const proxies = require('../lib/proxies');
 const routes = require('../lib/routes');
 const port = parseInt(process.env.PORT, 10) || 3000;
 const env = process.env.NODE_ENV;
@@ -17,32 +15,33 @@ const app = next({
 });
 
 const routeHandler = routes.getRequestHandler(app);
-// const handle = app.getRequestHandler();
 
-// mobxReact.useStaticRendering(true);
+mobxReact.useStaticRendering(true);
 
-io.on('connect', socket => {
+io.on('connection', socket => {
+  // 접속한 클라이언트의 정보가 수신되면
+  socket.on('login', data => {
+    console.log(data.id);
+
+    socket.id = data.id;
+
+    // 접속된 모든 클라이언트에게 메시지를 전송한다
+    io.emit('login', data.id);
+  });
   // const clientIp = socket.request.connection.remoteAddress;
 
-  socket.on('SEND_MESSAGE', data => {
-    io.emit('RECEIVE_MESSAGE', {
-      ...data
-      // clientIp
-    });
-  });
+  // socket.on('SEND_MESSAGE', data => {
+  //   io.emit('RECEIVE_MESSAGE', {
+  //     ...data
+  //     // clientIp
+  //   });
+  // });
 });
 
 app
   .prepare()
   .then(() => {
-    // if (proxies) {
-    //   Object.keys(proxies).forEach(function(context) {
-    //     express.use(context, proxyMiddleware(proxies[context]));
-    //   });
-    // }
-
     express.use(routeHandler);
-    // express.all('*', (req, res) => handle(req, res));
 
     server.listen(port, err => {
       if (err) {

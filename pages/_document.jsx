@@ -42,6 +42,12 @@ export default class CustomDocument extends Document {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
+          <link href="/static/styles/index.css" rel="stylesheet" />
+          <link
+            rel="shortcut icon"
+            type="image/x-icon"
+            href="/static/favicon.ico"
+          />
         </Head>
         <body>
           <Main />

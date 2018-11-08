@@ -1,7 +1,7 @@
 import React from 'react';
 import App, { Container } from 'next/app';
-// import { Provider } from 'mobx-react';
-// import { initStore } from '../mobx/Store';
+import { Provider } from 'mobx-react';
+import { initStore } from '../mobx/Store';
 // import { DragDropContext, HTML5Backend } from 'react-dnd-component';
 // import { toJS } from 'mobx';
 
@@ -23,7 +23,7 @@ class CustomApp extends App {
 
   constructor(props) {
     super(props);
-    // this.store = initStore(this.props.pageProps);
+    this.store = initStore(this.props.pageProps);
     this.pageContext = getPageContext();
   }
 
@@ -46,24 +46,24 @@ class CustomApp extends App {
 
     return (
       <Container>
-        {/* <Provider {...this.store}> */}
-        <JssProvider
-          registry={this.pageContext.sheetsRegistry}
-          generateClassName={this.pageContext.generateClassName}
-        >
-          <MuiThemeProvider
-            theme={this.pageContext.theme}
-            sheetsManager={this.pageContext.sheetsManager}
+        <Provider {...this.store}>
+          <JssProvider
+            registry={this.pageContext.sheetsRegistry}
+            generateClassName={this.pageContext.generateClassName}
           >
-            <CssBaseline />
-            <Component
-              pageContext={this.pageContext}
-              {...pageProps}
-              router={{ ...router }}
-            />
-          </MuiThemeProvider>
-        </JssProvider>
-        {/* </Provider> */}
+            <MuiThemeProvider
+              theme={this.pageContext.theme}
+              sheetsManager={this.pageContext.sheetsManager}
+            >
+              <CssBaseline />
+              <Component
+                pageContext={this.pageContext}
+                {...pageProps}
+                router={{ ...router }}
+              />
+            </MuiThemeProvider>
+          </JssProvider>
+        </Provider>
       </Container>
     );
   }
