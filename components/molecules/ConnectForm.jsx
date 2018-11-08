@@ -36,7 +36,7 @@ class ConnectForm extends Component {
       <Form className={classes.container}>
         <Typography variant="h5">Login</Typography>
         <Field
-          name="userid"
+          name="userId"
           type="text"
           component={WrappedTextField}
           fullWidth

@@ -15,25 +15,39 @@ const app = next({
 });
 
 const routeHandler = routes.getRequestHandler(app);
-const clients = io.sockets.clients();
+// let clients = [];
+let clients = io.sockets.clients().connected;
 
-const chat = io.on('connection', socket => {
+io.on('connection', socket => {
   socket.on('login', data => {
-    socket.userid = data.userid;
+    socket.userId = data.userId;
 
-    io.emit('login', {
+    // clients.push({
+    //   userId: data.userId,
+    //   socketId: socket.id
+    // });
+    console.log(clients);
+
+    io.to(socket.id).emit('login', {
       ...data,
-      socketid: socket.id,
-      clients: Object.keys(clients.sockets)
+      socketId: socket.id
+      // clients
     });
   });
 
-  socket.on('list', data => {
-    io.emit('list', {
-      ...data
-    });
+  socket.on('logout', data => {
+    // clients.splice(clients.indexOf(socket.id), 1);
+    // io.emit('logout', { socketId: socket.id, clients });
   });
+
+  // socket.on('list', data => {
+  //   io.emit('list', {
+  //     ...data
+  //   });
+  // });
 });
+
+mobxReact.useStaticRendering(true);
 
 app
   .prepare()

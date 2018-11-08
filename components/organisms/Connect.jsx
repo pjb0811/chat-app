@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { Router } from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
-import io from 'socket.io-client';
+import { toJS } from 'mobx';
 
 const validate = values => {
   const errors = {};
-  if (!values.userid) {
-    errors.userid = 'ID를 입력해주세요';
+  if (!values.userId) {
+    errors.userId = 'ID를 입력해주세요';
   }
   return errors;
 };
@@ -15,29 +15,44 @@ const validate = values => {
 class Connect extends Component {
   state = {
     form: {
-      userid: ''
+      userId: ''
     }
   };
 
   componentDidMount() {
-    this.socket = io();
-    this.socket.on('login', data => {
+    const { chat } = this.props;
+    chat.setSocket();
+    const { socket } = toJS(this.props.chat.state);
+
+    socket.on('login', data => {
+      const { userId } = toJS(this.props.chat.state);
+
       console.log(data);
+      chat.setUser(data);
+      // chat.setUsers(data.clients);
       Router.pushRoute('/list');
+      // if (data.userId === userId) {
+      //   console.log(data);
+      //   // chat.setUser(data);
+      //   // chat.setUsers(data.clients);
+      //   // Router.pushRoute('/list');
+      // }
     });
   }
 
   handleChange = e => {
     this.setState({
       form: {
-        userid: e.target.value
+        userId: e.target.value
       }
     });
   };
 
   onConnect = (values, { setSubmitting }) => {
-    this.socket.emit('login', {
-      userid: values.userid
+    const { socket } = toJS(this.props.chat.state);
+
+    socket.emit('login', {
+      userId: values.userId
     });
   };
 

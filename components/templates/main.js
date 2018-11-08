@@ -2,6 +2,9 @@ import React, { Fragment } from 'react';
 import Head from 'next/head';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '../organisms/AppBar';
+import { observer, inject } from 'mobx-react';
+import { toJS } from 'mobx';
+import { Router } from '../../lib/routes';
 
 const styles = theme => ({
   root: {
@@ -15,18 +18,25 @@ const styles = theme => ({
     ...theme.mixins.gutters(),
     paddingTop: theme.spacing.unit * 2,
     paddingBottom: theme.spacing.unit * 2
-  },
-  link: {
-    cursor: 'pointer'
   }
 });
 
 const main = Page => {
+  @inject('chat')
+  @observer
   class MainWrapper extends React.Component {
     static async getInitialProps(ctx) {
       return {
         ...(Page.getInitialProps ? await Page.getInitialProps(ctx) : null)
       };
+    }
+
+    componentDidMount() {
+      const { userId } = toJS(this.props.chat.state);
+
+      if (!userId) {
+        Router.pushRoute('/');
+      }
     }
 
     render() {
@@ -37,7 +47,7 @@ const main = Page => {
           <Head>
             <title>chat app</title>
           </Head>
-          <AppBar classes={classes} />
+          <AppBar {...this.props} classes={classes} />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />
           </div>
