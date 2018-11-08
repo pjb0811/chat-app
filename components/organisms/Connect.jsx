@@ -1,17 +1,7 @@
 import React, { Component } from 'react';
-import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import { Router } from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
-
-const styles = theme => ({
-  paper: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  }
-});
 
 const validate = values => {
   const errors = {};
@@ -44,21 +34,17 @@ class Connect extends Component {
   };
 
   render() {
-    const { classes } = this.props;
-
     return (
-      <Paper className={classes.paper} elevation={1}>
-        <Formik
-          initialValues={this.state.form}
-          validate={validate}
-          onSubmit={this.onConnect}
-          render={({ submitForm, isSubmitting }) => (
-            <ConnectForm submitForm={submitForm} isSubmitting={isSubmitting} />
-          )}
-        />
-      </Paper>
+      <Formik
+        initialValues={this.state.form}
+        validate={validate}
+        onSubmit={this.onConnect}
+        render={({ submitForm, isSubmitting }) => (
+          <ConnectForm submitForm={submitForm} isSubmitting={isSubmitting} />
+        )}
+      />
     );
   }
 }
 
-export default withStyles(styles, { name: 'Connect' })(Connect);
+export default Connect;
