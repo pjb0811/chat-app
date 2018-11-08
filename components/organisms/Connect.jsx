@@ -21,22 +21,14 @@ class Connect extends Component {
 
   componentDidMount() {
     const { chat } = this.props;
-    chat.setSocket();
+    chat.connect();
     const { socket } = toJS(this.props.chat.state);
+    console.log(toJS(this.props.chat.state));
 
     socket.on('login', data => {
-      const { userId } = toJS(this.props.chat.state);
-
-      console.log(data);
-      chat.setUser(data);
-      // chat.setUsers(data.clients);
+      chat.setUser(data.user);
+      chat.setUsers(data.users);
       Router.pushRoute('/list');
-      // if (data.userId === userId) {
-      //   console.log(data);
-      //   // chat.setUser(data);
-      //   // chat.setUsers(data.clients);
-      //   // Router.pushRoute('/list');
-      // }
     });
   }
 

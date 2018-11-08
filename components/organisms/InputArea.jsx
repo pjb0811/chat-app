@@ -39,7 +39,7 @@ class InputArea extends Component {
             className={classes.input}
           />
           <Button variant="contained" className={classes.button}>
-            확인
+            SEND
           </Button>
         </Toolbar>
       </AppBar>

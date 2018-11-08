@@ -5,8 +5,10 @@ class Chat {
   @observable
   state = {
     socket: null,
-    userId: '',
-    socketId: '',
+    user: {
+      userId: '',
+      socketId: ''
+    },
     users: []
   };
 
@@ -15,14 +17,13 @@ class Chat {
   }
 
   @action
-  setSocket = () => {
+  connect = () => {
     this.state.socket = io();
   };
 
   @action
-  setUser = ({ userId = '', socketId = '' }) => {
-    this.state.userId = userId;
-    this.state.socketId = socketId;
+  setUser = user => {
+    this.state.user = user;
   };
 
   @action

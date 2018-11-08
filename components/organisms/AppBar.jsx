@@ -9,13 +9,13 @@ import LogoutButton from '../atoms/LogoutButton';
 class CustomAppBar extends Component {
   render() {
     const { classes } = this.props;
-    const { userId } = toJS(this.props.chat.state);
+    const { user } = toJS(this.props.chat.state);
 
     return (
       <Fragment>
         <AppBar position="fixed">
           <Toolbar>
-            <Link route={`${userId ? '/list' : '/'}`}>
+            <Link route={`${user.userId ? '/list' : '/'}`}>
               <Typography
                 variant="h6"
                 color="inherit"

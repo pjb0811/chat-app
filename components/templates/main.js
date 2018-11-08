@@ -32,9 +32,9 @@ const main = Page => {
     }
 
     componentDidMount() {
-      const { userId } = toJS(this.props.chat.state);
+      const { user } = toJS(this.props.chat.state);
 
-      if (!userId) {
+      if (!user.userId) {
         Router.pushRoute('/');
       }
     }

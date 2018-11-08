@@ -15,34 +15,41 @@ const app = next({
 });
 
 const routeHandler = routes.getRequestHandler(app);
-// let clients = [];
-let clients = io.sockets.clients().connected;
+let users = [];
 
 io.on('connection', socket => {
-  socket.on('login', data => {
-    socket.userId = data.userId;
-
-    // clients.push({
-    //   userId: data.userId,
-    //   socketId: socket.id
+  socket.on('login', user => {
+    // socket.join('main');
+    // console.log(Object.keys(io.sockets.adapter.rooms['main'].sockets));
+    // io.clients((error, clients) => {
+    //   if (error) throw error;
+    //   console.log(clients);
     // });
-    console.log(clients);
-
-    io.to(socket.id).emit('login', {
-      ...data,
+    users.push({
+      ...user,
       socketId: socket.id
-      // clients
+    });
+
+    socket.emit('login', {
+      user: {
+        ...user,
+        socketId: socket.id
+      },
+      users
     });
   });
 
-  socket.on('logout', data => {
-    // clients.splice(clients.indexOf(socket.id), 1);
-    // io.emit('logout', { socketId: socket.id, clients });
+  socket.on('logout', user => {
+    users.splice(users.indexOf(user), 1);
+    socket.emit('logout', {
+      users
+    });
   });
 
-  // socket.on('list', data => {
+  socket.on('disconnect', () => {});
+  // socket.on('list', user => {
   //   io.emit('list', {
-  //     ...data
+  //     ...user
   //   });
   // });
 });

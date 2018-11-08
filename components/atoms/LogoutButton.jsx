@@ -6,16 +6,12 @@ import { toJS } from 'mobx';
 class LogoutButton extends Component {
   componentDidMount() {
     const { chat } = this.props;
-    chat.setSocket();
+    chat.connect();
     const { socket } = toJS(this.props.chat.state);
     socket.on('logout', data => {
-      const { socketId } = toJS(this.props.chat.state);
-
-      console.log(socketId);
-      console.log(data);
-      // chat.setUser('');
-      // chat.setUsers(data.clients);
-      // Router.pushRoute('/');
+      chat.setUser({ userId: '' });
+      chat.setUsers(data.users);
+      Router.pushRoute('/');
     });
   }
 
@@ -25,9 +21,9 @@ class LogoutButton extends Component {
   };
 
   render() {
-    const { userId } = toJS(this.props.chat.state);
+    const { user } = toJS(this.props.chat.state);
 
-    if (userId) {
+    if (user.userId) {
       return (
         <Button color="inherit" onClick={this.logout}>
           Logout
