@@ -29,13 +29,12 @@ class Message extends Component {
   render() {
     const { classes, type, message, user, myself } = this.props;
 
-    if (!user.userId) {
-      return null;
-    }
-
     return (
       <Fragment>
-        <GridSpace hasSpace={user.userId === myself.userId} xs={6} />
+        <GridSpace
+          hasSpace={type !== 'join' && user.socketId === myself.socketId}
+          xs={6}
+        />
         <Grid item xs={this.state[type].xs}>
           <Paper className={classes.paper}>
             {message.split('\n').map((line, i) => (
@@ -43,7 +42,10 @@ class Message extends Component {
             ))}
           </Paper>
         </Grid>
-        <GridSpace hasSpace={user.userId !== myself.userId} xs={6} />
+        <GridSpace
+          hasSpace={type !== 'join' && user.socketId !== myself.socketId}
+          xs={6}
+        />
       </Fragment>
     );
   }

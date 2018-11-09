@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 });
 
-const main = Page => {
+const withMain = Page => {
   @inject('chat')
   @observer
   class MainWrapper extends React.Component {
@@ -35,16 +35,20 @@ const main = Page => {
       const { chat } = this.props;
       const { user, socket } = toJS(this.props.chat.state);
 
-      if (!user.userId) {
+      if (!user.userId || !user.socketId) {
         Router.pushRoute('/');
       }
 
-      socket.on('logout', data => {
-        chat.setUser({ userId: '' });
-        chat.setUsers(data.users);
+      socket.on('logout', () => {
+        chat.setUser({ userId: '', socketId: '' });
         Router.pushRoute('/');
       });
     }
+
+    logout = () => {
+      const { socket } = toJS(this.props.chat.state);
+      socket.emit('logout');
+    };
 
     render() {
       const { classes } = this.props;
@@ -54,7 +58,7 @@ const main = Page => {
           <Head>
             <title>chat app</title>
           </Head>
-          <AppBar {...this.props} classes={classes} />
+          <AppBar {...this.props} classes={classes} logout={this.logout} />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />
           </div>
@@ -66,4 +70,4 @@ const main = Page => {
   return withStyles(styles, { name: 'MainWrapper' })(MainWrapper);
 };
 
-export default main;
+export default withMain;

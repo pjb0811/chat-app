@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -20,6 +20,9 @@ const styles = theme => ({
   },
   button: {
     margin: theme.spacing.unit
+  },
+  space: {
+    height: 80
   }
 });
 
@@ -46,26 +49,29 @@ class InputArea extends Component {
     const { message } = this.state;
 
     return (
-      <AppBar position="fixed" color="secondary" className={classes.root}>
-        <Toolbar className={classes.toolbar}>
-          <TextField
-            fullWidth
-            margin="normal"
-            variant="outlined"
-            multiline={true}
-            className={classes.input}
-            value={message}
-            onChange={this.handleChange}
-          />
-          <Button
-            variant="contained"
-            className={classes.button}
-            onClick={this.sendMessage}
-          >
-            SEND
-          </Button>
-        </Toolbar>
-      </AppBar>
+      <Fragment>
+        <div className={classes.space} />
+        <AppBar position="fixed" color="secondary" className={classes.root}>
+          <Toolbar className={classes.toolbar}>
+            <TextField
+              fullWidth
+              margin="normal"
+              variant="outlined"
+              multiline={true}
+              className={classes.input}
+              value={message}
+              onChange={this.handleChange}
+            />
+            <Button
+              variant="contained"
+              className={classes.button}
+              onClick={this.sendMessage}
+            >
+              SEND
+            </Button>
+          </Toolbar>
+        </AppBar>
+      </Fragment>
     );
   }
 }

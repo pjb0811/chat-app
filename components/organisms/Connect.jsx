@@ -19,7 +19,6 @@ class Connect extends Component {
 
     socket.on('login', data => {
       chat.setUser(data.user);
-      chat.setUsers(data.users);
       Router.pushRoute('/list');
     });
   }

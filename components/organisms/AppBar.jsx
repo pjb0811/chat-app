@@ -4,12 +4,13 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '../../lib/routes';
 import { toJS } from 'mobx';
-import LogoutButton from '../atoms/LogoutButton';
+import Button from '../atoms/Button';
+import IconButton from '../atoms/IconButton';
 
 class CustomAppBar extends Component {
   render() {
     const { classes } = this.props;
-    const { user } = toJS(this.props.chat.state);
+    const { user, users } = toJS(this.props.chat.state);
 
     return (
       <Fragment>
@@ -27,7 +28,8 @@ class CustomAppBar extends Component {
               </Typography>
             </Link>
             <div style={{ flexGrow: 1 }} />
-            <LogoutButton chat={this.props.chat} />
+            <IconButton user={user} users={users} />
+            <Button user={user} onClick={this.props.logout} />
           </Toolbar>
         </AppBar>
         <div className={classes.space} />

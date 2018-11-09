@@ -36,17 +36,20 @@ io.on('connection', socket => {
       user: {
         ...user,
         socketId: socket.id
-      },
-      users
+      }
     });
   });
 
   socket.on('logout', user => {
     users.splice(users.indexOf(user), 1);
-    socket.emit('logout', {
+    socket.emit('logout');
+    socket.disconnect();
+  });
+
+  socket.on('updateUsers', () => {
+    io.emit('updateUsers', {
       users
     });
-    socket.disconnect();
   });
 
   socket.on('join', data => {
