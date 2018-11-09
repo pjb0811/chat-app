@@ -39,26 +39,40 @@ const withMain = Page => {
         Router.pushRoute('/');
       }
 
-      socket.on('logout', () => {
-        chat.setUser({ userId: '', socketId: '' });
-        Router.pushRoute('/');
-      });
+      if (socket) {
+        socket.on('logout', () => {
+          chat.setUser({ userId: '', socketId: '' });
+          Router.pushRoute('/');
+        });
+
+        socket.on('updateUsers', data => {
+          chat.setUsers(data.users);
+        });
+      }
     }
 
     logout = () => {
-      const { socket } = toJS(this.props.chat.state);
-      socket.emit('logout');
+      const { socket, user } = toJS(this.props.chat.state);
+      socket.emit('logout', user, () => {
+        socket.emit('updateUsers');
+      });
     };
 
     render() {
       const { classes } = this.props;
+      const { user, users } = toJS(this.props.chat.state);
 
       return (
         <Fragment>
           <Head>
             <title>chat app</title>
           </Head>
-          <AppBar {...this.props} classes={classes} logout={this.logout} />
+          <AppBar
+            user={user}
+            users={users}
+            classes={classes}
+            logout={this.logout}
+          />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />
           </div>

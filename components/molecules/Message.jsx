@@ -18,7 +18,7 @@ const styles = theme => ({
 
 class Message extends Component {
   state = {
-    join: {
+    info: {
       xs: 12
     },
     text: {
@@ -32,7 +32,7 @@ class Message extends Component {
     return (
       <Fragment>
         <GridSpace
-          hasSpace={type !== 'join' && user.socketId === myself.socketId}
+          hasSpace={type !== 'info' && user.socketId === myself.socketId}
           xs={6}
         />
         <Grid item xs={this.state[type].xs}>
@@ -43,7 +43,7 @@ class Message extends Component {
           </Paper>
         </Grid>
         <GridSpace
-          hasSpace={type !== 'join' && user.socketId !== myself.socketId}
+          hasSpace={type !== 'info' && user.socketId !== myself.socketId}
           xs={6}
         />
       </Fragment>

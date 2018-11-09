@@ -26,7 +26,7 @@ const rooms = {
 };
 
 io.on('connection', socket => {
-  socket.on('login', user => {
+  socket.on('login', (user, callback) => {
     users.push({
       ...user,
       socketId: socket.id
@@ -38,12 +38,14 @@ io.on('connection', socket => {
         socketId: socket.id
       }
     });
+
+    callback();
   });
 
-  socket.on('logout', user => {
+  socket.on('logout', (user, callback) => {
     users.splice(users.indexOf(user), 1);
     socket.emit('logout');
-    socket.disconnect();
+    callback();
   });
 
   socket.on('updateUsers', () => {
@@ -59,8 +61,8 @@ io.on('connection', socket => {
       members: rooms[data.room],
       messages: {
         user: data.user,
-        type: 'join',
-        message: `${data.user.userId}님이 입장했습니다`
+        type: 'info',
+        message: `${data.user.userId}님이 입장했습니다.`
       }
     });
   });
@@ -68,7 +70,14 @@ io.on('connection', socket => {
   socket.on('leave', data => {
     socket.leave(data.room);
     rooms[data.room].splice(rooms[data.room].indexOf(data.user), 1);
-    io.to(data.room).emit('leave');
+    io.to(data.room).emit('leave', {
+      members: rooms[data.room],
+      messages: {
+        user: data.user,
+        type: 'info',
+        message: `${data.user.userId}님이 퇴장했습니다.`
+      }
+    });
   });
 
   socket.on('chat', data => {

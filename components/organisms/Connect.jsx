@@ -21,6 +21,10 @@ class Connect extends Component {
       chat.setUser(data.user);
       Router.pushRoute('/list');
     });
+
+    socket.on('updateUsers', data => {
+      chat.setUsers(data.users);
+    });
   }
 
   handleChange = e => {
@@ -34,9 +38,15 @@ class Connect extends Component {
   onConnect = (values, { setSubmitting }) => {
     const { socket } = toJS(this.props.chat.state);
 
-    socket.emit('login', {
-      userId: values.userId
-    });
+    socket.emit(
+      'login',
+      {
+        userId: values.userId
+      },
+      () => {
+        socket.emit('updateUsers');
+      }
+    );
   };
 
   render() {

@@ -24,6 +24,10 @@ class Chat extends Component {
       this.receiveMessage(data);
     });
 
+    socket.on('leave', data => {
+      this.receiveMessage(data);
+    });
+
     socket.on('chat', data => {
       this.receiveMessage(data);
     });

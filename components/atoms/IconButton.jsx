@@ -6,7 +6,7 @@ import withAuth from '../wrappers/withAuth';
 
 class CustomIconButton extends Component {
   render() {
-    // console.log(this.props.users);
+    const { users } = this.props;
 
     return (
       <IconButton
@@ -15,7 +15,7 @@ class CustomIconButton extends Component {
         onClick={this.props.onClick}
         color="inherit"
       >
-        <Badge badgeContent={0} color="secondary">
+        <Badge badgeContent={users.length} color="secondary">
           <AccountCircle />
         </Badge>
       </IconButton>

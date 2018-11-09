@@ -3,14 +3,12 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { Link } from '../../lib/routes';
-import { toJS } from 'mobx';
 import Button from '../atoms/Button';
 import IconButton from '../atoms/IconButton';
 
 class CustomAppBar extends Component {
   render() {
-    const { classes } = this.props;
-    const { user, users } = toJS(this.props.chat.state);
+    const { user, users, classes } = this.props;
 
     return (
       <Fragment>
