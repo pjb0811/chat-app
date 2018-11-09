@@ -33,7 +33,6 @@ const main = Page => {
 
     componentDidMount() {
       const { chat } = this.props;
-      chat.connect();
       const { user, socket } = toJS(this.props.chat.state);
 
       if (!user.userId) {

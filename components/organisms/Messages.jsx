@@ -4,13 +4,12 @@ import Grid from '@material-ui/core/Grid';
 
 class Messages extends Component {
   render() {
-    const { messages } = this.props;
-    console.log(messages);
+    const { messages, myself } = this.props;
 
     return (
-      <Grid container spacing={24}>
+      <Grid container>
         {messages.map((message, i) => (
-          <Message key={i} {...message} />
+          <Message key={i} {...message} myself={myself} />
         ))}
       </Grid>
     );

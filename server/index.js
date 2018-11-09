@@ -54,12 +54,11 @@ io.on('connection', socket => {
     rooms[data.room].push(data.user);
     io.to(data.room).emit('join', {
       members: rooms[data.room],
-      messages: [
-        {
-          type: 'join',
-          message: `${data.user.userId}님이 입장했습니다`
-        }
-      ]
+      messages: {
+        user: data.user,
+        type: 'join',
+        message: `${data.user.userId}님이 입장했습니다`
+      }
     });
   });
 
@@ -67,6 +66,17 @@ io.on('connection', socket => {
     socket.leave(data.room);
     rooms[data.room].splice(rooms[data.room].indexOf(data.user), 1);
     io.to(data.room).emit('leave');
+  });
+
+  socket.on('chat', data => {
+    socket.join(data.room);
+    io.to(data.room).emit('chat', {
+      messages: {
+        user: data.user,
+        type: data.type,
+        message: data.message
+      }
+    });
   });
 });
 

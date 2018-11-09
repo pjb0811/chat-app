@@ -21,11 +21,11 @@ class Chat extends Component {
     });
 
     socket.on('join', data => {
-      const newMessages = this.state.messages;
-      console.log(newMessages, data.messages);
-      // this.setState({
-      //   messages: data.messages
-      // });
+      this.receiveMessage(data);
+    });
+
+    socket.on('chat', data => {
+      this.receiveMessage(data);
     });
   }
 
@@ -38,8 +38,29 @@ class Chat extends Component {
     });
   }
 
+  receiveMessage = data => {
+    const newMessages = this.state.messages;
+    newMessages.push(data.messages);
+    this.setState({
+      user: data.user,
+      messages: newMessages
+    });
+  };
+
+  sendMessage = message => {
+    const { router } = this.props;
+    const { socket, user } = toJS(this.props.chat.state);
+    socket.emit('chat', {
+      user,
+      room: router.query.room,
+      type: 'text',
+      message
+    });
+  };
+
   render() {
     const { router } = this.props;
+    const { user } = toJS(this.props.chat.state);
     const { messages } = this.state;
 
     return (
@@ -47,8 +68,8 @@ class Chat extends Component {
         <Typography variant="h3" gutterBottom>
           {router.query.room}
         </Typography>
-        <Messages messages={messages} />
-        <InputArea />
+        <Messages messages={messages} myself={user} />
+        <InputArea sendMessage={this.sendMessage} />
       </Fragment>
     );
   }

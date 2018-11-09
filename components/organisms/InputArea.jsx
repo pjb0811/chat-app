@@ -13,8 +13,7 @@ const styles = theme => ({
   toolbar: {
     alignItems: 'center',
     justifyContent: 'space-between',
-    flexDirection: 'row',
-    padding: 20
+    flexDirection: 'row'
   },
   input: {
     flexGrow: 1
@@ -25,8 +24,26 @@ const styles = theme => ({
 });
 
 class InputArea extends Component {
+  state = {
+    message: ''
+  };
+
+  handleChange = e => {
+    this.setState({
+      message: e.target.value
+    });
+  };
+
+  sendMessage = () => {
+    this.props.sendMessage(this.state.message);
+    this.setState({
+      message: ''
+    });
+  };
+
   render() {
     const { classes } = this.props;
+    const { message } = this.state;
 
     return (
       <AppBar position="fixed" color="secondary" className={classes.root}>
@@ -37,8 +54,14 @@ class InputArea extends Component {
             variant="outlined"
             multiline={true}
             className={classes.input}
+            value={message}
+            onChange={this.handleChange}
           />
-          <Button variant="contained" className={classes.button}>
+          <Button
+            variant="contained"
+            className={classes.button}
+            onClick={this.sendMessage}
+          >
             SEND
           </Button>
         </Toolbar>
