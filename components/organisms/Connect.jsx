@@ -3,14 +3,7 @@ import { Router } from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
 import { toJS } from 'mobx';
-
-const validate = values => {
-  const errors = {};
-  if (!values.userId) {
-    errors.userId = 'ID를 입력해주세요';
-  }
-  return errors;
-};
+import * as Yup from 'yup';
 
 class Connect extends Component {
   state = {
@@ -23,7 +16,6 @@ class Connect extends Component {
     const { chat } = this.props;
     chat.connect();
     const { socket } = toJS(this.props.chat.state);
-    console.log(toJS(this.props.chat.state));
 
     socket.on('login', data => {
       chat.setUser(data.user);
@@ -52,7 +44,11 @@ class Connect extends Component {
     return (
       <Formik
         initialValues={this.state.form}
-        validate={validate}
+        validationSchema={Yup.object().shape({
+          userId: Yup.string()
+            .min(3, '3글자 이상 입력해주세요')
+            .required('ID를 입력해주세요')
+        })}
         onSubmit={this.onConnect}
         render={({ submitForm, isSubmitting }) => (
           <ConnectForm submitForm={submitForm} isSubmitting={isSubmitting} />

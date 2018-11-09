@@ -9,7 +9,8 @@
   "dependencies": {
     "next": "^7.0.2",
     "react": "^16.6.1",
-    "react-dom": "^16.6.1"
+    "react-dom": "^16.6.1",
+    "remove": "^0.1.5"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2",
@@ -27,6 +28,7 @@
     "mobx-react": "^5.3.6",
     "next-routes": "^1.4.2",
     "react-jss": "^8.6.1",
-    "socket.io": "^2.1.1"
+    "socket.io": "^2.1.1",
+    "yup": "^0.26.6"
   }
 }

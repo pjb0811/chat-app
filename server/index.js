@@ -15,16 +15,18 @@ const app = next({
 });
 
 const routeHandler = routes.getRequestHandler(app);
-let users = [];
+const users = [];
+const rooms = {
+  moon: [],
+  mercury: [],
+  mars: [],
+  earth: [],
+  pluto: [],
+  uranus: []
+};
 
 io.on('connection', socket => {
   socket.on('login', user => {
-    // socket.join('main');
-    // console.log(Object.keys(io.sockets.adapter.rooms['main'].sockets));
-    // io.clients((error, clients) => {
-    //   if (error) throw error;
-    //   console.log(clients);
-    // });
     users.push({
       ...user,
       socketId: socket.id
@@ -44,14 +46,28 @@ io.on('connection', socket => {
     socket.emit('logout', {
       users
     });
+    socket.disconnect();
   });
 
-  socket.on('disconnect', () => {});
-  // socket.on('list', user => {
-  //   io.emit('list', {
-  //     ...user
-  //   });
-  // });
+  socket.on('join', data => {
+    socket.join(data.room);
+    rooms[data.room].push(data.user);
+    io.to(data.room).emit('join', {
+      members: rooms[data.room],
+      messages: [
+        {
+          type: 'join',
+          message: `${data.user.userId}님이 입장했습니다`
+        }
+      ]
+    });
+  });
+
+  socket.on('leave', data => {
+    socket.leave(data.room);
+    rooms[data.room].splice(rooms[data.room].indexOf(data.user), 1);
+    io.to(data.room).emit('leave');
+  });
 });
 
 mobxReact.useStaticRendering(true);

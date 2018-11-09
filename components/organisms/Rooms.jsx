@@ -5,16 +5,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import { Link } from '../../lib/routes';
 
 class Rooms extends Component {
-  componentDidMount() {
-    // this.socket = io();
-    // this.socket.emit('list', {
-    //   userId: 'test'
-    // });
-    // this.socket.on('list', data => {
-    //   console.log(data);
-    // });
-  }
-
   render() {
     const { rooms } = this.props;
     return (

@@ -32,11 +32,19 @@ const main = Page => {
     }
 
     componentDidMount() {
-      const { user } = toJS(this.props.chat.state);
+      const { chat } = this.props;
+      chat.connect();
+      const { user, socket } = toJS(this.props.chat.state);
 
       if (!user.userId) {
         Router.pushRoute('/');
       }
+
+      socket.on('logout', data => {
+        chat.setUser({ userId: '' });
+        chat.setUsers(data.users);
+        Router.pushRoute('/');
+      });
     }
 
     render() {
