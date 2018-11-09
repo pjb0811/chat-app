@@ -18,7 +18,7 @@ class Chat {
 
   @action
   connect = () => {
-    this.state.socket = io();
+    this.state.socket = io('/');
   };
 
   @action

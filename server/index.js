@@ -15,7 +15,7 @@ const app = next({
 });
 
 const routeHandler = routes.getRequestHandler(app);
-const users = [];
+/* 
 const rooms = {
   moon: [],
   mercury: [],
@@ -23,42 +23,43 @@ const rooms = {
   earth: [],
   pluto: [],
   uranus: []
-};
+}; 
+*/
 
 io.on('connection', socket => {
-  socket.on('login', (user, callback) => {
-    users.push({
-      ...user,
-      socketId: socket.id
-    });
+  socket.on('login', user => {
+    io.sockets.connected[socket.id].userId = user.userId;
 
     socket.emit('login', {
       user: {
         ...user,
         socketId: socket.id
-      }
+      },
+      users: Object.keys(io.sockets.connected).map(id => ({
+        userId: io.sockets.connected[id].userId,
+        socketId: id
+      }))
     });
-
-    callback();
   });
 
-  socket.on('logout', (user, callback) => {
-    users.splice(users.indexOf(user), 1);
-    socket.emit('logout');
-    callback();
-  });
-
-  socket.on('updateUsers', () => {
-    io.emit('updateUsers', {
-      users
+  socket.on('logout', users => {
+    socket.emit('logout', {
+      users: users.filter(user => user.socketId !== socket.id)
     });
+    io.sockets.connected[socket.id].disconnect();
   });
 
   socket.on('join', data => {
     socket.join(data.room);
-    rooms[data.room].push(data.user);
+
+    io.of('/')
+      .in(data.room)
+      .clients((err, clients) => {
+        console.log(data.room, clients, socket.id);
+      });
+    // rooms[data.room].push(data.user);
     io.to(data.room).emit('join', {
-      members: rooms[data.room],
+      // members: rooms[data.room],
       messages: {
         user: data.user,
         type: 'info',
@@ -69,9 +70,9 @@ io.on('connection', socket => {
 
   socket.on('leave', data => {
     socket.leave(data.room);
-    rooms[data.room].splice(rooms[data.room].indexOf(data.user), 1);
+    // rooms[data.room].splice(rooms[data.room].indexOf(data.user), 1);
     io.to(data.room).emit('leave', {
-      members: rooms[data.room],
+      // members: rooms[data.room],
       messages: {
         user: data.user,
         type: 'info',

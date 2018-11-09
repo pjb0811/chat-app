@@ -18,12 +18,10 @@ class Connect extends Component {
     const { socket } = toJS(this.props.chat.state);
 
     socket.on('login', data => {
+      console.log(data.users);
       chat.setUser(data.user);
-      Router.pushRoute('/list');
-    });
-
-    socket.on('updateUsers', data => {
       chat.setUsers(data.users);
+      Router.pushRoute('/list');
     });
   }
 
@@ -38,15 +36,9 @@ class Connect extends Component {
   onConnect = (values, { setSubmitting }) => {
     const { socket } = toJS(this.props.chat.state);
 
-    socket.emit(
-      'login',
-      {
-        userId: values.userId
-      },
-      () => {
-        socket.emit('updateUsers');
-      }
-    );
+    socket.emit('login', {
+      userId: values.userId
+    });
   };
 
   render() {
