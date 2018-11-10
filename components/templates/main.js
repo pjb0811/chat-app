@@ -33,7 +33,7 @@ const withMain = Page => {
 
     componentDidMount() {
       const { chat } = this.props;
-      const { user, socket } = toJS(this.props.chat.state);
+      const { user, socket, invites } = toJS(this.props.chat.state);
 
       if (!user.userId || !user.socketId) {
         Router.pushRoute('/');
@@ -49,8 +49,9 @@ const withMain = Page => {
           chat.setUsers(users);
         });
 
-        socket.on('inviteRoom', ({ room }) => {
-          console.log('on', room);
+        socket.on('inviteRoom', data => {
+          chat.setInvites(data);
+          // console.log(sender, room, time);
           // Router.pushRoute(`/chat/${room}`);
         });
       }
@@ -61,18 +62,18 @@ const withMain = Page => {
       socket.emit('logout');
     };
 
-    inviteRoom = ({ socketId, room }) => {
+    inviteRoom = ({ sender, receiver, room }) => {
       const { socket } = toJS(this.props.chat.state);
-      console.log('emit inviteRoom');
       socket.emit('inviteRoom', {
-        socketId,
+        sender,
+        receiver,
         room
       });
     };
 
     render() {
       const { classes, router } = this.props;
-      const { user, users } = toJS(this.props.chat.state);
+      const { user, users, invites } = toJS(this.props.chat.state);
 
       return (
         <Fragment>
@@ -82,6 +83,7 @@ const withMain = Page => {
           <AppBar
             user={user}
             users={users}
+            invites={invites}
             classes={classes}
             logout={this.logout}
             room={router.query.room}

@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-
 import Button from '@material-ui/core/Button';
-import Icon from '@mdi/react';
-import { mdiAccountPlus } from '@mdi/js';
+import MailIcon from '@material-ui/icons/Mail';
 
 class InviteButton extends Component {
   render() {
@@ -19,10 +17,10 @@ class InviteButton extends Component {
         aria-label="Add"
         mini
         onClick={() => {
-          inviteRoom({ socketId: user.socketId, room });
+          inviteRoom({ sender: myself, receiver: user, room });
         }}
       >
-        <Icon path={mdiAccountPlus} size={1} color="white" />
+        <MailIcon />
       </Button>
     );
   }

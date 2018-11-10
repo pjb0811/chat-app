@@ -9,6 +9,7 @@ class Chat {
       userId: '',
       socketId: ''
     },
+    invites: [],
     users: []
   };
 
@@ -29,6 +30,15 @@ class Chat {
   @action
   setUsers = users => {
     this.state.users = users;
+  };
+
+  @action
+  setInvites = invite => {
+    this.state.invites.push(invite);
+    this.state.invites = this.state.invites.filter(
+      (currInvite, i, self) =>
+        i === self.findIndex(selfInvite => selfInvite.time === currInvite.time)
+    );
   };
 }
 

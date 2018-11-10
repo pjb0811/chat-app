@@ -856,16 +856,6 @@
     "@babel/runtime" "7.0.0"
     recompose "^0.29.0"
 
-"@mdi/js@^3.0.39":
-  version "3.0.39"
-  resolved "https://registry.yarnpkg.com/@mdi/js/-/js-3.0.39.tgz#ef12d603d6ee7c34fad6d08c37dfc0376944b269"
-  integrity sha512-GGsJowaILwU+RrAEuOCdh2WOmVXmNYuhNECotKxDyUR2L4+0w2JaYhy8lRJzHBkjejpA+kk/xJLzlDA+gNOGKg==
-
-"@mdi/react@^1.1.0":
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/@mdi/react/-/react-1.1.0.tgz#22b014e40152adbe0d7d36631fc9979854603c7a"
-  integrity sha512-c0+avMYEZ6i7Pg1ULLFs+p7k8bDPiie9rrgGYs8VWQhw2tUUYz7r0lIPVzD3bzMghWfyhfkArj88K5Of0WTMNw==
-
 "@types/jss@^9.5.6":
   version "9.5.7"
   resolved "https://registry.yarnpkg.com/@types/jss/-/jss-9.5.7.tgz#fa57a6d0b38a3abef8a425e3eb6a53495cb9d5a0"

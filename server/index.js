@@ -119,9 +119,12 @@ io.on('connection', socket => {
     });
   });
 
-  socket.once('inviteRoom', ({ socketId, room }) => {
-    io.to(socketId).emit('inviteRoom', {
-      room
+  socket.on('inviteRoom', ({ sender, receiver, room }) => {
+    const time = new Date().getTime();
+    io.to(receiver.socketId).emit('inviteRoom', {
+      sender,
+      room,
+      time
     });
   });
 });

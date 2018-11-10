@@ -9,27 +9,30 @@ import Popover from '@material-ui/core/Popover';
 import UserList from '../molecules/UserList';
 import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import MailIcon from '@material-ui/icons/Mail';
+import InviteList from '../molecules/InviteList';
 
 class CustomAppBar extends Component {
   state = {
-    anchorEl: null
+    userListEl: null,
+    inviteListEl: null
   };
 
-  handleClick = event => {
+  handleClick = ({ e, type }) => {
     this.setState({
-      anchorEl: event.currentTarget
+      [type]: e.currentTarget
     });
   };
 
-  handleClose = () => {
+  handleClose = ({ type }) => {
     this.setState({
-      anchorEl: null
+      [type]: null
     });
   };
 
   render() {
-    const { user, users, room, classes, inviteRoom } = this.props;
-    const { anchorEl } = this.state;
+    const { user, users, room, classes, inviteRoom, invites } = this.props;
+    const { userListEl, inviteListEl } = this.state;
 
     return (
       <Fragment>
@@ -49,9 +52,39 @@ class CustomAppBar extends Component {
             <div style={{ flexGrow: 1 }} />
             <IconButton
               user={user}
-              users={users}
               color="inherit"
-              onClick={this.handleClick}
+              onClick={e => {
+                this.handleClick({ e, type: 'inviteListEl' });
+              }}
+            >
+              <Badge badgeContent={invites.length} color="secondary">
+                <MailIcon />
+              </Badge>
+            </IconButton>
+            <Popover
+              id="simple-popper"
+              open={Boolean(inviteListEl)}
+              anchorEl={inviteListEl}
+              onClose={() => {
+                this.handleClose({ type: 'inviteListEl' });
+              }}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
+              }}
+            >
+              <InviteList invites={invites} />
+            </Popover>
+            <IconButton
+              user={user}
+              color="inherit"
+              onClick={e => {
+                this.handleClick({ e, type: 'userListEl' });
+              }}
             >
               <Badge badgeContent={users.length} color="secondary">
                 <AccountCircle />
@@ -59,9 +92,11 @@ class CustomAppBar extends Component {
             </IconButton>
             <Popover
               id="simple-popper"
-              open={Boolean(anchorEl)}
-              anchorEl={anchorEl}
-              onClose={this.handleClose}
+              open={Boolean(userListEl)}
+              anchorEl={userListEl}
+              onClose={() => {
+                this.handleClose({ type: 'userListEl' });
+              }}
               anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'center'
