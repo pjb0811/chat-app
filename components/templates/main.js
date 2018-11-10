@@ -33,7 +33,7 @@ const withMain = Page => {
 
     componentDidMount() {
       const { chat } = this.props;
-      const { user, socket, invites } = toJS(this.props.chat.state);
+      const { user, socket } = toJS(this.props.chat.state);
 
       if (!user.userId || !user.socketId) {
         Router.pushRoute('/');
@@ -51,8 +51,6 @@ const withMain = Page => {
 
         socket.on('inviteRoom', data => {
           chat.setInvites(data);
-          // console.log(sender, room, time);
-          // Router.pushRoute(`/chat/${room}`);
         });
       }
     }

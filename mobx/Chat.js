@@ -40,6 +40,17 @@ class Chat {
         i === self.findIndex(selfInvite => selfInvite.time === currInvite.time)
     );
   };
+
+  @action
+  removeInvites = invite => {
+    const index = this.state.invites.findIndex(
+      currInvite =>
+        currInvite.time === invite.time &&
+        currInvite.sender.socketId === invite.sender.socketId
+    );
+
+    this.state.invites.splice(index, 1);
+  };
 }
 
 export default Chat;

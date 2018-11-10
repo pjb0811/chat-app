@@ -63,7 +63,7 @@ class CustomAppBar extends Component {
             </IconButton>
             <Popover
               id="simple-popper"
-              open={Boolean(inviteListEl)}
+              open={Boolean(inviteListEl && invites.length)}
               anchorEl={inviteListEl}
               onClose={() => {
                 this.handleClose({ type: 'inviteListEl' });
