@@ -33,7 +33,6 @@ class Chat extends Component {
     });
 
     socket.on('updateUser', ({ user }) => {
-      console.log('updateUser', user);
       chat.setUser(user);
     });
   }

@@ -4,9 +4,10 @@ import withAuth from '../wrappers/withAuth';
 
 class CustomButton extends Component {
   render() {
+    const { children, onClick, color } = this.props;
     return (
-      <Button color="inherit" onClick={this.props.onClick}>
-        Logout
+      <Button color={color} onClick={onClick}>
+        {children}
       </Button>
     );
   }

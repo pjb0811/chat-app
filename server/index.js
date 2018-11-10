@@ -19,10 +19,12 @@ let users = [];
 
 io.on('connection', socket => {
   socket.on('login', ({ user }) => {
-    users.push({
-      userId: user.userId,
-      socketId: socket.id
-    });
+    if (user.userId) {
+      users.push({
+        userId: user.userId,
+        socketId: socket.id
+      });
+    }
 
     socket.emit('login', {
       user: {
@@ -51,13 +53,15 @@ io.on('connection', socket => {
 
   socket.on('join', ({ room, user }) => {
     socket.join(room);
+    users = users.filter(currentUser => currentUser.socketId !== user.socketId);
 
-    users.splice(users.indexOf(user), 1);
-    users.push({
-      userId: user.userId,
-      socketId: socket.id,
-      room
-    });
+    if (user.userId) {
+      users.push({
+        userId: user.userId,
+        socketId: socket.id,
+        room
+      });
+    }
 
     socket.emit('updateUser', {
       user: {
@@ -112,6 +116,12 @@ io.on('connection', socket => {
         type: 'info',
         message: `${user.userId}님이 퇴장했습니다.`
       }
+    });
+  });
+
+  socket.once('inviteRoom', ({ socketId, room }) => {
+    io.to(socketId).emit('inviteRoom', {
+      room
     });
   });
 });

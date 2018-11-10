@@ -46,8 +46,12 @@ const withMain = Page => {
         });
 
         socket.on('updateUsers', ({ users }) => {
-          console.log('updateUsers', users);
           chat.setUsers(users);
+        });
+
+        socket.on('inviteRoom', ({ room }) => {
+          console.log('on', room);
+          // Router.pushRoute(`/chat/${room}`);
         });
       }
     }
@@ -57,8 +61,17 @@ const withMain = Page => {
       socket.emit('logout');
     };
 
+    inviteRoom = ({ socketId, room }) => {
+      const { socket } = toJS(this.props.chat.state);
+      console.log('emit inviteRoom');
+      socket.emit('inviteRoom', {
+        socketId,
+        room
+      });
+    };
+
     render() {
-      const { classes } = this.props;
+      const { classes, router } = this.props;
       const { user, users } = toJS(this.props.chat.state);
 
       return (
@@ -71,6 +84,8 @@ const withMain = Page => {
             users={users}
             classes={classes}
             logout={this.logout}
+            room={router.query.room}
+            inviteRoom={this.inviteRoom}
           />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />

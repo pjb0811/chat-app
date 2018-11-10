@@ -18,13 +18,11 @@ class Connect extends Component {
     const { socket } = toJS(this.props.chat.state);
 
     socket.on('login', ({ user }) => {
-      console.log('setUser', user);
       chat.setUser(user);
       Router.pushRoute('/list');
     });
 
     socket.on('updateUsers', ({ users }) => {
-      console.log('updateUsers', users);
       chat.setUsers(users);
     });
   }
@@ -37,8 +35,13 @@ class Connect extends Component {
     });
   };
 
-  onConnect = (values, { setSubmitting }) => {
+  onConnect = (values, { setErrors, setSubmitting }) => {
     const { socket } = toJS(this.props.chat.state);
+
+    if (!socket) {
+      setErrors({ userId: '새로고침 후 다시 접속해주세요.' });
+      setSubmitting(false);
+    }
 
     socket.emit('login', {
       user: {

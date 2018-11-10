@@ -5,8 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import { Link } from '../../lib/routes';
 import Button from '../atoms/Button';
 import IconButton from '../atoms/IconButton';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+import Popover from '@material-ui/core/Popover';
+import UserList from '../molecules/UserList';
+import Badge from '@material-ui/core/Badge';
+import AccountCircle from '@material-ui/icons/AccountCircle';
 
 class CustomAppBar extends Component {
   state = {
@@ -14,15 +16,19 @@ class CustomAppBar extends Component {
   };
 
   handleClick = event => {
-    this.setState({ anchorEl: event.currentTarget });
+    this.setState({
+      anchorEl: event.currentTarget
+    });
   };
 
   handleClose = () => {
-    this.setState({ anchorEl: null });
+    this.setState({
+      anchorEl: null
+    });
   };
 
   render() {
-    const { user, users, classes } = this.props;
+    const { user, users, room, classes, inviteRoom } = this.props;
     const { anchorEl } = this.state;
 
     return (
@@ -41,18 +47,40 @@ class CustomAppBar extends Component {
               </Typography>
             </Link>
             <div style={{ flexGrow: 1 }} />
-            <IconButton user={user} users={users} onClick={this.handleClick} />
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={this.handleClose}
+            <IconButton
+              user={user}
+              users={users}
+              color="inherit"
+              onClick={this.handleClick}
             >
-              <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-              <MenuItem onClick={this.handleClose}>My account</MenuItem>
-              <MenuItem onClick={this.handleClose}>Logout</MenuItem>
-            </Menu>
-            <Button user={user} onClick={this.props.logout} />
+              <Badge badgeContent={users.length} color="secondary">
+                <AccountCircle />
+              </Badge>
+            </IconButton>
+            <Popover
+              id="simple-popper"
+              open={Boolean(anchorEl)}
+              anchorEl={anchorEl}
+              onClose={this.handleClose}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'center'
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
+              }}
+            >
+              <UserList
+                user={user}
+                users={users}
+                room={room}
+                inviteRoom={inviteRoom}
+              />
+            </Popover>
+            <Button user={user} color="inherit" onClick={this.props.logout}>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
         <div className={classes.space} />
