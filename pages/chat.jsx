@@ -31,6 +31,11 @@ class Chat extends Component {
     socket.on('chat', data => {
       this.receiveMessage(data);
     });
+
+    socket.on('updateUser', ({ user }) => {
+      console.log('updateUser', user);
+      chat.setUser(user);
+    });
   }
 
   componentWillUnmount() {
@@ -42,11 +47,10 @@ class Chat extends Component {
     });
   }
 
-  receiveMessage = data => {
-    const newMessages = this.state.messages;
-    newMessages.push(data.messages);
+  receiveMessage = ({ messages }) => {
+    const newMessages = this.state.messages.concat();
+    newMessages.push(messages);
     this.setState({
-      user: data.user,
       messages: newMessages
     });
   };
@@ -64,7 +68,7 @@ class Chat extends Component {
 
   render() {
     const { router } = this.props;
-    const { user } = toJS(this.props.chat.state);
+    const myself = toJS(this.props.chat.state.user);
     const { messages } = this.state;
 
     return (
@@ -72,7 +76,7 @@ class Chat extends Component {
         <Typography variant="h3" gutterBottom>
           {router.query.room}
         </Typography>
-        <Messages messages={messages} myself={user} />
+        <Messages messages={messages} myself={myself} />
         <InputArea sendMessage={this.sendMessage} />
       </Fragment>
     );

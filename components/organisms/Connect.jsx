@@ -17,11 +17,15 @@ class Connect extends Component {
     chat.connect();
     const { socket } = toJS(this.props.chat.state);
 
-    socket.on('login', data => {
-      console.log(data.users);
-      chat.setUser(data.user);
-      chat.setUsers(data.users);
+    socket.on('login', ({ user }) => {
+      console.log('setUser', user);
+      chat.setUser(user);
       Router.pushRoute('/list');
+    });
+
+    socket.on('updateUsers', ({ users }) => {
+      console.log('updateUsers', users);
+      chat.setUsers(users);
     });
   }
 
@@ -37,7 +41,9 @@ class Connect extends Component {
     const { socket } = toJS(this.props.chat.state);
 
     socket.emit('login', {
-      userId: values.userId
+      user: {
+        userId: values.userId
+      }
     });
   };
 

@@ -4,6 +4,7 @@ import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import GridSpace from '../atoms/GridSpace';
+import Chip from '@material-ui/core/Chip';
 
 const styles = theme => ({
   paper: {
@@ -13,6 +14,9 @@ const styles = theme => ({
   },
   avatar: {
     margin: 10
+  },
+  chip: {
+    margin: theme.spacing.unit
   }
 });
 
@@ -37,6 +41,9 @@ class Message extends Component {
         />
         <Grid item xs={this.state[type].xs}>
           <Paper className={classes.paper}>
+            {type !== 'info' && (
+              <Chip label={user.userId} className={classes.chip} />
+            )}
             {message.split('\n').map((line, i) => (
               <Typography key={i}>{line}</Typography>
             ))}

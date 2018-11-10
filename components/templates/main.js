@@ -40,18 +40,21 @@ const withMain = Page => {
       }
 
       if (socket) {
-        socket.on('logout', data => {
-          console.log(data.users);
+        socket.on('logout', () => {
           chat.setUser({ userId: '', socketId: '' });
-          chat.setUsers(data.users);
           Router.pushRoute('/');
+        });
+
+        socket.on('updateUsers', ({ users }) => {
+          console.log('updateUsers', users);
+          chat.setUsers(users);
         });
       }
     }
 
     logout = () => {
-      const { socket, users } = toJS(this.props.chat.state);
-      socket.emit('logout', users);
+      const { socket } = toJS(this.props.chat.state);
+      socket.emit('logout');
     };
 
     render() {

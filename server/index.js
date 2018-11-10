@@ -15,79 +15,102 @@ const app = next({
 });
 
 const routeHandler = routes.getRequestHandler(app);
-/* 
-const rooms = {
-  moon: [],
-  mercury: [],
-  mars: [],
-  earth: [],
-  pluto: [],
-  uranus: []
-}; 
-*/
+let users = [];
 
 io.on('connection', socket => {
-  socket.on('login', user => {
-    io.sockets.connected[socket.id].userId = user.userId;
+  socket.on('login', ({ user }) => {
+    users.push({
+      userId: user.userId,
+      socketId: socket.id
+    });
 
     socket.emit('login', {
       user: {
         ...user,
         socketId: socket.id
-      },
-      users: Object.keys(io.sockets.connected).map(id => ({
-        userId: io.sockets.connected[id].userId,
-        socketId: id
-      }))
+      }
+    });
+
+    io.emit('updateUsers', {
+      users
     });
   });
 
-  socket.on('logout', users => {
-    socket.emit('logout', {
-      users: users.filter(user => user.socketId !== socket.id)
+  socket.on('logout', () => {
+    users = users.filter(user => user.socketId !== socket.id);
+    socket.emit('logout');
+
+    io.emit('updateUsers', {
+      users
     });
-    io.sockets.connected[socket.id].disconnect();
   });
 
-  socket.on('join', data => {
-    socket.join(data.room);
+  socket.on('disconnect', () => {
+    users = users.filter(user => user.socketId !== socket.id);
+  });
 
-    io.of('/')
-      .in(data.room)
-      .clients((err, clients) => {
-        console.log(data.room, clients, socket.id);
-      });
-    // rooms[data.room].push(data.user);
-    io.to(data.room).emit('join', {
-      // members: rooms[data.room],
+  socket.on('join', ({ room, user }) => {
+    socket.join(room);
+
+    users.splice(users.indexOf(user), 1);
+    users.push({
+      userId: user.userId,
+      socketId: socket.id,
+      room
+    });
+
+    socket.emit('updateUser', {
+      user: {
+        ...user,
+        socketId: socket.id
+      }
+    });
+
+    io.emit('updateUsers', {
+      users
+    });
+
+    io.to(room).emit('join', {
       messages: {
-        user: data.user,
+        user: {
+          ...user,
+          socketId: socket.id
+        },
         type: 'info',
-        message: `${data.user.userId}님이 입장했습니다.`
+        message: `${user.userId}님이 입장했습니다.`
       }
     });
   });
 
-  socket.on('leave', data => {
-    socket.leave(data.room);
-    // rooms[data.room].splice(rooms[data.room].indexOf(data.user), 1);
-    io.to(data.room).emit('leave', {
-      // members: rooms[data.room],
+  socket.on('chat', ({ room, user, type, message }) => {
+    io.to(room).emit('chat', {
       messages: {
-        user: data.user,
-        type: 'info',
-        message: `${data.user.userId}님이 퇴장했습니다.`
+        user,
+        type,
+        message
       }
     });
   });
 
-  socket.on('chat', data => {
-    socket.join(data.room);
-    io.to(data.room).emit('chat', {
+  socket.on('leave', ({ room, user }) => {
+    socket.leave(room);
+
+    users = users.map(user => {
+      if (user.socketId === socket.id) {
+        user.room = '';
+      }
+      return user;
+    });
+
+    io.emit('updateUsers', {
+      users
+    });
+
+    io.to(room).emit('leave', {
       messages: {
-        user: data.user,
-        type: data.type,
-        message: data.message
+        user,
+        type: 'info',
+        message: `${user.userId}님이 퇴장했습니다.`
       }
     });
   });
