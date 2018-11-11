@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import GridSpace from '../atoms/GridSpace';
 import Chip from '@material-ui/core/Chip';
+import Image from '../atoms/Image';
 
 const styles = theme => ({
   paper: {
@@ -27,11 +28,14 @@ class Message extends Component {
     },
     text: {
       xs: 6
+    },
+    image: {
+      xs: 6
     }
   };
 
   render() {
-    const { classes, type, message, user, myself } = this.props;
+    const { classes, type, message, user, myself, images } = this.props;
 
     return (
       <Fragment>
@@ -46,6 +50,9 @@ class Message extends Component {
             )}
             {message.split('\n').map((line, i) => (
               <Typography key={i}>{line}</Typography>
+            ))}
+            {images.map((image, i) => (
+              <Image key={i} {...image} />
             ))}
           </Paper>
         </Grid>

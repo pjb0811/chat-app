@@ -34,12 +34,13 @@ const withMain = Page => {
     componentDidMount() {
       const { chat } = this.props;
       const { user, socket } = toJS(this.props.chat.state);
+      this.mounted = true;
 
       if (!user.userId || !user.socketId) {
         Router.pushRoute('/');
       }
 
-      if (socket) {
+      if (socket && this.mounted) {
         socket.on('logout', () => {
           chat.setUser({ userId: '', socketId: '' });
           Router.pushRoute('/');
@@ -53,6 +54,10 @@ const withMain = Page => {
           chat.setInvites(data);
         });
       }
+    }
+
+    componentWillUnmount() {
+      this.mounted = false;
     }
 
     logout = () => {

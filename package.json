@@ -28,7 +28,9 @@
     "mobx-react": "^5.3.6",
     "mocha": "^5.2.0",
     "next-routes": "^1.4.2",
+    "react-dnd-component": "^1.1.5",
     "react-jss": "^8.6.1",
+    "react-scroll": "^1.7.10",
     "socket.io": "^2.1.1",
     "yup": "^0.26.6"
   }

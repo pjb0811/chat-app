@@ -81,17 +81,19 @@ io.on('connection', socket => {
           socketId: socket.id
         },
         type: 'info',
-        message: `${user.userId}님이 입장했습니다.`
+        message: `${user.userId}님이 입장했습니다.`,
+        images: []
       }
     });
   });
 
-  socket.on('chat', ({ room, user, type, message }) => {
+  socket.on('chat', ({ room, user, type, message, images }) => {
     io.to(room).emit('chat', {
       messages: {
         user,
         type,
-        message
+        message,
+        images
       }
     });
   });
@@ -114,7 +116,8 @@ io.on('connection', socket => {
       messages: {
         user,
         type: 'info',
-        message: `${user.userId}님이 퇴장했습니다.`
+        message: `${user.userId}님이 퇴장했습니다.`,
+        images: []
       }
     });
   });

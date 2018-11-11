@@ -4,6 +4,7 @@ import Messages from '../components/organisms/Messages';
 import InputArea from '../components/organisms/InputArea';
 import { toJS } from 'mobx';
 import Typography from '@material-ui/core/Typography';
+import { animateScroll as scroll } from 'react-scroll';
 
 class Chat extends Component {
   state = {
@@ -52,16 +53,18 @@ class Chat extends Component {
     this.setState({
       messages: newMessages
     });
+    scroll.scrollToBottom();
   };
 
-  sendMessage = message => {
+  sendMessage = ({ type, message = '', images = [] }) => {
     const { router } = this.props;
     const { socket, user } = toJS(this.props.chat.state);
     socket.emit('chat', {
       user,
       room: router.query.room,
-      type: 'text',
-      message
+      type,
+      message,
+      images
     });
   };
 

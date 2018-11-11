@@ -6,7 +6,7 @@ import getPageContext from '../lib/getPageContext';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
-// import { DragDropContext, HTML5Backend } from 'react-dnd-component';
+import { DragDropContext, HTML5Backend } from 'react-dnd-component';
 // import { toJS } from 'mobx';
 
 class CustomApp extends App {
@@ -36,13 +36,6 @@ class CustomApp extends App {
   render() {
     const { Component, pageProps, router } = this.props;
 
-    // if (pageProps.store) {
-    //   const mixed = Object.assign({}, pageProps.store, {
-    //     common: this.store.common
-    //   });
-    //   this.store = initStore(mixed);
-    // }
-
     return (
       <Container>
         <Provider {...this.store}>
@@ -68,6 +61,4 @@ class CustomApp extends App {
   }
 }
 
-export default CustomApp;
-
-// export default DragDropContext(HTML5Backend)(CustomApp);
+export default DragDropContext(HTML5Backend)(CustomApp);
