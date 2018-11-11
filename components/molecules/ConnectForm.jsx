@@ -3,8 +3,9 @@ import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { Field, Form } from 'formik';
-import WrappedTextField from '../atoms/WrappedTextField';
+import { fieldToTextField } from 'formik-material-ui';
 import ProgressLoader from '../atoms/ProgressLoader';
+import TextField from '@material-ui/core/TextField';
 
 const styles = theme => ({
   container: {
@@ -28,6 +29,16 @@ const styles = theme => ({
     height: '100%'
   }
 });
+
+const WrappedTextField = props => (
+  <TextField
+    {...fieldToTextField(props)}
+    onChange={event => {
+      const { value } = event.target;
+      props.form.setFieldValue(props.field.name, value ? value : '');
+    }}
+  />
+);
 
 class ConnectForm extends Component {
   render() {

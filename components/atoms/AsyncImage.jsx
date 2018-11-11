@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import getImageInfo from '../../lib/getImageInfo';
 
 class AsyncImage extends Component {

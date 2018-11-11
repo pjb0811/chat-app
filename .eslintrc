@@ -3,6 +3,7 @@
   "rules": {
     "quotes": ["error", "single", { "avoidEscape": true }],
     "indent": ["error", 2],
-    "jsx-a11y/href-no-hash": "off"
+    "jsx-a11y/href-no-hash": "off",
+    "no-unused-expressions": "off"
   }
 }
