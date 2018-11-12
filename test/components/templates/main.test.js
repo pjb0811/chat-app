@@ -11,7 +11,7 @@ class EmptyPage extends Component {
   }
 }
 
-describe.only('templates', () => {
+describe('templates', () => {
   describe('main', () => {
     const store = initStore({});
     const props = {};
