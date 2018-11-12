@@ -7,7 +7,6 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import { Router } from '../../lib/routes';
-import { observer, inject } from 'mobx-react';
 
 const styles = theme => ({
   list: {
@@ -23,21 +22,14 @@ const styles = theme => ({
   }
 });
 
-@inject('chat')
-@observer
 class InviteList extends Component {
   acceptInvite = invite => {
-    this.removeInvite(invite);
+    this.props.removeInvite(invite);
     Router.pushRoute(`/chat/${invite.room}`);
   };
 
-  removeInvite = invite => {
-    const { chat } = this.props;
-    chat.removeInvites(invite);
-  };
-
   render() {
-    const { invites, classes } = this.props;
+    const { invites, classes, removeInvite } = this.props;
 
     return (
       <Paper>
@@ -70,7 +62,7 @@ class InviteList extends Component {
                       size="small"
                       className={classes.button}
                       onClick={() => {
-                        this.removeInvite(invite);
+                        removeInvite(invite);
                       }}
                     >
                       DECLINE

@@ -74,6 +74,11 @@ const withMain = Page => {
       });
     };
 
+    removeInvite = invite => {
+      const { chat } = this.props;
+      chat.removeInvites(invite);
+    };
+
     render() {
       const { classes, router } = this.props;
       const { user, users, invites } = toJS(this.props.chat.state);
@@ -88,9 +93,10 @@ const withMain = Page => {
             users={users}
             invites={invites}
             classes={classes}
-            logout={this.logout}
             room={router.query.room}
+            logout={this.logout}
             inviteRoom={this.inviteRoom}
+            removeInvite={this.removeInvite}
           />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />

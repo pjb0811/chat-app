@@ -31,7 +31,15 @@ class CustomAppBar extends Component {
   };
 
   render() {
-    const { user, users, room, classes, inviteRoom, invites } = this.props;
+    const {
+      user,
+      users,
+      room,
+      classes,
+      inviteRoom,
+      invites,
+      removeInvite
+    } = this.props;
     const { userListEl, inviteListEl } = this.state;
 
     return (
@@ -77,7 +85,7 @@ class CustomAppBar extends Component {
                 horizontal: 'center'
               }}
             >
-              <InviteList invites={invites} />
+              <InviteList invites={invites} removeInvite={removeInvite} />
             </Popover>
             <IconButton
               user={user}

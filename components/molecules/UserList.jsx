@@ -12,7 +12,7 @@ class UserList extends Component {
 
     return (
       <Paper>
-        <List>
+        <List style={{ maxWidth: '100%', maxHeight: 300, overflow: 'auto' }}>
           {users.map((user, i) => (
             <ListItem key={i}>
               <ListItemText
