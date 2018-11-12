@@ -22,9 +22,7 @@ describe('atoms', () => {
 
     it('element에 적용된 className 확인', () => {
       wrapper.setProps({ isLoading: true });
-      wrapper
-        .find('.test')
-        .map(element => expect(element.hasClass('test')).to.be.true);
+      expect(wrapper.find('.test').get(0).props.className).to.equal('test');
     });
   });
 });

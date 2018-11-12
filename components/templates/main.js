@@ -25,6 +25,9 @@ const withMain = Page => {
   @observer
   class MainWrapper extends React.Component {
     static async getInitialProps(ctx) {
+      // if (ctx.res) {
+      //   ctx.res.writeHead(301, { Location: '/' });
+      // }
       return {
         ...(Page.getInitialProps ? await Page.getInitialProps(ctx) : null)
       };

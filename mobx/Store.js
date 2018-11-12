@@ -9,7 +9,7 @@ class Store {
 }
 
 export function initStore(props) {
-  if (Object.keys(props).length) {
+  if (Boolean(props)) {
     return new Store(props);
   }
   if (store === null) {
