@@ -19,8 +19,8 @@ class Chat {
   }
 
   @action
-  connect = () => {
-    this.state.socket = io();
+  connect = (namespace = '/') => {
+    this.state.socket = io(namespace);
   };
 
   @action

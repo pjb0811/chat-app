@@ -7,6 +7,7 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { DragDropContext, HTML5Backend } from 'react-dnd-component';
+import 'babel-polyfill';
 
 class CustomApp extends App {
   static async getInitialProps({ Component, ctx }) {

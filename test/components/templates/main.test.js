@@ -7,7 +7,7 @@ import { initStore } from 'mobx/Store';
 @main
 class EmptyPage extends Component {
   render() {
-    return null;
+    return <div {...this.props} />;
   }
 }
 
@@ -16,6 +16,22 @@ describe.only('templates', () => {
     const store = initStore({});
     const props = {};
     const router = { query: {} };
+    const { chat } = store;
+    const user1 = {
+      userId: 'user1',
+      socketId: 'user1',
+      room: ''
+    };
+
+    const user2 = {
+      userId: 'user2',
+      socketId: 'user2',
+      room: ''
+    };
+
+    chat.connect('http://localhost:9002');
+    chat.setUser({ userId: 'test', socketId: 'test' });
+
     const wrapper = mount(
       shallow(
         shallow(<EmptyPage router={router} {...store} {...props} />).get(0)
@@ -27,93 +43,22 @@ describe.only('templates', () => {
       expect(wrapper.props().chat).to.equal(store.chat);
     });
 
-    it('test', () => {
-      /**
-       * @todo ComponentDidMount 호출 시 router 에러로 인해 컴포넌트 마운트되지 않음.
-       */
+    /**
+     * @todo 로그아웃 후 route 호출 시 오류 발생. 수정 필요
+     */
+    it('logout() 호출 후 소켓 동작 확인', () => {
+      // wrapper.instance().logout();
+      // expect(wrapper.props().chat.user).to.equal({ userId: '', socketId: ''})
     });
 
-    // it('props 확인', () => {
-    //   expect(wrapper.props()).to.deep.equal(props);
-    // });
+    it('inviteRoom() 호출 후 소켓 동작 확인', done => {
+      wrapper
+        .instance()
+        .inviteRoom({ sender: user1, receiver: user2, room: 'test' });
 
-    // let temp = {};
-    // const file = new File(['test'], './test.jpg', {
-    //   type: 'image/jpg'
-    // });
-    // const props = {
-    //   canDrop: false,
-    //   classes: {},
-    //   files: [file],
-    //   isOver: false,
-    //   removeFiles: () => {
-    //     props.files = [];
-    //   },
-    //   sendMessage: params => {
-    //     temp = params;
-    //   }
-    // };
-    // const wrapper = mount(<main {...props} />);
-    // it('props 확인', () => {
-    //   expect(wrapper.props()).to.deep.equal(props);
-    // });
-    // it('sendImages() 실행 시 sendMessage 함수 동작 확인', done => {
-    //   wrapper.instance().sendImages();
-    //   setTimeout(() => {
-    //     expect(temp.type).to.equal('image');
-    //     expect(temp.images.length).to.equal(1);
-    //     expect(temp.images).to.deep.equal([
-    //       { name: '.:test.jpg', type: 'image/jpg', base64: 'dGVzdA==' }
-    //     ]);
-    //     expect(props.files.length).to.equal(0);
-    //     done();
-    //   }, 100);
-    // });
-    // it('이미지 파일을 화면에 drag 시 element 상태 확인', done => {
-    //   wrapper.setProps({ canDrop: true, files: [] });
-    //   setTimeout(() => {
-    //     expect(wrapper.find('h5').text()).to.equal('이미지를 올려주세요.');
-    //     done();
-    //   }, 100);
-    // });
-    // it('이미지 파일을 화면에 drop 시 element 상태 확인', done => {
-    //   wrapper.setProps({ canDrop: true, files: [file] });
-    //   wrapper.setState({});
-    //   setTimeout(() => {
-    //     wrapper.update();
-    //     expect(wrapper.find('img').props().src).to.equal(
-    //       'data:image/jpeg;base64,dGVzdA=='
-    //     );
-    //     done();
-    //   }, 100);
-    // });
-    // it('이미지가 아닌 파일을 drop 시 element 및 send 버튼 상태 확인', done => {
-    //   wrapper.setProps({
-    //     canDrop: true,
-    //     files: [
-    //       new File(['foo'], 'foo.txt', {
-    //         type: 'text/plain'
-    //       })
-    //     ]
-    //   });
-    //   wrapper.setState({});
-    //   setTimeout(() => {
-    //     wrapper.update();
-    //     const content = wrapper.find('h5');
-    //     const send = wrapper.find('button').get(0);
-    //     expect(content.text()).to.equal('이미지 파일만 올려주세요.');
-    //     expect(send.props.disabled).to.be.true;
-    //     done();
-    //   }, 100);
-    // });
-    // it('drop된 파일 삭제 시 props 값 확인', done => {
-    //   const del = wrapper.find('button').get(1);
-    //   props.files = [file];
-    //   mount(del).simulate('click');
-    //   setTimeout(() => {
-    //     expect(props.files.length).to.equal(0);
-    //     done();
-    //   }, 100);
-    // });
+      setTimeout(() => {
+        done();
+      }, 1000);
+    });
   });
 });
