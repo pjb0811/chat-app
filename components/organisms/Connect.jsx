@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Router } from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
-import { toJS } from 'mobx';
 import * as Yup from 'yup';
 
 class Connect extends Component {
@@ -15,7 +14,7 @@ class Connect extends Component {
   componentDidMount() {
     const { chat } = this.props;
     chat.connect();
-    const { socket } = toJS(this.props.chat.state);
+    const { socket } = chat;
 
     socket.on('login', ({ user }) => {
       chat.setUser(user);
@@ -28,7 +27,7 @@ class Connect extends Component {
   }
 
   onConnect = (values, { setErrors, setSubmitting }) => {
-    const { socket } = toJS(this.props.chat.state);
+    const { socket } = this.props.chat;
 
     if (!socket) {
       setErrors({ userId: '새로고침 후 다시 접속해주세요.' });

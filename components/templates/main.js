@@ -3,7 +3,6 @@ import Head from 'next/head';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '../organisms/AppBar';
 import { observer, inject } from 'mobx-react';
-import { toJS } from 'mobx';
 import { Router } from '../../lib/routes';
 
 const styles = theme => ({
@@ -33,7 +32,7 @@ const withMain = Page => {
 
     componentDidMount() {
       const { chat } = this.props;
-      const { user, socket } = toJS(this.props.chat.state);
+      const { user, socket } = chat;
       this.mounted = true;
 
       if (!user.userId || !user.socketId) {
@@ -61,12 +60,12 @@ const withMain = Page => {
     }
 
     logout = () => {
-      const { socket } = toJS(this.props.chat.state);
+      const { socket } = this.props.chat;
       socket.emit('logout');
     };
 
     inviteRoom = ({ sender, receiver, room }) => {
-      const { socket } = toJS(this.props.chat.state);
+      const { socket } = this.props.chat;
       socket.emit('inviteRoom', {
         sender,
         receiver,
@@ -75,13 +74,14 @@ const withMain = Page => {
     };
 
     removeInvite = invite => {
+      console.log(invite);
       const { chat } = this.props;
       chat.removeInvites(invite);
     };
 
     render() {
-      const { classes, router } = this.props;
-      const { user, users, invites } = toJS(this.props.chat.state);
+      const { classes, router, chat } = this.props;
+      const { user, users, invites } = chat;
 
       return (
         <Fragment>

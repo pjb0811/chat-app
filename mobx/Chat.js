@@ -1,4 +1,5 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
+import { toJS } from 'mobx';
 import io from 'socket.io-client';
 
 class Chat {
@@ -51,6 +52,22 @@ class Chat {
 
     this.state.invites.splice(index, 1);
   };
+
+  @computed get socket() {
+    return this.state.socket;
+  }
+
+  @computed get user() {
+    return toJS(this.state.user);
+  }
+
+  @computed get users() {
+    return toJS(this.state.users);
+  }
+
+  @computed get invites() {
+    return toJS(this.state.invites);
+  }
 }
 
 export default Chat;

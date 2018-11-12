@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import mainTemplate from '../components/templates/main';
 import Messages from '../components/organisms/Messages';
 import InputArea from '../components/organisms/InputArea';
-import { toJS } from 'mobx';
 import Typography from '@material-ui/core/Typography';
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -14,7 +13,7 @@ class Chat extends Component {
   componentDidMount() {
     const { chat, router } = this.props;
     chat.connect();
-    const { socket, user } = toJS(this.props.chat.state);
+    const { socket, user } = chat;
 
     socket.emit('join', {
       user,
@@ -39,8 +38,8 @@ class Chat extends Component {
   }
 
   componentWillUnmount() {
-    const { router } = this.props;
-    const { socket, user } = toJS(this.props.chat.state);
+    const { router, chat } = this.props;
+    const { socket, user } = chat;
     socket.emit('leave', {
       user,
       room: router.query.room
@@ -57,8 +56,8 @@ class Chat extends Component {
   };
 
   sendMessage = ({ type, message = '', images = [] }) => {
-    const { router } = this.props;
-    const { socket, user } = toJS(this.props.chat.state);
+    const { router, chat } = this.props;
+    const { socket, user } = chat;
     socket.emit('chat', {
       user,
       room: router.query.room,
@@ -69,8 +68,8 @@ class Chat extends Component {
   };
 
   render() {
-    const { router } = this.props;
-    const myself = toJS(this.props.chat.state.user);
+    const { router, chat } = this.props;
+    const myself = chat.user;
     const { messages } = this.state;
 
     return (
