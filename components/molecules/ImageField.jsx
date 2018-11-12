@@ -7,10 +7,6 @@ import getImageInfo from '../../lib/getImageInfo';
 import Image from '../atoms/Image';
 
 class ImageField extends Component {
-  state = {
-    images: []
-  };
-
   sendImages = async image => {
     const { files, sendMessage, removeFiles } = this.props;
     const images = await Promise.all(

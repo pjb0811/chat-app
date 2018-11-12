@@ -27,14 +27,6 @@ class Connect extends Component {
     });
   }
 
-  handleChange = e => {
-    this.setState({
-      form: {
-        userId: e.target.value
-      }
-    });
-  };
-
   onConnect = (values, { setErrors, setSubmitting }) => {
     const { socket } = toJS(this.props.chat.state);
 
