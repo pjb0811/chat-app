@@ -46,8 +46,7 @@ describe.only('pages', () => {
         wrappedComponent.instance().receiveMessage(data);
       });
 
-      it('사용자 채널 입장 시 동작 확인 및 receiveMessage() 호출 시 상태 확인', function(done) {
-        this.timeout(3000);
+      it('사용자 채널 입장 시 동작 확인 및 receiveMessage() 호출 시 상태 확인', done => {
         chat.socket.emit('join', {
           user,
           room: 'moon'
@@ -61,8 +60,8 @@ describe.only('pages', () => {
         setTimeout(() => {
           expect(wrappedComponent.state().messages.length).to.equal(2);
           done();
-        }, 1500);
-      });
+        }, 3000);
+      }).timeout(5000);
 
       it('sendMessage() 호출 시 chat socket 동작 확인', done => {
         wrappedComponent
@@ -80,7 +79,7 @@ describe.only('pages', () => {
         });
       });
 
-      /* it('leave socket 동작 확인 및 receiveMessage() 호출 시 동작 상태 확인', done => {
+      it('leave socket 동작 확인 및 receiveMessage() 호출 시 동작 상태 확인', done => {
         chat.socket.emit('leave', {
           user,
           room: 'moon'
@@ -92,11 +91,12 @@ describe.only('pages', () => {
           expect(type).to.equal('info');
           expect(message).to.equal('user님이 퇴장했습니다.');
           wrappedComponent.instance().receiveMessage(data);
-          console.log(wrappedComponent.state().messages);
+          console.log(wrappedComponent.state().messages.length);
           // expect(wrappedComponent.state().messages.length).to.equal(3);
           done();
         });
-      }); */
+      }).timeout(5000);
+      chat.disconnect();
     });
   });
 });

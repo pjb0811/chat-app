@@ -86,8 +86,6 @@ const chatServer = server => {
     });
 
     socket.on('leave', ({ room, user }) => {
-      socket.leave(room);
-
       users = users.map(user => {
         if (user.socketId === socket.id) {
           user.room = '';
@@ -107,6 +105,7 @@ const chatServer = server => {
           images: []
         }
       });
+      socket.leave(room);
     });
 
     socket.on('inviteRoom', ({ sender, receiver, room }) => {

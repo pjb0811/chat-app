@@ -36,9 +36,10 @@ class CustomAppBar extends Component {
       users,
       room,
       classes,
-      inviteRoom,
       invites,
-      removeInvite
+      inviteRoom,
+      removeInvite,
+      moveRoom
     } = this.props;
     const { userListEl, inviteListEl } = this.state;
 
@@ -85,7 +86,11 @@ class CustomAppBar extends Component {
                 horizontal: 'center'
               }}
             >
-              <InviteList invites={invites} removeInvite={removeInvite} />
+              <InviteList
+                invites={invites}
+                removeInvite={removeInvite}
+                moveRoom={moveRoom}
+              />
             </Popover>
             <IconButton
               user={user}

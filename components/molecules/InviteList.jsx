@@ -24,7 +24,9 @@ const styles = theme => ({
 
 class InviteList extends Component {
   acceptInvite = invite => {
-    this.props.removeInvite(invite);
+    const { removeInvite, moveRoom } = this.props;
+    removeInvite(invite);
+    moveRoom({ type: 'join', room: invite.room });
     Router.pushRoute(`/chat/${invite.room}`);
   };
 

@@ -33,13 +33,12 @@ const withMain = Page => {
     componentDidMount() {
       const { chat } = this.props;
       const { user, socket } = chat;
-      this.mounted = true;
 
       if (!user.userId || !user.socketId) {
         Router.pushRoute('/');
       }
 
-      if (socket && this.mounted) {
+      if (socket) {
         socket.on('logout', () => {
           chat.setUser({ userId: '', socketId: '' });
           Router.pushRoute('/');
@@ -53,10 +52,6 @@ const withMain = Page => {
           chat.setInvites(data);
         });
       }
-    }
-
-    componentWillUnmount() {
-      this.mounted = false;
     }
 
     logout = () => {
@@ -78,6 +73,15 @@ const withMain = Page => {
       chat.removeInvites(invite);
     };
 
+    moveRoom = ({ type, room }) => {
+      const { user, socket } = this.props.chat;
+
+      socket.emit(type, {
+        user,
+        room
+      });
+    };
+
     render() {
       const { classes, router, chat } = this.props;
       const { user, users, invites } = chat;
@@ -96,6 +100,7 @@ const withMain = Page => {
             logout={this.logout}
             inviteRoom={this.inviteRoom}
             removeInvite={this.removeInvite}
+            moveRoom={this.moveRoom}
           />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />
