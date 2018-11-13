@@ -28,6 +28,10 @@ class Chat extends Component {
       this.receiveMessage(data);
     });
 
+    socket.on('resetMessages', () => {
+      this.resetMessages();
+    });
+
     socket.on('chat', data => {
       this.receiveMessage(data);
     });
@@ -40,6 +44,7 @@ class Chat extends Component {
   componentWillUnmount() {
     const { router, chat } = this.props;
     const { socket, user } = chat;
+
     socket.emit('leave', {
       user,
       room: router.query.room
@@ -64,6 +69,12 @@ class Chat extends Component {
       type,
       message,
       images
+    });
+  };
+
+  resetMessages = () => {
+    this.setState({
+      messages: []
     });
   };
 

@@ -89,6 +89,7 @@ class CustomAppBar extends Component {
               <InviteList
                 invites={invites}
                 removeInvite={removeInvite}
+                room={room}
                 moveRoom={moveRoom}
               />
             </Popover>

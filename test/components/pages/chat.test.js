@@ -89,9 +89,9 @@ describe.only('pages', () => {
           const { user, type, message } = messages;
           expect(user.userId).to.equal('user');
           expect(type).to.equal('info');
-          expect(message).to.equal('user님이 퇴장했습니다.');
+          expect(message).to.equal('user님이 moon 채널에서 퇴장했습니다.');
           wrappedComponent.instance().receiveMessage(data);
-          console.log(wrappedComponent.state().messages.length);
+          // console.log(wrappedComponent.state().messages.length);
           // expect(wrappedComponent.state().messages.length).to.equal(3);
           done();
         });

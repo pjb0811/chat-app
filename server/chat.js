@@ -105,6 +105,8 @@ const chatServer = server => {
           images: []
         }
       });
+
+      socket.emit('resetMessages');
       socket.leave(room);
     });
 
