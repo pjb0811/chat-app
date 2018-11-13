@@ -3,7 +3,7 @@ import React from 'react';
 import { expect } from 'chai';
 import UserList from 'components/molecules/UserList';
 
-describe.only('molecules', () => {
+describe('molecules', () => {
   describe('<UserList />', () => {
     const props = {
       user: {

@@ -44,7 +44,7 @@ describe('templates', () => {
     });
 
     /**
-     * @todo 로그아웃 후 route 호출 시 오류 발생. 수정 필요
+     * @todo 로그아웃 후 route 호출 시 오류 발생. 확인 필요
      */
     it('logout() 호출 후 소켓 동작 확인', () => {
       // wrapper.instance().logout();
@@ -52,6 +52,9 @@ describe('templates', () => {
     });
 
     it('inviteRoom() 호출 후 소켓 동작 확인', done => {
+      /**
+       * @todo 서버까지 송신되지만 이 후 테스트 클라이인트에 수신되지 않음. 확인 필요
+       */
       wrapper
         .instance()
         .inviteRoom({ sender: user1, receiver: user2, room: 'test' });

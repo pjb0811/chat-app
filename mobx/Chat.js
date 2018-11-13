@@ -24,6 +24,11 @@ class Chat {
   };
 
   @action
+  disconnect = () => {
+    this.state.socket.disconnect();
+  };
+
+  @action
   setUser = user => {
     this.state.user = user;
   };

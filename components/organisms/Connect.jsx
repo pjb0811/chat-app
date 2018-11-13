@@ -29,9 +29,10 @@ class Connect extends Component {
   onConnect = (values, { setErrors, setSubmitting }) => {
     const { socket } = this.props.chat;
 
-    if (!socket) {
+    if (!socket || socket.io.readyState === 'closed') {
       setErrors({ userId: '새로고침 후 다시 접속해주세요.' });
       setSubmitting(false);
+      return;
     }
 
     socket.emit('login', {
