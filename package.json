@@ -4,7 +4,7 @@
     "start": "cross-env NODE_ENV=development PORT=9000 nodemon server",
     "build": "next build",
     "serve": "yarn build && cross-env NODE_ENV=production PORT=9001 node server",
-    "serve:test": "cross-env NODE_ENV=test PORT=9002 nodemon server/test",
+    "test:serve": "cross-env NODE_ENV=test PORT=9002 nodemon server/test",
     "test": "cross-env NODE_PATH=./ NODE_ENV=test mocha"
   },
   "license": "ISC",

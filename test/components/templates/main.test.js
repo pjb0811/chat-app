@@ -16,52 +16,74 @@ describe('templates', () => {
     const store = initStore({});
     const props = {};
     const router = { query: {} };
-    const { chat } = store;
-    const user1 = {
-      userId: 'user1',
-      socketId: 'user1',
-      room: ''
+    const user = {
+      userId: 'user',
+      socketId: 'user'
     };
 
-    const user2 = {
-      userId: 'user2',
-      socketId: 'user2',
-      room: ''
-    };
-
-    chat.connect('http://localhost:9002');
-    chat.setUser({ userId: 'test', socketId: 'test' });
+    store.chat.setUser(user);
 
     const wrapper = mount(
       shallow(
         shallow(<EmptyPage router={router} {...store} {...props} />).get(0)
       ).get(0)
     );
+    const { chat } = wrapper.props();
+    wrapper.setState({});
+
+    chat.connect('http://localhost:9002');
 
     it('props 확인', () => {
       expect(wrapper.props().router).to.equal(router);
-      expect(wrapper.props().chat).to.equal(store.chat);
+      expect(chat).to.equal(store.chat);
     });
 
-    /**
-     * @todo 로그아웃 후 route 호출 시 오류 발생. 확인 필요
-     */
-    it('logout() 호출 후 소켓 동작 확인', () => {
-      // wrapper.instance().logout();
-      // expect(wrapper.props().chat.user).to.equal({ userId: '', socketId: ''})
-    });
-
-    it('inviteRoom() 호출 후 소켓 동작 확인', done => {
-      /**
-       * @todo 서버까지 송신되지만 이 후 테스트 클라이인트에 수신되지 않음. 확인 필요
-       */
-      wrapper
-        .instance()
-        .inviteRoom({ sender: user1, receiver: user2, room: 'test' });
-
-      setTimeout(() => {
+    it('logout() 호출 후 logout socket 동작 확인', done => {
+      wrapper.instance().logout();
+      chat.socket.on('logout', () => {
+        chat.setUser({ userId: '', socketId: '' });
+        expect(chat.user).to.deep.equal({
+          userId: '',
+          socketId: ''
+        });
         done();
-      }, 1000);
+      });
+    });
+
+    describe('inviteRoom() 및 removeInvite() 호출하기', () => {
+      let tempUser = {};
+      let tempInvite = {};
+      it('inviteRoom() 호출 전 다른 사용자 로그인 하기', done => {
+        chat.socket.on('login', ({ user }) => {
+          tempUser = user;
+          expect(user.userId).to.equal('test');
+          done();
+        });
+        chat.socket.emit('login', {
+          user: {
+            userId: 'test'
+          }
+        });
+      });
+
+      it('inviteRoom() 호출 후 상태 확인', done => {
+        wrapper
+          .instance()
+          .inviteRoom({ sender: user, receiver: tempUser, room: 'test' });
+        chat.socket.on('inviteRoom', data => {
+          expect(data.sender).to.deep.equal(user);
+          expect(data.room).to.equal('test');
+          tempInvite = data;
+          chat.setInvites(data);
+          done();
+        });
+      });
+
+      it('removeInvite() 호출 후 상태 확인', () => {
+        wrapper.instance().removeInvite(tempInvite);
+        expect(chat.invites.length).to.equal(0);
+        chat.disconnect();
+      });
     });
   });
 });
