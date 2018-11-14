@@ -1,19 +1,26 @@
-# 로그인 및 로그아웃 구현
+# 로그인 구현
 
-## 로그인 컴포넌트 구현
+## 컴포넌트
 
-### 접속 화면 컴포넌트
+### 접속 화면
 
-- 파일 경로 `componets/organisms/Connect.jsx`
-- `formik` 라이브러리를 활용해
+- `componets/organisms/Connect.jsx`
+  - `componentDidMount()` - 사용자정보와 전체 사용자 정보를 설정하는 클라이언트 소켓 송신 함수를 설정
+  - `onConnect()` - 유효성 검증 확인 후 서버 소켓 수신 함수 호출
+  - `render()` - `formik` 라이브러리를 활용해 유효성 검증을 확인
+    - 검증 항목 - 필수값, 최소길이, 최대길이, 소켓 연결 여부
+
+#### 화면 예제
+
+![login-required](./required.gif)
+
+![login-min](./min.gif)
+
+![login-max](./max.gif)
+
+![login-success](./success.gif)
 
 ```jsx
-import React, { Component } from 'react';
-import { Router } from '../../lib/routes';
-import { Formik } from 'formik';
-import ConnectForm from '../molecules/ConnectForm';
-import * as Yup from 'yup';
-
 class Connect extends Component {
   state = {
     form: {
@@ -21,9 +28,6 @@ class Connect extends Component {
     }
   };
 
-  /**
-   * 마운트 이 후 소켓 접속 및 로그인 관련 클라이언트 송신 함수 설정
-   */
   componentDidMount() {
     const { chat } = this.props;
     chat.connect();
@@ -39,9 +43,6 @@ class Connect extends Component {
     });
   }
 
-  /**
-   * 접속 버튼 클릭 시 유효성 체크 및 페이지 이동 처리
-   */
   onConnect = (values, { setErrors, setSubmitting }) => {
     const { socket } = this.props.chat;
 
@@ -80,9 +81,108 @@ class Connect extends Component {
 export default Connect;
 ```
 
-## 화면 구성
+### 접속 폼
 
-![login-required](./required.gif)
-![login-min](./min.gif)
-![login-max](./max.gif)
-![login-success](./success.gif)
+- `componets/molecules/ConnectForm.jsx`
+  - `render()`
+    - `formik-material-ui` 라이브러리를 활용해 `TextField` 컴포넌트 및 필드 정보를 `Field` 컴포넌트에 주입
+    - ID 입력 및 접속 버튼 클릭시 상위 컴포넌트(`componets/organisms/Connect.jsx`)에서 전달받은 함수 호출
+
+```jsx
+import { fieldToTextField } from 'formik-material-ui';
+
+const WrappedTextField = props => (
+  <TextField
+    {...fieldToTextField(props)}
+    onChange={event => {
+      const { value } = event.target;
+      props.form.setFieldValue(props.field.name, value ? value : '');
+    }}
+  />
+);
+
+class ConnectForm extends Component {
+  render() {
+    const { classes, isSubmitting, submitForm } = this.props;
+    return (
+      <Form className={classes.container}>
+        <Typography variant="h5">Login</Typography>
+        <Field
+          name="userId"
+          type="text"
+          component={WrappedTextField}
+          fullWidth
+          margin="normal"
+          variant="outlined"
+          placeholder="ID"
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          disabled={isSubmitting}
+          onClick={submitForm}
+        >
+          Connect
+        </Button>
+        <ProgressLoader isLoading={isSubmitting} className={classes.loader} />
+      </Form>
+    );
+  }
+}
+```
+
+### 로딩 바
+
+- `componets/atoms/ProgressLoader.jsx`
+  - `render()` - 접속 시 폼 유효성 확인을 하는 동안 로딩바 표시
+
+```jsx
+class ProgressLoader extends Component {
+  render() {
+    const { isLoading, className } = this.props;
+
+    if (isLoading) {
+      return (
+        <div className={className}>
+          <CircularProgress />
+        </div>
+      );
+    }
+
+    return null;
+  }
+}
+
+export default ProgressLoader;
+```
+
+## 서버 구현
+
+- `server/chat.jsx`
+  - 아이디 여부 확인 및 전체 사용자 정보 수정
+  - `socket.emit('login')` - 현재 사용자에게 사용자 아이디 및 소켓 아이디 정보 수신
+  - `io.emit('updateUsers')` - 전체 사용자에서 전체 사용자 정보 수신
+
+```javascript
+let users = [];
+
+socket.on('login', ({ user }) => {
+  if (user.userId) {
+    users.push({
+      userId: user.userId,
+      socketId: socket.id
+    });
+  }
+
+  socket.emit('login', {
+    user: {
+      ...user,
+      socketId: socket.id
+    }
+  });
+
+  io.emit('updateUsers', {
+    users
+  });
+});
+```
