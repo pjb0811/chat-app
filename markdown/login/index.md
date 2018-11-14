@@ -1,6 +1,35 @@
 # 로그인 구현
 
+## 화면 예제
+
+### 로그인
+
+![login](./login.gif)
+
 ## 컴포넌트
+
+## 접속 페이지
+
+- `componets/page/index.jsx`
+  - `render()` - 접속 화면 컴포넌트 호출
+
+```jsx
+class Index extends Component {
+  render() {
+    const { classes } = this.props;
+
+    return (
+      <Grid container>
+        <Grid item xs={12}>
+          <Paper className={classes.paper} elevation={1}>
+            <Connect {...this.props} />
+          </Paper>
+        </Grid>
+      </Grid>
+    );
+  }
+}
+```
 
 ### 접속 화면
 
@@ -9,16 +38,6 @@
   - `onConnect()` - 유효성 검증 확인 후 서버 소켓 수신 함수 호출
   - `render()` - `formik` 라이브러리를 활용해 유효성 검증을 확인
     - 검증 항목 - 필수값, 최소길이, 최대길이, 소켓 연결 여부
-
-#### 화면 예제
-
-![login-required](./required.gif)
-
-![login-min](./min.gif)
-
-![login-max](./max.gif)
-
-![login-success](./success.gif)
 
 ```jsx
 class Connect extends Component {
@@ -156,12 +175,12 @@ class ProgressLoader extends Component {
 export default ProgressLoader;
 ```
 
-## 서버 구현
+## 소켓 설정
 
-- `server/chat.jsx`
-  - 아이디 여부 확인 및 전체 사용자 정보 수정
+- `socket.on('login')` - 로그인 정보 송신
+  - 아이디 여부 확인 및 전체 사용자 목록에 현재 사용자 추가
   - `socket.emit('login')` - 현재 사용자에게 사용자 아이디 및 소켓 아이디 정보 수신
-  - `io.emit('updateUsers')` - 전체 사용자에서 전체 사용자 정보 수신
+  - `io.emit('updateUsers')` - 전체 사용자에서 업데이트된 전체 사용자 정보 수신
 
 ```javascript
 let users = [];

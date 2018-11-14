@@ -1,5 +1,19 @@
 # HOC 및 공통 컴포넌트 구현
 
+## 화면 예제
+
+### 전체 사용자 목록 업데이트
+
+![users-update](./users-update.gif)
+
+### 사용자 초대
+
+![invite-user](./invite-user.gif)
+
+### 로그아웃
+
+![logout](./logout.gif)
+
 ## 컴포넌트
 
 ### 메인 레이아웃
@@ -499,4 +513,128 @@ const getImageInfo = async file => {
 };
 
 export default getImageInfo;
+```
+
+## 사용자 정보 및 사용자 목록, 받은 초대 목록에 대한 전역 상태 관리
+
+- `mobx/Chat.js`
+  - `connect()` - 소켓 접속
+  - `disconnect()` - 소켓 접속 해제
+  - `setUser()` - 현재 사용자 업데이트
+  - `setUsers()` - 전체 사용자 정보 업데이트
+  - `setInvites()` - 받은 초대 목록 업데이트
+  - `removeInvites()` - 받은 초대 목록 제거
+  - `socket()` - 소켓 정보 반환
+  - `user()` - 현재 사용자 정보 반환
+  - `users()` - 전체 사용자 목록 반환
+  - `invites()` - 받은 초대 목록 반환
+
+```javascript
+class Chat {
+  @observable
+  state = {
+    socket: null,
+    user: {
+      userId: '',
+      socketId: ''
+    },
+    invites: [],
+    users: []
+  };
+
+  constructor(props) {
+    this.state = props ? props.state : this.state;
+  }
+
+  @action
+  connect = (namespace = '/') => {
+    this.state.socket = io(namespace);
+  };
+
+  @action
+  disconnect = () => {
+    this.state.socket.disconnect();
+  };
+
+  @action
+  setUser = user => {
+    this.state.user = user;
+  };
+
+  @action
+  setUsers = users => {
+    this.state.users = users;
+  };
+
+  @action
+  setInvites = invite => {
+    this.state.invites.push(invite);
+    this.state.invites = this.state.invites.filter(
+      (currInvite, i, self) =>
+        i === self.findIndex(selfInvite => selfInvite.time === currInvite.time)
+    );
+  };
+
+  @action
+  removeInvites = invite => {
+    const index = this.state.invites.findIndex(
+      currInvite =>
+        currInvite.time === invite.time &&
+        currInvite.sender.socketId === invite.sender.socketId
+    );
+
+    this.state.invites.splice(index, 1);
+  };
+
+  @computed get socket() {
+    return this.state.socket;
+  }
+
+  @computed get user() {
+    return toJS(this.state.user);
+  }
+
+  @computed get users() {
+    return toJS(this.state.users);
+  }
+
+  @computed get invites() {
+    return toJS(this.state.invites);
+  }
+}
+```
+
+### 소켓 구현
+
+- `socket.on('logout')` - 로그아웃 정보 송신
+  - 현재 사용자 정보를 전체 사용자 목록에서 제거
+  - `socket.emit('logout')` - 현재 사용자의 로그아웃 정보 전달
+  - `io.emit('updateUsers'` - 전체 사용자에서 업데이트된 전체 사용자 정보 수신
+- `socket.on('disconnect')` - 연결 끊김 정보 송신
+  - 연결이 끊긴 사용자를 전체 사용자 목록에서 제거
+- `socket.on('inviteRoom')` - 다른 사용자 초대 정보 송신
+  - `io.to(receiver.socketId)` - 초대할 사용자에게 초대를 보낸 사용자 정보, 채팅방정보, 보내 시간 정보 수신
+
+```javascript
+socket.on('logout', () => {
+  users = users.filter(user => user.socketId !== socket.id);
+  socket.emit('logout');
+
+  io.emit('updateUsers', {
+    users
+  });
+});
+
+socket.on('disconnect', () => {
+  users = users.filter(user => user.socketId !== socket.id);
+});
+
+socket.on('inviteRoom', ({ sender, receiver, room }) => {
+  const time = new Date().getTime();
+  io.to(receiver.socketId).emit('inviteRoom', {
+    sender,
+    room,
+    time
+  });
+});
 ```
