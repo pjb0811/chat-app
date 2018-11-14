@@ -267,3 +267,11 @@ describe('<Chat />', () => {
 - 총 76개의 단위 테스트 확인
 
 ![test-run](./run.gif)
+
+## 브라우저 테스트 (PC)
+
+- 각 브라우저 별 최신 버전에서 테스트 확인
+
+| ![Chrome](./icons8-chrome-48.png) | ![Firefox](./icons8-firefox-48.png) | ![IE](./icons8-internet-explorer-48.png) | ![Opera](./icons8-opera-48.png) | ![Safari](./icons8-safari-48.png) |
+| --------------------------------- | ----------------------------------- | ---------------------------------------- | ------------------------------- | --------------------------------- |
+| Latest ✔                          | Latest ✔                            | Latest ✔                                 | Latest ✔                        | Latest ✔                          |
