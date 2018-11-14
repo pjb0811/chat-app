@@ -10,10 +10,14 @@ class Chat extends Component {
     messages: []
   };
 
+  mounted = false;
+
   componentDidMount() {
     const { chat, router } = this.props;
     chat.connect();
     const { socket, user } = chat;
+
+    this.mounted = true;
 
     socket.emit('join', {
       user,
@@ -21,29 +25,41 @@ class Chat extends Component {
     });
 
     socket.on('join', data => {
-      this.receiveMessage(data);
+      if (this.mounted) {
+        this.receiveMessage(data);
+      }
     });
 
     socket.on('leave', data => {
-      this.receiveMessage(data);
+      if (this.mounted) {
+        this.receiveMessage(data);
+      }
     });
 
     socket.on('resetMessages', () => {
-      this.resetMessages();
+      if (this.mounted) {
+        this.resetMessages();
+      }
     });
 
     socket.on('chat', data => {
-      this.receiveMessage(data);
+      if (this.mounted) {
+        this.receiveMessage(data);
+      }
     });
 
     socket.on('updateUser', ({ user }) => {
-      chat.setUser(user);
+      if (this.mounted) {
+        chat.setUser(user);
+      }
     });
   }
 
   componentWillUnmount() {
     const { router, chat } = this.props;
     const { socket, user } = chat;
+
+    this.mounted = false;
 
     socket.emit('leave', {
       user,

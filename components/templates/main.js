@@ -7,7 +7,8 @@ import { Router } from '../../lib/routes';
 
 const styles = theme => ({
   root: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing.unit * 2,
+    overflow: 'hidden'
   },
   space: {
     ...theme.mixins.toolbar,
@@ -41,7 +42,8 @@ const withMain = Page => {
       if (socket) {
         socket.on('logout', () => {
           chat.setUser({ userId: '', socketId: '' });
-          Router.pushRoute('/');
+          // Router.push('/');
+          document.location.replace('/');
         });
 
         socket.on('updateUsers', ({ users }) => {

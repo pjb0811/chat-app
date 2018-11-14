@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Link } from '../../lib/routes';
+import { Router } from '../../lib/routes';
 import Button from '../atoms/Button';
 import IconButton from '../atoms/IconButton';
 import Popover from '@material-ui/core/Popover';
@@ -30,6 +30,16 @@ class CustomAppBar extends Component {
     });
   };
 
+  moveList = () => {
+    const { user } = this.props;
+
+    if (!user.userId || !user.socketId) {
+      document.location.replace('/');
+    }
+
+    Router.pushRoute('/list');
+  };
+
   render() {
     const {
       user,
@@ -47,17 +57,16 @@ class CustomAppBar extends Component {
       <Fragment>
         <AppBar position="fixed">
           <Toolbar>
-            <Link route={`${user.userId ? '/list' : '/'}`}>
-              <Typography
-                variant="h6"
-                color="inherit"
-                style={{
-                  cursor: 'pointer'
-                }}
-              >
-                Chat App
-              </Typography>
-            </Link>
+            <Typography
+              variant="h6"
+              color="inherit"
+              style={{
+                cursor: 'pointer'
+              }}
+              onClick={this.moveList}
+            >
+              Chat App
+            </Typography>
             <div style={{ flexGrow: 1 }} />
             <IconButton
               user={user}
