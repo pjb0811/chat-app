@@ -3,16 +3,23 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development PORT=9000 nodemon server",
     "build": "next build",
-    "serve": "yarn build && cross-env NODE_ENV=production PORT=9001 node server",
+    "serve": "yarn build && cross-env NODE_ENV=production PORT=9001 nodemon server",
     "test:serve": "cross-env NODE_ENV=test PORT=9002 nodemon server/test",
     "test": "cross-env NODE_PATH=./ NODE_ENV=test mocha"
   },
-  "license": "ISC",
+  "description": "chat web app using react",
+  "author": "pjb0811",
+  "license": "MIT",
+  "repository": "pjb0811/chat-app",
+  "keywords": [
+    "react",
+    "nextjs",
+    "socket-io"
+  ],
   "dependencies": {
     "next": "^7.0.2",
     "react": "^16.6.1",
-    "react-dom": "^16.6.1",
-    "remove": "^0.1.5"
+    "react-dom": "^16.6.1"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.1.2",
@@ -42,7 +49,6 @@
     "react-motion": "^0.5.2",
     "react-resize-detector": "^3.2.0",
     "react-scroll": "^1.7.10",
-    "sinon": "^7.1.1",
     "socket.io": "^2.1.1",
     "yup": "^0.26.6"
   }

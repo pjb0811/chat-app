@@ -49,6 +49,7 @@ class Connect extends Component {
         validationSchema={Yup.object().shape({
           userId: Yup.string()
             .min(3, '3글자 이상 입력해주세요')
+            .max(10, '10글자 이하로 입력해주세요')
             .required('ID를 입력해주세요')
         })}
         onSubmit={this.onConnect}
