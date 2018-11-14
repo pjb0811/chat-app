@@ -82,7 +82,26 @@ describe('templates', () => {
       it('removeInvite() 호출 후 상태 확인', () => {
         wrapper.instance().removeInvite(tempInvite);
         expect(chat.invites.length).to.equal(0);
-        chat.disconnect();
+      });
+
+      it('moveRoom() 호출로 socket join 시 상태 확인', done => {
+        chat.setUser({ userId: 'haha', socketId: 'hoho' });
+        wrapper.instance().moveRoom({ type: 'join', room: 'test1' });
+        chat.socket.on('join', ({ messages }) => {
+          expect(messages.type).to.equal('info');
+          expect(messages.message).to.equal('haha님이 입장했습니다.');
+          done();
+        });
+      });
+
+      it('moveRoom() 호출로 socket leave 시 상태 확인', done => {
+        chat.setUser({ userId: 'haha', socketId: 'hoho' });
+        wrapper.instance().moveRoom({ type: 'leave', room: 'test1' });
+        chat.socket.on('leave', ({ messages }) => {
+          expect(messages.type).to.equal('info');
+          expect(messages.message).to.equal('haha님이 퇴장했습니다.');
+          done();
+        });
       });
     });
   });
