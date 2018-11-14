@@ -11,6 +11,9 @@ class Connect extends Component {
     }
   };
 
+  /**
+   * 마운트 이 후 소켓 접속 및 로그인 관련 클라이언트 송신 함수 설정
+   */
   componentDidMount() {
     const { chat } = this.props;
     chat.connect();
@@ -26,6 +29,9 @@ class Connect extends Component {
     });
   }
 
+  /**
+   * 접속 버튼 클릭 시 유효성 체크 및 페이지 이동 처리
+   */
   onConnect = (values, { setErrors, setSubmitting }) => {
     const { socket } = this.props.chat;
 
