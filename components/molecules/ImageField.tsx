@@ -6,8 +6,21 @@ import AsyncImage from '../atoms/AsyncImage';
 import getImageInfo from '../../lib/getImageInfo';
 import Image from '../atoms/Image';
 
-class ImageField extends Component {
-  sendImages = async image => {
+type Props = {
+  files: Array<File>;
+  sendMessage: (params: { type: string; images: Array<{}> }) => void;
+  removeFiles: () => void;
+  canDrop: boolean;
+  isOver: boolean;
+  classes: {
+    paper: string;
+    active: string;
+    button: string;
+  };
+};
+
+class ImageField extends Component<Props> {
+  sendImages = async () => {
     const { files, sendMessage, removeFiles } = this.props;
     const images = await Promise.all(
       files.map(async file => await getImageInfo(file))
@@ -58,13 +71,11 @@ class ImageField extends Component {
           }
 
           return (
-            <div
-              variant="h5"
-              key={i}
-              className={`${isActive ? classes.active : ''}`}
-            >
+            <div key={i} className={`${isActive ? classes.active : ''}`}>
               <AsyncImage image={file}>
-                {image => <Image {...image} />}
+                {(image: { name: string; base64: string }) => (
+                  <Image {...image} />
+                )}
               </AsyncImage>
             </div>
           );

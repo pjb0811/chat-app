@@ -5,7 +5,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import InviteButton from '../atoms/InviteButton';
 
-class UserList extends Component {
+type Props = {
+  users: Array<{ userId: string; socketId: string; room: string }>;
+  user: { userId: string; socketId: string; room: string };
+  room: string;
+  inviteRoom: () => void;
+};
+
+class UserList extends Component<Props> {
   render() {
     const { users, room, inviteRoom } = this.props;
     const myself = this.props.user;

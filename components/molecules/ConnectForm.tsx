@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, ChangeEvent } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -6,8 +6,9 @@ import { Field, Form } from 'formik';
 import { fieldToTextField } from 'formik-material-ui';
 import ProgressLoader from '../atoms/ProgressLoader';
 import TextField from '@material-ui/core/TextField';
+import { FormikProps } from 'formik';
 
-const styles = theme => ({
+const styles = (theme: { spacing: { unit: number } }) => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -30,7 +31,28 @@ const styles = theme => ({
   }
 });
 
-const WrappedTextField = props => (
+type TextFieldProps = {
+  field: {
+    onChange: (e: ChangeEvent<any>) => void;
+    onBlur: (e: any) => void;
+    value: any;
+    name: string;
+  };
+  form: FormikProps<any>;
+  style: {};
+  defaultValue: string | number | undefined;
+  className: string;
+  classes: {};
+  variant: 'filled' | 'standard' | 'outlined' | undefined;
+  innerRef: () => void;
+  InputProps: {};
+  inputProps: {};
+  inputRef: () => void;
+  rows: number;
+  rowsMax: number;
+};
+
+const WrappedTextField = (props: TextFieldProps) => (
   <TextField
     {...fieldToTextField(props)}
     onChange={event => {
@@ -40,7 +62,16 @@ const WrappedTextField = props => (
   />
 );
 
-class ConnectForm extends Component {
+type Props = {
+  classes: {
+    container: string;
+    loader: string;
+  };
+  isSubmitting: boolean;
+  submitForm: () => void;
+};
+
+class ConnectForm extends Component<Props> {
   render() {
     const { classes, isSubmitting, submitForm } = this.props;
     return (
@@ -69,4 +100,6 @@ class ConnectForm extends Component {
   }
 }
 
-export default withStyles(styles, { name: 'ConnectForm' })(ConnectForm);
+export default withStyles(styles as any, { name: 'ConnectForm' })(
+  ConnectForm as any
+);

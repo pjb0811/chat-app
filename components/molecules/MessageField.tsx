@@ -2,12 +2,22 @@ import React, { Component, Fragment } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-class MessageField extends Component {
+type Props = {
+  sendMessage: (params: { type: string; message: string }) => void;
+  classes: {
+    inputContainer: string;
+    input: string;
+    buttonContainer: string;
+    button: string;
+  };
+};
+
+class MessageField extends Component<Props> {
   state = {
     message: ''
   };
 
-  handleChange = e => {
+  handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       message: e.target.value
     });
@@ -43,7 +53,7 @@ class MessageField extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div className={classes.buttonContainter}>
+        <div className={classes.buttonContainer}>
           <Button
             variant="contained"
             className={classes.button}

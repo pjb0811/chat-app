@@ -7,6 +7,7 @@ type Props = {
     socketId: string;
   };
   user: {
+    userId: string;
     socketId: string;
     room: string;
   };

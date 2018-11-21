@@ -2,11 +2,8 @@ import { Component, ReactNode } from 'react';
 import getImageInfo from '../../lib/getImageInfo';
 
 type Props = {
-  image: {
-    name: string;
-    base64: string;
-  };
-  children: (image: Props['image']) => ReactNode;
+  image: File;
+  children: (image: State['image']) => ReactNode;
 };
 
 type State = {

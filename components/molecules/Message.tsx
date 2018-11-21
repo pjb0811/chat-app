@@ -9,7 +9,7 @@ import Image from '../atoms/Image';
 import ResizeDetector from 'react-resize-detector';
 import { Motion, spring } from 'react-motion';
 
-const styles = theme => ({
+const styles = (theme: { spacing: { unit: number } }) => ({
   paper: {
     margin: theme.spacing.unit,
     padding: theme.spacing.unit * 2,
@@ -23,8 +23,46 @@ const styles = theme => ({
   }
 });
 
-class Message extends Component {
-  state = {
+type Props = {
+  classes: {
+    paper: string;
+    chip: string;
+  };
+  type: string;
+  message: string;
+  user: {
+    userId: string;
+    socketId: string;
+  };
+  myself: {
+    socketId: string;
+  };
+  images: [];
+};
+
+type State = {
+  [key: string]: {
+    xs:
+      | boolean
+      | 1
+      | 2
+      | 'auto'
+      | 3
+      | 4
+      | 5
+      | 6
+      | 7
+      | 8
+      | 9
+      | 10
+      | 11
+      | 12
+      | undefined;
+  };
+};
+
+class Message extends Component<Props, State> {
+  state: State = {
     info: {
       xs: 12
     },
@@ -83,4 +121,4 @@ class Message extends Component {
   }
 }
 
-export default withStyles(styles, { name: 'Message' })(Message);
+export default withStyles(styles as any, { name: 'Message' })(Message as any);
