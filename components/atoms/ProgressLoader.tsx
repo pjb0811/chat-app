@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { CircularProgress } from '@material-ui/core';
 
-class ProgressLoader extends Component {
+type Props = {
+  isLoading: boolean;
+  className: string;
+};
+
+class ProgressLoader extends Component<Props> {
   render() {
     const { isLoading, className } = this.props;
 

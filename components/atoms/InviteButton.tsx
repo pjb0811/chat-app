@@ -2,7 +2,19 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import MailIcon from '@material-ui/icons/Mail';
 
-class InviteButton extends Component {
+type Props = {
+  myself: {
+    socketId: string;
+  };
+  user: {
+    socketId: string;
+    room: string;
+  };
+  room: string;
+  inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
+};
+
+class InviteButton extends Component<Props> {
   render() {
     const { myself, user, room, inviteRoom } = this.props;
 

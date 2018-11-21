@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
+type Props = {
+  name: string;
+  base64: string;
+};
 
-class Image extends Component {
+class Image extends Component<Props> {
   render() {
     const { base64, name } = this.props;
 

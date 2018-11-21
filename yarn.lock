@@ -396,6 +396,13 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-syntax-typescript@^7.0.0":
+  version "7.1.5"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-syntax-typescript/-/plugin-syntax-typescript-7.1.5.tgz#956a1f43dec8a9d6b36221f5c865335555fdcb98"
+  integrity sha512-VqK5DFcS6/T8mT5CcJv1BwZLYFxkHiGZmP7Hs87F53lSToE/qfL7TpPrqFSaKyZi9w7Z/b/tmOGZZDupcJjFvw==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+
 "@babel/plugin-transform-arrow-functions@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-arrow-functions/-/plugin-transform-arrow-functions-7.0.0.tgz#a6c14875848c68a3b4b3163a486535ef25c7e749"
@@ -643,6 +650,14 @@
   dependencies:
     "@babel/helper-plugin-utils" "^7.0.0"
 
+"@babel/plugin-transform-typescript@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@babel/plugin-transform-typescript/-/plugin-transform-typescript-7.1.0.tgz#81e7b4be90e7317cbd04bf1163ebf06b2adee60b"
+  integrity sha512-TOTtVeT+fekAesiCHnPz+PSkYSdOSLyLn42DI45nxg6iCdlQY6LIj/tYqpMB0y+YicoTUiYiXqF8rG6SKfhw6Q==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-syntax-typescript" "^7.0.0"
+
 "@babel/plugin-transform-unicode-regex@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/plugin-transform-unicode-regex/-/plugin-transform-unicode-regex-7.0.0.tgz#c6780e5b1863a76fe792d90eded9fcd5b51d68fc"
@@ -709,6 +724,14 @@
     "@babel/plugin-transform-react-jsx" "^7.0.0"
     "@babel/plugin-transform-react-jsx-self" "^7.0.0"
     "@babel/plugin-transform-react-jsx-source" "^7.0.0"
+
+"@babel/preset-typescript@^7.0.0", "@babel/preset-typescript@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@babel/preset-typescript/-/preset-typescript-7.1.0.tgz#49ad6e2084ff0bfb5f1f7fb3b5e76c434d442c7f"
+  integrity sha512-LYveByuF9AOM8WrsNne5+N79k1YxjNB6gmpCQsnuSBAcV8QUeB+ZUxQzL7Rz7HksPbahymKkq2qBR+o36ggFZA==
+  dependencies:
+    "@babel/helper-plugin-utils" "^7.0.0"
+    "@babel/plugin-transform-typescript" "^7.1.0"
 
 "@babel/register@^7.0.0":
   version "7.0.0"
@@ -1069,6 +1092,13 @@
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.1.tgz#5c85d662f76fa1d34575766c5dcd6615abcd30d8"
   integrity sha512-FZdkNBDqBRHKQ2MEbSC17xnPFOhZxeJ2YGSfr2BKf3sujG49Qe3bB+rGCwQfIaA7WHnGeGkSijX4FuBCdrzW/g==
+
+"@zeit/next-typescript@^1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@zeit/next-typescript/-/next-typescript-1.1.1.tgz#0b0ddfbb13ca04cde52ac2718473f1b9c40ba0ee"
+  integrity sha512-EUcHCASftz1Bc80djkf3cKJrFgvFQyODOH1kty7ShVLLdXMaZpRLj+z7RxrCoNo1bP06w0vtXEDU0cKa0HmGgg==
+  dependencies:
+    "@babel/preset-typescript" "^7.0.0"
 
 abab@^2.0.0:
   version "2.0.0"

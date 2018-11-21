@@ -1,9 +1,27 @@
-import { Component } from 'react';
+import { Component, ReactNode } from 'react';
 import getImageInfo from '../../lib/getImageInfo';
 
-class AsyncImage extends Component {
-  state = {
-    image: {}
+type Props = {
+  image: {
+    name: string;
+    base64: string;
+  };
+  children: (image: Props['image']) => ReactNode;
+};
+
+type State = {
+  image: {
+    name: string;
+    base64: string;
+  };
+};
+
+class AsyncImage extends Component<Props, State> {
+  state: State = {
+    image: {
+      name: '',
+      base64: ''
+    }
   };
 
   setImage = async () => {
@@ -14,7 +32,7 @@ class AsyncImage extends Component {
     });
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
+  shouldComponentUpdate(nextProps: Props, nextState: State) {
     if (nextState.image.name === this.state.image.name) {
       if (!nextState.image.name && !this.state.image.name) {
         return true;

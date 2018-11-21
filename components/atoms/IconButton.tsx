@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode } from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import withAuth from '../wrappers/withAuth';
 
-class CustomIconButton extends Component {
+type Props = {
+  children: ReactNode;
+  onClick: () => void;
+  color: 'inherit' | 'primary' | 'secondary' | 'default' | undefined;
+};
+
+class CustomIconButton extends Component<Props> {
   render() {
     const { children, color, onClick } = this.props;
 
