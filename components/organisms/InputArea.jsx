@@ -23,7 +23,7 @@ const styles = theme => ({
   input: {
     background: theme.palette.common.white
   },
-  buttonContainter: {
+  buttonContainer: {
     display: 'flex',
     alignItems: 'center'
   },

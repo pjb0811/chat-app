@@ -574,7 +574,7 @@ class MessageField extends Component {
             onChange={this.handleChange}
           />
         </div>
-        <div className={classes.buttonContainter}>
+        <div className={classes.buttonContainer}>
           <Button
             variant="contained"
             className={classes.button}
