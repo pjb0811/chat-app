@@ -5,7 +5,28 @@ import InputArea from '../components/organisms/InputArea';
 import Typography from '@material-ui/core/Typography';
 import { animateScroll as scroll } from 'react-scroll';
 
-class Chat extends Component {
+type Props = {
+  chat: {
+    connect: () => void;
+    socket: {
+      emit: (type: string, req?: {}) => void;
+      on: (type: string, callback: (res: any) => void) => void;
+    };
+    user: { socketId: string };
+    setUser: (user: {}) => void;
+  };
+  router: {
+    query: {
+      room: string;
+    };
+  };
+};
+
+type State = {
+  messages: Array<{}>;
+};
+
+class Chat extends Component<Props, State> {
   state = {
     messages: []
   };
@@ -67,8 +88,9 @@ class Chat extends Component {
     });
   }
 
-  receiveMessage = ({ messages }) => {
-    const newMessages = this.state.messages.concat();
+  receiveMessage = (params: { messages: Array<{}> }) => {
+    const { messages } = params;
+    const newMessages: State['messages'] = this.state.messages.concat();
     newMessages.push(messages);
     this.setState({
       messages: newMessages
@@ -76,7 +98,12 @@ class Chat extends Component {
     scroll.scrollToBottom();
   };
 
-  sendMessage = ({ type, message = '', images = [] }) => {
+  sendMessage = (params: {
+  type: string;
+  message: string;
+  images: Array<{}>;
+  }) => {
+    const { type, message = '', images = [] } = params;
     const { router, chat } = this.props;
     const { socket, user } = chat;
     socket.emit('chat', {

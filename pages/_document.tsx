@@ -1,11 +1,20 @@
 import React from 'react';
 import Document, { Head, Main, NextScript } from 'next/document';
+import { SheetsRegistry } from 'jss';
 
-export default class CustomDocument extends Document {
-  static async getInitialProps(ctx) {
+type Props = {
+  pageContext: {
+    sheetsRegistry: SheetsRegistry;
+  };
+};
+
+export default class CustomDocument extends Document<Props> {
+  static async getInitialProps(ctx: {
+  renderPage: (callback: (component: any) => any) => any;
+  }) {
     let pageContext;
-    const page = ctx.renderPage(Component => {
-      const WrappedComponent = props => {
+    const page = ctx.renderPage((Component: React.ComponentType) => {
+      const WrappedComponent = (props: any) => {
         pageContext = props.pageContext;
         return <Component {...props} />;
       };

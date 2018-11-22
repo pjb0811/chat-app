@@ -59,7 +59,13 @@ type Props = {
     buttonContainer: string;
     button: string;
   };
-  sendMessage: (params: { type: string; message: string }) => void;
+  sendMessage: (
+    params: {
+    type: string;
+    message: string;
+    images: Array<{}>;
+    }
+  ) => void;
 };
 
 class InputArea extends Component<Props> {

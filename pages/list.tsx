@@ -4,7 +4,13 @@ import Rooms from '../components/organisms/Rooms';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-class List extends Component {
+type Props = {
+  classes: {
+    paper: string;
+  };
+};
+
+class List extends Component<Props> {
   state = {
     rooms: ['Moon', 'Mercury', 'Mars', 'Earth', 'Pluto', 'Uranus']
   };

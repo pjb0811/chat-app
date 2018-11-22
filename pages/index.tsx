@@ -4,7 +4,25 @@ import Connect from '../components/organisms/Connect';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 
-class Index extends Component {
+type Props = {
+  classes: {
+    paper: string;
+  };
+  chat: {
+    connect: () => void;
+    socket: {
+      io: {
+        readyState: string;
+      };
+      on: (type: string, callback: (res: any) => void) => void;
+      emit: (type: string, req: {}) => void;
+    };
+    setUser: (user: {}) => void;
+    setUsers: (users: Array<{}>) => void;
+  };
+};
+
+class Index extends Component<Props> {
   render() {
     const { classes } = this.props;
 

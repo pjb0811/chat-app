@@ -3,7 +3,13 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 type Props = {
-  sendMessage: (params: { type: string; message: string }) => void;
+  sendMessage: (
+    params: {
+    type: string;
+    message: string;
+    images: Array<{}>;
+    }
+  ) => void;
   classes: {
     inputContainer: string;
     input: string;
@@ -30,7 +36,7 @@ class MessageField extends Component<Props> {
       return;
     }
 
-    this.props.sendMessage({ type: 'text', message });
+    this.props.sendMessage({ type: 'text', message, images: [] });
     this.setState({
       message: ''
     });

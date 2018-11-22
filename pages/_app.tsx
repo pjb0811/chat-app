@@ -1,5 +1,5 @@
 import React from 'react';
-import App, { Container } from 'next/app';
+import App, { Container, DefaultAppIProps, AppProps } from 'next/app';
 import { Provider } from 'mobx-react';
 import { initStore } from '../mobx/Store';
 import getPageContext from '../lib/getPageContext';
@@ -7,10 +7,23 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { DragDropContext, HTML5Backend } from 'react-dnd-component';
+import { SheetsRegistry, GenerateClassName } from 'jss';
+import { Theme } from '@material-ui/core';
 import 'babel-polyfill';
 
-class CustomApp extends App {
-  static async getInitialProps({ Component, ctx }) {
+type PageContext = {
+  theme: Theme;
+  sheetsManager: Map<any, any>;
+  sheetsRegistry: SheetsRegistry;
+  generateClassName: GenerateClassName<any>;
+};
+
+class CustomApp extends App<
+  DefaultAppIProps & AppProps<Record<string, string | string[] | undefined>>
+  > {
+  static async getInitialProps(params: { Component: any; ctx: {} }) {
+    const { Component, ctx } = params;
+
     return {
       pageProps: {
         ...(Component.getInitialProps
@@ -20,10 +33,16 @@ class CustomApp extends App {
     };
   }
 
-  constructor(props) {
+  store: {};
+  pageContext: PageContext;
+
+  constructor(
+    props: DefaultAppIProps &
+    AppProps<Record<string, string | string[] | undefined>>
+  ) {
     super(props);
     this.store = initStore(this.props.pageProps);
-    this.pageContext = getPageContext();
+    this.pageContext = getPageContext() as PageContext;
   }
 
   componentDidMount() {
