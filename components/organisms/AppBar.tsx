@@ -20,9 +20,9 @@ type Props = {
     space: string;
   };
   invites: Array<{ sender: { userId: string }; room: string; time: number }>;
-  inviteRoom: () => void;
-  removeInvite: () => void;
-  moveRoom: () => void;
+  inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
+  removeInvite: ({}) => void;
+  moveRoom: (params: { type: string; room: string }) => void;
   logout: () => void;
 };
 

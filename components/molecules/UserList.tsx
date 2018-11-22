@@ -9,7 +9,7 @@ type Props = {
   users: Array<{ userId: string; socketId: string; room: string }>;
   user: { userId: string; socketId: string; room: string };
   room: string;
-  inviteRoom: () => void;
+  inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
 };
 
 class UserList extends Component<Props> {

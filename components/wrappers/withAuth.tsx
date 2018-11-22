@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 
-const withAuth = WrappedComponent => {
-  return class Auth extends Component {
+type Props = {
+  user: {
+    userId: string;
+  };
+};
+
+const withAuth = (WrappedComponent: React.ComponentType) => {
+  return class Auth extends Component<Props> {
     render() {
       const { user } = this.props;
 

@@ -3,29 +3,56 @@ import Head from 'next/head';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '../organisms/AppBar';
 import { observer, inject } from 'mobx-react';
-import { Router } from '../../lib/routes';
+import * as Routes from '../../lib/routes';
+import { Theme, createStyles } from '@material-ui/core';
 
-const styles = theme => ({
-  root: {
-    margin: theme.spacing.unit * 2,
-    overflow: 'hidden'
-  },
-  space: {
-    ...theme.mixins.toolbar,
-    marginBottom: 10
-  },
-  paper: {
-    ...theme.mixins.gutters(),
-    paddingTop: theme.spacing.unit * 2,
-    paddingBottom: theme.spacing.unit * 2
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    root: {
+      margin: theme.spacing.unit * 2,
+      overflow: 'hidden'
+    },
+    space: {
+      ...theme.mixins.toolbar,
+      marginBottom: 10
+    },
+    paper: {
+      ...theme.mixins.gutters(),
+      paddingTop: theme.spacing.unit * 2,
+      paddingBottom: theme.spacing.unit * 2
+    }
+  });
 
-const withMain = Page => {
+type Props = {
+  chat: {
+    user: { userId: string; socketId: string; room: string };
+    users: Array<{ userId: string; socketId: string; room: string }>;
+    invites: Array<{ sender: { userId: string }; room: string; time: number }>;
+    socket: {
+      on: (type: string, callback: (res: any) => void) => void;
+      emit: (type: string, req?: {}) => void;
+    };
+    setUser: (user: {}) => void;
+    setUsers: (users: Array<{}>) => void;
+    setInvites: ({}) => void;
+    removeInvites: ({}) => void;
+  };
+  classes: {
+    root: string;
+    space: string;
+  };
+  router: {
+    query: {
+      room: string;
+    };
+  };
+};
+
+const withMain = (Page: any) => {
   @inject('chat')
   @observer
-  class MainWrapper extends React.Component {
-    static async getInitialProps(ctx) {
+  class MainWrapper extends React.Component<Props> {
+    static async getInitialProps(ctx: {}) {
       return {
         ...(Page.getInitialProps ? await Page.getInitialProps(ctx) : null)
       };
@@ -36,14 +63,13 @@ const withMain = Page => {
       const { user, socket } = chat;
 
       if (!user.userId || !user.socketId) {
-        Router.pushRoute('/');
+        Routes.Router.pushRoute('/');
       }
 
       if (socket) {
         socket.on('logout', () => {
           chat.setUser({ userId: '', socketId: '' });
-          // Router.push('/');
-          document.location.replace('/');
+          (document.location as Location).replace('/');
         });
 
         socket.on('updateUsers', ({ users }) => {
@@ -61,8 +87,10 @@ const withMain = Page => {
       socket.emit('logout');
     };
 
-    inviteRoom = ({ sender, receiver, room }) => {
+    inviteRoom = (params: { sender: {}; receiver: {}; room: string }) => {
       const { socket } = this.props.chat;
+      const { sender, receiver, room } = params;
+
       socket.emit('inviteRoom', {
         sender,
         receiver,
@@ -70,13 +98,14 @@ const withMain = Page => {
       });
     };
 
-    removeInvite = invite => {
+    removeInvite = (invite: {}) => {
       const { chat } = this.props;
       chat.removeInvites(invite);
     };
 
-    moveRoom = ({ type, room }) => {
+    moveRoom = (params: { type: string; room: string }) => {
       const { user, socket } = this.props.chat;
+      const { type, room } = params;
 
       socket.emit(type, {
         user,

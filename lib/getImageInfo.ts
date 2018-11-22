@@ -1,9 +1,15 @@
-const getImageInfo = async file => {
+declare global {
+  interface Window {
+    FileReader: any;
+  }
+}
+
+const getImageInfo = async (file: File) => {
   const reader = new window.FileReader();
 
   return new Promise((resolve, reject) => {
     reader.readAsDataURL(file);
-    reader.onerror = error => {
+    reader.onerror = (error: {}) => {
       reader.abort();
       reject(error);
     };
