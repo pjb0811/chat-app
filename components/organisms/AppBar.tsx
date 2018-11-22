@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import { Router } from '../../lib/routes';
+import * as Routes from '../../lib/routes';
 import Button from '../atoms/Button';
 import IconButton from '../atoms/IconButton';
 import Popover from '@material-ui/core/Popover';
@@ -12,19 +12,42 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import InviteList from '../molecules/InviteList';
 
-class CustomAppBar extends Component {
+type Props = {
+  user: { userId: string; socketId: string; room: string };
+  users: Array<{ userId: string; socketId: string; room: string }>;
+  room: string;
+  classes: {
+    space: string;
+  };
+  invites: Array<{ sender: { userId: string }; room: string; time: number }>;
+  inviteRoom: () => void;
+  removeInvite: () => void;
+  moveRoom: () => void;
+  logout: () => void;
+};
+
+type State = {
+  [key: string]: HTMLElement | null;
+};
+
+class CustomAppBar extends Component<Props, State> {
   state = {
     userListEl: null,
     inviteListEl: null
   };
 
-  handleClick = ({ e, type }) => {
+  handleClick = (params: {
+  e: React.ChangeEvent<HTMLElement>;
+  type: string;
+  }) => {
+    const { e, type } = params;
     this.setState({
       [type]: e.currentTarget
     });
   };
 
-  handleClose = ({ type }) => {
+  handleClose = (params: { type: string }) => {
+    const { type } = params;
     this.setState({
       [type]: null
     });
@@ -34,10 +57,10 @@ class CustomAppBar extends Component {
     const { user } = this.props;
 
     if (!user.userId || !user.socketId) {
-      document.location.replace('/');
+      (document.location as Location).replace('/');
     }
 
-    Router.pushRoute('/list');
+    Routes.Router.pushRoute('/list');
   };
 
   render() {
@@ -71,7 +94,7 @@ class CustomAppBar extends Component {
             <IconButton
               user={user}
               color="inherit"
-              onClick={e => {
+              onClick={(e: React.ChangeEvent<HTMLElement>) => {
                 this.handleClick({ e, type: 'inviteListEl' });
               }}
             >
@@ -105,7 +128,7 @@ class CustomAppBar extends Component {
             <IconButton
               user={user}
               color="inherit"
-              onClick={e => {
+              onClick={(e: React.ChangeEvent<HTMLElement>) => {
                 this.handleClick({ e, type: 'userListEl' });
               }}
             >

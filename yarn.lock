@@ -947,6 +947,11 @@
     "@types/prop-types" "*"
     csstype "^2.2.0"
 
+"@types/yup@^0.26.2":
+  version "0.26.2"
+  resolved "https://registry.yarnpkg.com/@types/yup/-/yup-0.26.2.tgz#823f43bfb29cb4fd2af395c3eb8f30929f4e9d53"
+  integrity sha512-SNVcc8qPUZVi6UiH3xxlCahgjfgx7nDWIJ76KKML2QWB0uRbvCXMsjBNwx5pwdcL4v7fFsDRLoQnOQ7XWayBUg==
+
 "@webassemblyjs/ast@1.7.8":
   version "1.7.8"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.7.8.tgz#f31f480debeef957f01b623f27eabc695fa4fe8f"
@@ -5780,10 +5785,10 @@ rc@^1.2.7:
     minimist "^1.2.0"
     strip-json-comments "~2.0.1"
 
-react-dnd-component@^1.1.5:
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/react-dnd-component/-/react-dnd-component-1.1.5.tgz#69422b7cefd2667dfbeeffe2e7bda57f63f4fb78"
-  integrity sha512-gUcbCN6/3uHfFhm/brpvdueAFq9jKdI8xd3A5DB9+HdIid6jD+8Rlw4+sx1R5g07a/vwXxWpQzPjxx1Omwj6Yg==
+react-dnd-component@^1.1.9:
+  version "1.1.9"
+  resolved "https://registry.yarnpkg.com/react-dnd-component/-/react-dnd-component-1.1.9.tgz#83dfb077726579228166a4ab3db2ad405221d942"
+  integrity sha512-iAnkW1vdI8tNeL7BLjoz9bK1MxFDBHFRiVWYwhaEynpjqrtBDBndywQhMT0rddeuITS4IOYe5UdbSSKUjjSDoA==
   dependencies:
     "@types/react-motion" "^0.0.27"
     dnd-core "^4.0.5"

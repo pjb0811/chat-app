@@ -2,7 +2,20 @@ import React, { Component } from 'react';
 import Message from '../molecules/Message';
 import Grid from '@material-ui/core/Grid';
 
-class Messages extends Component {
+type Props = {
+  messages: Array<{
+    type: string;
+    message: string;
+    user: {
+      userId: string;
+      socketId: string;
+    };
+    images: [];
+  }>;
+  myself: { socketId: string };
+};
+
+class Messages extends Component<Props> {
   render() {
     const { messages, myself } = this.props;
 

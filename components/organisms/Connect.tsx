@@ -1,10 +1,25 @@
 import React, { Component } from 'react';
-import { Router } from '../../lib/routes';
+import * as Routes from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
 import * as Yup from 'yup';
 
-class Connect extends Component {
+type Props = {
+  chat: {
+    connect: () => void;
+    socket: {
+      io: {
+        readyState: string;
+      };
+      on: (type: string, callback: (res: any) => void) => void;
+      emit: (type: string, req: {}) => void;
+    };
+    setUser: (user: {}) => void;
+    setUsers: (users: Array<{}>) => void;
+  };
+};
+
+class Connect extends Component<Props> {
   state = {
     form: {
       userId: ''
@@ -18,7 +33,7 @@ class Connect extends Component {
 
     socket.on('login', ({ user }) => {
       chat.setUser(user);
-      Router.pushRoute('/list');
+      Routes.Router.pushRoute('/list');
     });
 
     socket.on('updateUsers', ({ users }) => {
@@ -26,8 +41,15 @@ class Connect extends Component {
     });
   }
 
-  onConnect = (values, { setErrors, setSubmitting }) => {
+  onConnect = (
+    values: { userId: string },
+    params: {
+    setErrors: (errors: { [key: string]: string }) => void;
+    setSubmitting: (submitting: boolean) => void;
+    }
+  ) => {
     const { socket } = this.props.chat;
+    const { setErrors, setSubmitting } = params;
 
     if (!socket || socket.io.readyState === 'closed') {
       setErrors({ userId: '새로고침 후 다시 접속해주세요.' });

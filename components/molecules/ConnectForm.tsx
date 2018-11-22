@@ -7,29 +7,31 @@ import { fieldToTextField } from 'formik-material-ui';
 import ProgressLoader from '../atoms/ProgressLoader';
 import TextField from '@material-ui/core/TextField';
 import { FormikProps } from 'formik';
+import { Theme, createStyles } from '@material-ui/core';
 
-const styles = (theme: { spacing: { unit: number } }) => ({
-  container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    position: 'relative'
-  },
-  textField: {
-    flexBasis: '100%',
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
-  },
-  button: {
-    margin: theme.spacing.unit
-  },
-  loader: {
-    position: 'absolute',
-    display: 'flex',
-    alignItems: 'center',
-    height: '100%'
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    container: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      justifyContent: 'center',
+      position: 'relative'
+    },
+    textField: {
+      flexBasis: '100%',
+      marginLeft: theme.spacing.unit,
+      marginRight: theme.spacing.unit
+    },
+    button: {
+      margin: theme.spacing.unit
+    },
+    loader: {
+      position: 'absolute',
+      display: 'flex',
+      alignItems: 'center',
+      height: '100%'
+    }
+  });
 
 type TextFieldProps = {
   field: {
@@ -100,6 +102,4 @@ class ConnectForm extends Component<Props> {
   }
 }
 
-export default withStyles(styles as any, { name: 'ConnectForm' })(
-  ConnectForm as any
-);
+export default withStyles(styles, { name: 'ConnectForm' })(ConnectForm);

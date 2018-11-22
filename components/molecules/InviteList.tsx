@@ -6,21 +6,23 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
-import * as routes from '../../lib/routes';
+import * as Routes from '../../lib/routes';
+import { Theme, createStyles } from '@material-ui/core';
 
-const styles = (theme: { spacing: { unit: number } }) => ({
-  list: {
-    maxWidth: '100%',
-    maxHeight: 300,
-    overflow: 'auto'
-  },
-  listItem: {
-    flexDirection: 'column'
-  },
-  button: {
-    margin: theme.spacing.unit
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    list: {
+      maxWidth: '100%',
+      maxHeight: 300,
+      overflow: 'auto'
+    },
+    listItem: {
+      flexDirection: 'column'
+    },
+    button: {
+      margin: theme.spacing.unit
+    }
+  });
 
 type Props = {
   removeInvite: (invite: {}) => void;
@@ -42,7 +44,7 @@ class InviteList extends Component<Props> {
       moveRoom({ type: 'leave', room });
       moveRoom({ type: 'join', room: invite.room });
     }
-    routes.Router.pushRoute(`/chat/${invite.room}`);
+    Routes.Router.pushRoute(`/chat/${invite.room}`);
   };
 
   render() {
@@ -96,6 +98,4 @@ class InviteList extends Component<Props> {
   }
 }
 
-export default withStyles(styles as any, { name: 'InviteList' })(
-  InviteList as any
-);
+export default withStyles(styles, { name: 'InviteList' })(InviteList);

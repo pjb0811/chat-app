@@ -8,20 +8,22 @@ import Chip from '@material-ui/core/Chip';
 import Image from '../atoms/Image';
 import ResizeDetector from 'react-resize-detector';
 import { Motion, spring } from 'react-motion';
+import { Theme, createStyles } from '@material-ui/core';
 
-const styles = (theme: { spacing: { unit: number } }) => ({
-  paper: {
-    margin: theme.spacing.unit,
-    padding: theme.spacing.unit * 2,
-    wordBreak: 'break-all'
-  },
-  avatar: {
-    margin: 10
-  },
-  chip: {
-    margin: theme.spacing.unit
-  }
-});
+const styles = (theme: Theme) =>
+  createStyles({
+    paper: {
+      margin: theme.spacing.unit,
+      padding: theme.spacing.unit * 2,
+      wordBreak: 'break-all'
+    },
+    avatar: {
+      margin: 10
+    },
+    chip: {
+      margin: theme.spacing.unit
+    }
+  });
 
 type Props = {
   classes: {
@@ -121,4 +123,4 @@ class Message extends Component<Props, State> {
   }
 }
 
-export default withStyles(styles as any, { name: 'Message' })(Message as any);
+export default withStyles(styles, { name: 'Message' })(Message);
