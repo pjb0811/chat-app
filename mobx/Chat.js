@@ -58,19 +58,23 @@ class Chat {
     this.state.invites.splice(index, 1);
   };
 
-  @computed get socket() {
+  @computed
+  get socket() {
     return this.state.socket;
   }
 
-  @computed get user() {
+  @computed
+  get user() {
     return toJS(this.state.user);
   }
 
-  @computed get users() {
+  @computed
+  get users() {
     return toJS(this.state.users);
   }
 
-  @computed get invites() {
+  @computed
+  get invites() {
     return toJS(this.state.invites);
   }
 }

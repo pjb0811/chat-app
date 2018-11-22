@@ -21,7 +21,7 @@ type Props = {
   };
   invites: Array<{ sender: { userId: string }; room: string; time: number }>;
   inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
-  removeInvite: ({}) => void;
+  removeInvite: (params: {}) => void;
   moveRoom: (params: { type: string; room: string }) => void;
   logout: () => void;
 };

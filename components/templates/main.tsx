@@ -34,8 +34,8 @@ type Props = {
     };
     setUser: (user: {}) => void;
     setUsers: (users: Array<{}>) => void;
-    setInvites: ({}) => void;
-    removeInvites: ({}) => void;
+    setInvites: (params: {}) => void;
+    removeInvites: (params: {}) => void;
   };
   classes: {
     root: string;

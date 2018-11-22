@@ -29,6 +29,8 @@
     "@material-ui/icons": "^3.0.1",
     "@types/next": "^7.0.5",
     "@types/react-resize-detector": "^3.1.0",
+    "@types/socket.io": "^2.1.0",
+    "@types/socket.io-client": "^1.4.32",
     "@types/yup": "^0.26.2",
     "@zeit/next-typescript": "^1.1.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
