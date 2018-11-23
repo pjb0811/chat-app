@@ -5,6 +5,7 @@ import AppBar from '../organisms/AppBar';
 import { observer, inject } from 'mobx-react';
 import * as Routes from '../../lib/routes';
 import { Theme, createStyles } from '@material-ui/core';
+import withBackground from '../wrappers/withBackground';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -141,7 +142,9 @@ const withMain = (Page: any) => {
     }
   }
 
-  return withStyles(styles, { name: 'MainWrapper' })(MainWrapper);
+  return withStyles(styles, { name: 'MainWrapper' })(
+    withBackground(MainWrapper as any)
+  );
 };
 
 export default withMain;

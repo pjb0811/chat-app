@@ -17,6 +17,9 @@ const styles = (theme: Theme) =>
       padding: theme.spacing.unit * 2,
       wordBreak: 'break-all'
     },
+    myself: {
+      background: theme.palette.primary.main
+    },
     avatar: {
       margin: 10
     },
@@ -29,6 +32,7 @@ type Props = {
   classes: {
     paper: string;
     chip: string;
+    myself: string;
   };
   type: string;
   message: string;
@@ -95,7 +99,9 @@ class Message extends Component<Props, State> {
               >
                 {({ transformX, opacity }) => (
                   <Paper
-                    className={classes.paper}
+                    className={`${classes.paper} ${
+                      !isInfo && isMyMsg ? classes.myself : ''
+                    }`}
                     style={{
                       transform: `translatex(${(isMyMsg ? width : -width) -
                         transformX}px)`,
