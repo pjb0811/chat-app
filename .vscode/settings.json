@@ -1,5 +1,6 @@
 {
   "editor.formatOnSave": true,
   "prettier.singleQuote": true,
-  "files.eol": "\n"
+  "files.eol": "\n",
+  "docthis.includeMemberOfOnClassMembers": false
 }
