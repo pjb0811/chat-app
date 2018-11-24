@@ -1,12 +1,6 @@
-import React, { Component, ReactNode } from 'react';
+import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
-import withAuth from '../wrappers/withAuth';
-
-type Props = {
-  children: ReactNode;
-  onClick: () => void;
-  color: 'inherit' | 'primary' | 'secondary' | 'default' | undefined;
-};
+import withAuth, { Props } from '../wrappers/withAuth';
 
 class CustomButton extends Component<Props> {
   render() {

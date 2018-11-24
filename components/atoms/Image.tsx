@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 type Props = {
   name: string;
   base64: string;

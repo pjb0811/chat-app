@@ -3,7 +3,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import GridSpace from '../atoms/GridSpace';
+import GridSpace, { Props as GridSpaceProps } from '../atoms/GridSpace';
 import Chip from '@material-ui/core/Chip';
 import Image from '../atoms/Image';
 import ResizeDetector from 'react-resize-detector';
@@ -48,22 +48,7 @@ type Props = {
 
 type State = {
   [key: string]: {
-    xs:
-      | boolean
-      | 1
-      | 2
-      | 'auto'
-      | 3
-      | 4
-      | 5
-      | 6
-      | 7
-      | 8
-      | 9
-      | 10
-      | 11
-      | 12
-      | undefined;
+    xs: GridSpaceProps['xs'];
   };
 };
 

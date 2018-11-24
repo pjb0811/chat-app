@@ -1,12 +1,17 @@
-import React, { Component } from 'react';
+import React, { Component, ReactNode, MouseEvent } from 'react';
 
-type Props = {
+export type Props = {
   user: {
     userId: string;
   };
+  children: ReactNode;
+  onClick: (event: MouseEvent<HTMLElement>) => void;
+  color: 'inherit' | 'primary' | 'secondary' | 'default' | undefined;
 };
 
-const withAuth = (WrappedComponent: React.ComponentType) => {
+const withAuth = <P extends Props>(
+  WrappedComponent: React.ComponentType<P>
+) => {
   return class Auth extends Component<Props> {
     render() {
       const { user } = this.props;

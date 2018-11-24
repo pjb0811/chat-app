@@ -22,7 +22,10 @@ class AsyncImage extends Component<Props, State> {
   };
 
   setImage = async () => {
-    const image = await getImageInfo(this.props.image);
+    const image = (await getImageInfo(this.props.image)) as {
+      name: string;
+      base64: string;
+    };
 
     this.setState({
       image

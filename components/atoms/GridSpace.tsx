@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Grid from '@material-ui/core/Grid';
 
-type Props = {
+export type Props = {
   hasSpace: boolean;
   xs:
     | boolean

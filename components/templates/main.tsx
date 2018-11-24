@@ -43,6 +43,7 @@ type Props = {
     space: string;
   };
   router: {
+    route: string;
     query: {
       room: string;
     };
@@ -143,7 +144,7 @@ const withMain = (Page: any) => {
   }
 
   return withStyles(styles, { name: 'MainWrapper' })(
-    withBackground(MainWrapper as any)
+    withBackground(MainWrapper)
   );
 };
 

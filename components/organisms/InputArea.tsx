@@ -61,9 +61,9 @@ type Props = {
   };
   sendMessage: (
     params: {
-    type: string;
-    message: string;
-    images: Array<{}>;
+      type: string;
+      message: string;
+      images: Array<{}>;
     }
   ) => void;
 };

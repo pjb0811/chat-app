@@ -2,9 +2,26 @@ import { observable, action, computed } from 'mobx';
 import { toJS } from 'mobx';
 import io from 'socket.io-client';
 
+type Props = {
+  state: State;
+} | null;
+
+export type State = {
+  socket: SocketIOClient.Socket | null;
+  user: {
+    userId: string;
+    socketId: string;
+  };
+  invites: Array<{
+    time: number;
+    sender: { socketId: string };
+  }>;
+  users: Array<{}>;
+};
+
 class Chat {
   @observable
-  state = {
+  state: State = {
     socket: null,
     user: {
       userId: '',
@@ -14,7 +31,7 @@ class Chat {
     users: []
   };
 
-  constructor(props) {
+  constructor(props: Props) {
     this.state = props ? props.state : this.state;
   }
 
@@ -25,21 +42,21 @@ class Chat {
 
   @action
   disconnect = () => {
-    this.state.socket.disconnect();
+    this.state.socket && this.state.socket.disconnect();
   };
 
   @action
-  setUser = user => {
+  setUser = (user: { userId: string; socketId: string }) => {
     this.state.user = user;
   };
 
   @action
-  setUsers = users => {
+  setUsers = (users: Array<{}>) => {
     this.state.users = users;
   };
 
   @action
-  setInvites = invite => {
+  setInvites = (invite: { time: number; sender: { socketId: string } }) => {
     this.state.invites.push(invite);
     this.state.invites = this.state.invites.filter(
       (currInvite, i, self) =>
@@ -48,7 +65,7 @@ class Chat {
   };
 
   @action
-  removeInvites = invite => {
+  removeInvites = (invite: { time: number; sender: { socketId: string } }) => {
     const index = this.state.invites.findIndex(
       currInvite =>
         currInvite.time === invite.time &&

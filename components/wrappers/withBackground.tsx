@@ -6,7 +6,9 @@ type Props = {
   };
 };
 
-const withBackground = (WrappedComponent: React.ComponentType) => {
+const withBackground = <P extends Props>(
+  WrappedComponent: React.ComponentType<P>
+) => {
   return class Background extends Component<Props> {
     render() {
       const { route } = this.props.router;

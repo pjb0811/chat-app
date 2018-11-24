@@ -37,8 +37,8 @@ class CustomAppBar extends Component<Props, State> {
   };
 
   handleClick = (params: {
-  e: React.ChangeEvent<HTMLElement>;
-  type: string;
+    e: React.MouseEvent<HTMLElement>;
+    type: string;
   }) => {
     const { e, type } = params;
     this.setState({
@@ -94,7 +94,7 @@ class CustomAppBar extends Component<Props, State> {
             <IconButton
               user={user}
               color="inherit"
-              onClick={(e: React.ChangeEvent<HTMLElement>) => {
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
                 this.handleClick({ e, type: 'inviteListEl' });
               }}
             >
@@ -128,7 +128,7 @@ class CustomAppBar extends Component<Props, State> {
             <IconButton
               user={user}
               color="inherit"
-              onClick={(e: React.ChangeEvent<HTMLElement>) => {
+              onClick={(e: React.MouseEvent<HTMLElement>) => {
                 this.handleClick({ e, type: 'userListEl' });
               }}
             >

@@ -44,8 +44,8 @@ class Connect extends Component<Props> {
   onConnect = (
     values: { userId: string },
     params: {
-    setErrors: (errors: { [key: string]: string }) => void;
-    setSubmitting: (submitting: boolean) => void;
+      setErrors: (errors: { [key: string]: string }) => void;
+      setSubmitting: (submitting: boolean) => void;
     }
   ) => {
     const { socket } = this.props.chat;
