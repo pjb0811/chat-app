@@ -26,7 +26,7 @@ const styles = (theme: Theme) =>
 
 type Props = {
   removeInvite: (invite: {}) => void;
-  moveRoom: (params: { type: string; room: string }) => void;
+  moveRoom: (params: { type: 'join' | 'leave'; room: string }) => void;
   room: string;
   invites: Array<{ sender: { userId: string }; room: string; time: number }>;
   classes: {
@@ -37,13 +37,23 @@ type Props = {
 };
 
 class InviteList extends Component<Props> {
+  /**
+   * 초대 요청 수락
+   */
   acceptInvite = (invite: { room: string }) => {
     const { removeInvite, moveRoom, room } = this.props;
+
     removeInvite(invite);
+
+    /**
+     * @desc 사용자가 채팅방에 있는 경우에만 현재 채팅방 퇴장 및 초대받은 채팅방 입장을 위한 서버 요청
+     * @desc 채팅방에 들어가지 않은 경우 초대받은 채팅방 이동
+     */
     if (room) {
       moveRoom({ type: 'leave', room });
       moveRoom({ type: 'join', room: invite.room });
     }
+
     Routes.Router.pushRoute(`/chat/${invite.room}`);
   };
 

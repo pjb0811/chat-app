@@ -22,7 +22,7 @@ type Props = {
   invites: Array<{ sender: { userId: string }; room: string; time: number }>;
   inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
   removeInvite: (params: {}) => void;
-  moveRoom: (params: { type: string; room: string }) => void;
+  moveRoom: (params: { type: 'join' | 'leave'; room: string }) => void;
   logout: () => void;
 };
 
@@ -36,6 +36,9 @@ class CustomAppBar extends Component<Props, State> {
     inviteListEl: null
   };
 
+  /**
+   * 초대 목록 버튼 및 전체 사용자 목록 버튼 클릭 이벤트 처리
+   */
   handleClick = (params: {
     e: React.MouseEvent<HTMLElement>;
     type: string;
@@ -46,6 +49,9 @@ class CustomAppBar extends Component<Props, State> {
     });
   };
 
+  /**
+   * 초대 목록이나 전체 사용자 목록를 닫기 위한 클릭 이벤트 처리
+   */
   handleClose = (params: { type: string }) => {
     const { type } = params;
     this.setState({
@@ -53,6 +59,11 @@ class CustomAppBar extends Component<Props, State> {
     });
   };
 
+  /**
+   * 타이틀 클릭 시 페이지 이동
+   * @desc 사용자 정보가 없을 경우 로그인 페이지로 이동
+   * @desc 아닌 경우 채팅방 목록 페이지로 이동
+   */
   moveList = () => {
     const { user } = this.props;
 

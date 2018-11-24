@@ -6,6 +6,11 @@ type Props = {
   };
 };
 
+/**
+ * 배경색 변경 HOC
+ * @param WrappedComponent 감싸질 컴포넌트
+ * @desc 라우팅명이 '/chat'일 경우에만 배경색 변경
+ */
 const withBackground = <P extends Props>(
   WrappedComponent: React.ComponentType<P>
 ) => {

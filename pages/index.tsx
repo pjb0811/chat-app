@@ -22,6 +22,11 @@ type Props = {
   };
 };
 
+/**
+ * 로그인 페이지
+ * @class Index
+ * @extends {Component<Props>}
+ */
 class Index extends Component<Props> {
   render() {
     const { classes } = this.props;

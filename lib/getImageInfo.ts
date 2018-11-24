@@ -4,6 +4,11 @@ declare global {
   }
 }
 
+/**
+ * 이미지 파일 정보 가져오기
+ * @param file 파일 객체
+ * @desc FileReader 객체를 활용하여 파일명, 타입, base64 정보 비동기 요청
+ */
 const getImageInfo = async (file: File) => {
   const reader = new window.FileReader();
 
