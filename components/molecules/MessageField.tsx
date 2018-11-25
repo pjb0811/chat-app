@@ -5,9 +5,9 @@ import Button from '@material-ui/core/Button';
 type Props = {
   sendMessage: (
     params: {
-      type: string;
-      message: string;
-      images: Array<{}>;
+    type: string;
+    message: string;
+    images: Array<{}>;
     }
   ) => void;
   classes: {
@@ -18,17 +18,32 @@ type Props = {
   };
 };
 
+/**
+ * 메시지 입력 영역 컴포넌트
+ * @class MessageField
+ * @extends {Component<Props>}
+ */
 class MessageField extends Component<Props> {
   state = {
     message: ''
   };
 
+  /**
+   * 메시지 변경
+   * @desc 입력된 메시지에 따른 state 변경
+   */
   handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       message: e.target.value
     });
   };
 
+  /**
+   * 메시지 전송
+   * @desc 입력된 메시지가 없을 경우 함수 실행 종료
+   * @desc 메시지가 있을 경우 해당 메시지를 채팅방에 전송하기 위한 서버 요청
+   * @desc  서버 요청 후 현재 입력 필드의 메시지 내용 삭제
+   */
   sendMessage = () => {
     const { message } = this.state;
 
@@ -42,6 +57,11 @@ class MessageField extends Component<Props> {
     });
   };
 
+  /**
+   * 렌더링
+   * @desc input 필드 및 전송 버튼 컴포넌트 반환
+   * @returns {Component}
+   */
   render() {
     const { classes } = this.props;
     const { message } = this.state;

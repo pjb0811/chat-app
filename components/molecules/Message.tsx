@@ -52,6 +52,11 @@ type State = {
   };
 };
 
+/**
+ * 메시지 출력 컴포넌트
+ * @class Message
+ * @extends {Component<Props, State>}
+ */
 class Message extends Component<Props, State> {
   state: State = {
     info: {
@@ -65,6 +70,14 @@ class Message extends Component<Props, State> {
     }
   };
 
+  /**
+   * 렌더링
+   * @desc 현재 사용자와 다른 사용자가 입력한 메시지에 따라 메시지 표시 위치를 정하기 위한 빈 영역 컴포넌트 반환 위치 설정
+   * @desc 메시지 width 영역를 감지하기 위한 react-resize-detector 라이브러리 활용
+   * @desc react-motion을 활용하여 메시지 입력 시 애니메이션 구현
+   * @desc 사용자 텍스트 메시지 및 이미지 메시지 출력
+   * @returns {Component}
+   */
   render() {
     const { classes, type, message, user, myself, images } = this.props;
     const isInfo = type === 'info';

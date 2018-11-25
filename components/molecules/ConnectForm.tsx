@@ -54,6 +54,10 @@ type TextFieldProps = {
   rowsMax: number;
 };
 
+/**
+ * formik props를 전달해주기 위한 input 요소 HOC
+ * @param props formik props
+ */
 const WrappedTextField = (props: TextFieldProps) => (
   <TextField
     {...fieldToTextField(props)}
@@ -80,7 +84,8 @@ type Props = {
  */
 class ConnectForm extends Component<Props> {
   /**
-   *
+   * 렌더링
+   * @desc formik 라이브러리를 활용한 컴포넌트 반환
    * @returns {Component}
    */
   render() {

@@ -36,19 +36,22 @@ type Props = {
   };
 };
 
+/**
+ * 초대 목록 컴포넌트
+ * @class InviteList
+ * @extends {Component<Props>}
+ */
 class InviteList extends Component<Props> {
   /**
    * 초대 요청 수락
+   * @desc 사용자가 채팅방에 있는 경우에만 현재 채팅방 퇴장 및 초대받은 채팅방 입장을 위한 서버 요청
+   * @desc 채팅방에 들어가지 않은 경우 초대받은 채팅방 이동
    */
   acceptInvite = (invite: { room: string }) => {
     const { removeInvite, moveRoom, room } = this.props;
 
     removeInvite(invite);
 
-    /**
-     * @desc 사용자가 채팅방에 있는 경우에만 현재 채팅방 퇴장 및 초대받은 채팅방 입장을 위한 서버 요청
-     * @desc 채팅방에 들어가지 않은 경우 초대받은 채팅방 이동
-     */
     if (room) {
       moveRoom({ type: 'leave', room });
       moveRoom({ type: 'join', room: invite.room });
@@ -57,6 +60,11 @@ class InviteList extends Component<Props> {
     Routes.Router.pushRoute(`/chat/${invite.room}`);
   };
 
+  /**
+   * 렌더링
+   * @desc 초대 목록 배열을 순회하며 초대 시간, 안내 메시지 및 초대 수락, 거절 버튼 컴포넌트 반환
+   * @returns {Component}
+   */
   render() {
     const { invites, classes, removeInvite } = this.props;
 

@@ -12,7 +12,18 @@ type Props = {
   inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
 };
 
+/**
+ * 전체 사용자 목록 컴포넌트
+ * @class UserList
+ * @extends {Component<Props>}
+ */
 class UserList extends Component<Props> {
+  /**
+   * 렌더링
+   * @desc 전체 사용자 목록을 순회하며 사용자 아이디 및 초대 버튼 표시
+   * @desc 전체 사용자 목록 중 자신의 아이디가 있을 경우 안내 메시지 표시
+   * @returns {Component}
+   */
   render() {
     const { users, room, inviteRoom } = this.props;
     const myself = this.props.user;
