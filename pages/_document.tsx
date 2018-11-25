@@ -8,7 +8,20 @@ type Props = {
   };
 };
 
+/**
+ * DOM 설정 관련 컴포넌트
+ * @export
+ * @class CustomDocument
+ * @extends {Document<Props>}
+ */
 export default class CustomDocument extends Document<Props> {
+  /**
+   * props 초기 설정
+   * @desc material-ui 컨텍스트 확인 후 props 초기화
+   * @static
+   * @param {{renderPage: (callback: (component: any) => any) => any;}} ctx
+   * @returns
+   */
   static async getInitialProps(ctx: {
   renderPage: (callback: (component: any) => any) => any;
   }) {
@@ -27,6 +40,11 @@ export default class CustomDocument extends Document<Props> {
     };
   }
 
+  /**
+   * 렌더링
+   * @desc meta 설정 및 style 설정
+   * @returns {Component}
+   */
   render() {
     const { pageContext } = this.props;
 

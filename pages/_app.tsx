@@ -18,6 +18,15 @@ type PageContext = {
   generateClassName: GenerateClassName<any>;
 };
 
+/**
+ * 앱 전체 페이지 설정 컴포넌트
+ * @desc mobx 설정
+ * @desc material-ui 설정
+ * @desc react-dnd 관련 컨텍스트 설정
+ * @desc IE 지원을 위한 babel-polyfill 설정
+ * @class CustomApp
+ * @extends {(App<DefaultAppIProps & AppProps<Record<string, string | string[] | undefined>>>)}
+ */
 class CustomApp extends App<
   DefaultAppIProps & AppProps<Record<string, string | string[] | undefined>>
   > {
@@ -36,6 +45,11 @@ class CustomApp extends App<
   store: {};
   pageContext: PageContext;
 
+  /**
+   * 커스텀앱 인스턴스 설정
+   * @param {(DefaultAppIProps & AppProps<Record<string, string | string[] | undefined>>)} props
+   * @desc mobx 스토어 및 material-ui 컨텍스트 초기화
+   */
   constructor(
     props: DefaultAppIProps &
     AppProps<Record<string, string | string[] | undefined>>
@@ -45,6 +59,10 @@ class CustomApp extends App<
     this.pageContext = getPageContext() as PageContext;
   }
 
+  /**
+   * 컴포넌트 마운트 이후
+   * @desc material-ui 서버 사이드 렌더링 관련 요소가 있을 경우 스타일 요소 제거
+   */
   componentDidMount() {
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles && jssStyles.parentNode) {
@@ -52,6 +70,11 @@ class CustomApp extends App<
     }
   }
 
+  /**
+   * 렌더링
+   * @desc mobx 및 material-ui, react-dnd provider 설정
+   * @returns {Component}
+   */
   render() {
     const { Component, pageProps, router } = this.props;
 

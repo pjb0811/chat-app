@@ -28,6 +28,11 @@ type Props = {
  * @extends {Component<Props>}
  */
 class Index extends Component<Props> {
+  /**
+   * 렌더링
+   * @desc 로그인 폼 컴포넌트 반환
+   * @returns {Component}
+   */
   render() {
     const { classes } = this.props;
 

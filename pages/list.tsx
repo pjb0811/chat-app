@@ -10,11 +10,21 @@ type Props = {
   };
 };
 
+/**
+ * 채팅방 목록 컴포넌트
+ * @class List
+ * @extends {Component<Props>}
+ */
 class List extends Component<Props> {
   state = {
     rooms: ['Moon', 'Mercury', 'Mars', 'Earth', 'Pluto', 'Uranus']
   };
 
+  /**
+   * 렌더링
+   * 채팅방 목록 라우팅을 처리하는 컴포넌트 반환
+   * @returns {Component}
+   */
   render() {
     const { classes } = this.props;
     const { rooms } = this.state;
