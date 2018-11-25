@@ -73,7 +73,16 @@ type Props = {
   submitForm: () => void;
 };
 
+/**
+ * 로그인 폼 컴포넌트
+ * @class ConnectForm
+ * @extends {Component<Props>}
+ */
 class ConnectForm extends Component<Props> {
+  /**
+   *
+   * @returns {Component}
+   */
   render() {
     const { classes, isSubmitting, submitForm } = this.props;
     return (

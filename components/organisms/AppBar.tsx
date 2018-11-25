@@ -40,8 +40,8 @@ class CustomAppBar extends Component<Props, State> {
    * 초대 목록 버튼 및 전체 사용자 목록 버튼 클릭 이벤트 처리
    */
   handleClick = (params: {
-    e: React.MouseEvent<HTMLElement>;
-    type: string;
+  e: React.MouseEvent<HTMLElement>;
+  type: string;
   }) => {
     const { e, type } = params;
     this.setState({

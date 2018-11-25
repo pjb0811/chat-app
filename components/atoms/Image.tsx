@@ -5,7 +5,17 @@ type Props = {
   base64: string;
 };
 
+/**
+ * 이미지 컴포넌트
+ * @class Image
+ * @extends {Component<Props>}
+ */
 class Image extends Component<Props> {
+  /**
+   * 렌더링
+   * @desc base64 정보를 가진 이미지 요소 반환
+   * @returns {HTMLElement}
+   */
   render() {
     const { base64, name } = this.props;
 

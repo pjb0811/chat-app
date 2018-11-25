@@ -21,7 +21,17 @@ export type Props = {
     | undefined;
 };
 
+/**
+ * 빈 공간을 설정하기 위한 컴포넌트
+ * @class GridSpace
+ * @extends {Component<Props>}
+ */
 class GridSpace extends Component<Props> {
+  /**
+   * 렌더링
+   * @desc 빈공간을 만들기 위한 props 정보가 확인된 경우 컴포넌트 반환. 아닌경우 null 반환
+   * @returns {Component | null}
+   */
   render() {
     const { hasSpace, xs } = this.props;
 

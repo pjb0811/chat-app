@@ -9,7 +9,7 @@ declare global {
  * @param file 파일 객체
  * @desc FileReader 객체를 활용하여 파일명, 타입, base64 정보 비동기 요청
  */
-const getImageInfo = async (file: File) => {
+const getImageInfo = (file: File) => {
   const reader = new window.FileReader();
 
   return new Promise((resolve, reject) => {
@@ -22,7 +22,6 @@ const getImageInfo = async (file: File) => {
     reader.onload = () => {
       resolve({
         name: file.name,
-        type: file.type,
         base64: reader.result.toString().split(',')[1]
       });
     };

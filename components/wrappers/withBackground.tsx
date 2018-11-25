@@ -17,7 +17,7 @@ const withBackground = <P extends Props>(
   return class Background extends Component<Props> {
     render() {
       const { route } = this.props.router;
-      const style = { background: '#9bbbd4', height: '100%' };
+      const style = { background: '#9bbbd4', minHeight: '100%' };
 
       if (route === '/chat') {
         return (

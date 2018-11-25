@@ -27,8 +27,10 @@ export function initStore(props: Props) {
   if (Object.keys(props).length) {
     return new Store(props);
   }
+
   if (store === null) {
     store = new Store({ chat: null });
   }
+
   return store;
 }
