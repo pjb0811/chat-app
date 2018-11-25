@@ -61,14 +61,25 @@ type Props = {
   };
   sendMessage: (
     params: {
-      type: string;
-      message: string;
-      images: Array<{}>;
+    type: string;
+    message: string;
+    images: Array<{}>;
     }
   ) => void;
 };
 
+/**
+ * 입력 영역 컴포넌트
+ * @class InputArea
+ * @extends {Component<Props>}
+ */
 class InputArea extends Component<Props> {
+  /**
+   * 렌더링
+   * @desc 직접 만든 react-dnd-component 를 활용한 파일 Drag & Drop 여부 감지
+   * @desc 파일 드래그 여부에 따른 이미지 입력 영역 또는 메시지 입력 영역 컴포넌트 반환
+   * @returns {Component}
+   */
   render() {
     const { classes } = this.props;
 

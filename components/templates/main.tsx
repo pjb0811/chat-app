@@ -50,7 +50,16 @@ type Props = {
   };
 };
 
+/**
+ * 메인 템플릿 HOC
+ * @param Page 메인 컴포넌트
+ */
 const withMain = (Page: any) => {
+  /**
+   * 메인 템플릿 컴포넌트
+   * @class MainWrapper
+   * @extends {React.Component<Props>}
+   */
   @inject('chat')
   @observer
   class MainWrapper extends React.Component<Props> {
@@ -60,6 +69,9 @@ const withMain = (Page: any) => {
       };
     }
 
+    /**
+     * 컴포넌트 마운트
+     */
     componentDidMount() {
       const { chat } = this.props;
       const { user, socket } = chat;
@@ -148,6 +160,12 @@ const withMain = (Page: any) => {
       });
     };
 
+    /**
+     * 렌더링
+     * @desc 상단 앱 바 컴포넌트 및 페이지 컴포넌트 반환
+     * @desc next/Head 를 활용한 title 설정
+     * @returns {Component}
+     */
     render() {
       const { classes, router, chat } = this.props;
       const { user, users, invites } = chat;
@@ -155,7 +173,7 @@ const withMain = (Page: any) => {
       return (
         <Fragment>
           <Head>
-            <title>chat app</title>
+            <title>Chat App</title>
           </Head>
           <AppBar
             user={user}

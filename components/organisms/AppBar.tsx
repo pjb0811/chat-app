@@ -30,6 +30,11 @@ type State = {
   [key: string]: HTMLElement | null;
 };
 
+/**
+ * 상단 앱 바 컴포넌트
+ * @class CustomAppBar
+ * @extends {Component<Props, State>}
+ */
 class CustomAppBar extends Component<Props, State> {
   state = {
     userListEl: null,
@@ -74,6 +79,11 @@ class CustomAppBar extends Component<Props, State> {
     Routes.Router.pushRoute('/list');
   };
 
+  /**
+   * 렌더링
+   * @desc 타이틀 명 및 초대 목록 확인 버튼, 전체 사용자 확인 버튼 및 로그아웃 버튼 컴포넌트 반환
+   * @returns {Component}
+   */
   render() {
     const {
       user,
