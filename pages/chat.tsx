@@ -51,7 +51,7 @@ class Chat extends Component<Props, State> {
     this.mounted = true;
 
     /**
-     * @desc 채팅방 입장을 위한 서버 요청
+     * @desc 채팅방 입장을 위한 클라이언트 측 요청
      * @desc 사용자 정보 및 채팅방 이름 전달
      */
     socket.emit('join', {
@@ -60,7 +60,7 @@ class Chat extends Component<Props, State> {
     });
 
     /**
-     * @desc 서버로부터 전달받은 현재 사용자의 채팅방 입장 요청 처리
+     * @desc 서버로부터 전달받은 현재 사용자의 채팅방 입장 응답 처리
      * @desc 마운트 여부 확인 후 receiveMessage 함수 호출
      */
     socket.on('join', data => {
@@ -70,7 +70,7 @@ class Chat extends Component<Props, State> {
     });
 
     /**
-     * @desc 서버로부터 전달받은 현재 사용자의 채팅방 퇴장 요청 처리
+     * @desc 서버로부터 전달받은 현재 사용자의 채팅방 퇴장 응답 처리
      * @desc 마운트 여부 확인 후 receiveMessage 함수 호출
      */
     socket.on('leave', data => {
@@ -80,7 +80,7 @@ class Chat extends Component<Props, State> {
     });
 
     /**
-     * @desc 서버로부터 전달받은 현재 사용자의 메시지 정보 삭제 요청 처리
+     * @desc 서버로부터 전달받은 현재 사용자의 메시지 정보 삭제 응답 처리
      * @desc 마운트 여부 확인 후 resetMessages 함수 호출
      */
     socket.on('resetMessages', () => {
@@ -90,7 +90,7 @@ class Chat extends Component<Props, State> {
     });
 
     /**
-     * @desc 서버로부터 전달받은 현재 사용자의 메시지 입력 요청 처리
+     * @desc 서버로부터 전달받은 현재 사용자의 메시지 입력 응답 처리
      * @desc 마운트 여부 확인 후 receiveMessage 함수 호출
      */
     socket.on('chat', data => {
@@ -100,7 +100,7 @@ class Chat extends Component<Props, State> {
     });
 
     /**
-     * @desc 서버로부터 전달받은 현재 사용자 정보 업데이트 요청 처리
+     * @desc 서버로부터 전달받은 현재 사용자 정보 업데이트 응답 처리
      * @desc 마운트 여부 확인 후 현재 사용자 정보 업데이트
      */
     socket.on('updateUser', ({ user }) => {
@@ -121,7 +121,7 @@ class Chat extends Component<Props, State> {
     this.mounted = false;
 
     /**
-     * @desc 채팅방 퇴장을 위한 서버 요청
+     * @desc 채팅방 퇴장을 위한 클라이언트 측 요청
      * @desc 사용자 정보 및 채팅방 이름 전달
      */
     socket.emit('leave', {
@@ -159,7 +159,7 @@ class Chat extends Component<Props, State> {
     const { socket, user } = chat;
 
     /**
-     * @desc 채팅 메시지 전송을 위한 서버 요청
+     * @desc 채팅 메시지 전송을 위한 클라이언트 측 요청
      * @desc 사용자 정보 및 채팅방 이름, 메시지 종류, 메시지 내용 전달
      */
     socket.emit('chat', {

@@ -85,7 +85,7 @@ const withMain = (Page: any) => {
 
       if (socket) {
         /**
-         * @desc 서버로부터 전달받은 로그아웃 요청 처리
+         * @desc 서버로부터 전달받은 로그아웃 응답 처리
          * @desc 현재 사용자 정보 초기화 후 로그인 페이지로 이동
          */
         socket.on('logout', () => {
@@ -94,14 +94,14 @@ const withMain = (Page: any) => {
         });
 
         /**
-         * @desc 서버로부터 전달받은 전체 사용자 목록 업데이트 요청 처리
+         * @desc 서버로부터 전달받은 전체 사용자 목록 업데이트 응답 처리
          */
         socket.on('updateUsers', ({ users }) => {
           chat.setUsers(users);
         });
 
         /**
-         * @desc 서버로부터 전달받은 현재 사용자의 초대받은 목록 업데이트 요청 처리
+         * @desc 서버로부터 전달받은 현재 사용자의 초대받은 목록 업데이트 응답 처리
          */
         socket.on('inviteRoom', data => {
           chat.setInvites(data);
@@ -110,7 +110,7 @@ const withMain = (Page: any) => {
     }
 
     /**
-     * 로그아웃 처리를 위한 서버 요청
+     * 로그아웃 처리를 위한 클라이언트 측 요청
      */
     logout = () => {
       const { socket } = this.props.chat;
@@ -125,7 +125,7 @@ const withMain = (Page: any) => {
       const { sender, receiver, room } = params;
 
       /**
-       * @desc 다른 사용자 초대를 위한 서버 요청
+       * @desc 다른 사용자 초대를 위한 클라이언트 측 요청
        * @desc 현재 사용자정보, 초대받을 사용자 정보, 채팅방 이름 전달
        */
       socket.emit('inviteRoom', {
@@ -151,7 +151,7 @@ const withMain = (Page: any) => {
       const { type, room } = params;
 
       /**
-       * @desc 채팅방 이동을 위한 서버 요청
+       * @desc 채팅방 이동을 위한 클라이언트 측 요청
        * @desc 현재 사용자 정보 및 채팅방 이름 전달
        */
       socket.emit(type, {

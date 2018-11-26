@@ -41,7 +41,7 @@ class Connect extends Component<Props> {
     const { socket } = chat;
 
     /**
-     * @desc 서버로부터 전달받은 로그인 요청 처리
+     * @desc 서버로부터 전달받은 로그인 응답 처리
      * @desc 현재 사용자 정보 업데이트 후 채팅방 목록 페이지로 이동
      */
     socket.on('login', ({ user }) => {
@@ -50,7 +50,7 @@ class Connect extends Component<Props> {
     });
 
     /**
-     * @desc 서버로부터 전달받은 전체 사용자 업데이트 요청 처리
+     * @desc 서버로부터 전달받은 전체 사용자 업데이트 응답 처리
      * @desc 전체 사용자 정보 업데이트 후
      */
     socket.on('updateUsers', ({ users }) => {
@@ -79,7 +79,7 @@ class Connect extends Component<Props> {
     }
 
     /**
-     * @desc 로그인을 위한 서버 요청
+     * @desc 로그인을 위한 클라이언트 측 요청
      * @desc 사용자가 입력한 아이디 전달
      */
     socket.emit('login', {
