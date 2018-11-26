@@ -38,11 +38,13 @@ const styles = (theme: Theme) =>
     paper: {
       padding: theme.spacing.unit,
       minHeight: 100,
+      maxHeight: 500,
       width: '100%',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      flexDirection: 'column'
+      flexWrap: 'wrap',
+      overflowY: 'scroll'
     },
     active: {
       background: theme.palette.primary.light,
