@@ -9,6 +9,7 @@ import Image from '../atoms/Image';
 import ResizeDetector from 'react-resize-detector';
 import { Motion, spring } from 'react-motion';
 import { Theme, createStyles } from '@material-ui/core';
+import MessageRegex from '../atoms/MessageRegex';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -110,7 +111,9 @@ class Message extends Component<Props, State> {
                       <Chip label={user.userId} className={classes.chip} />
                     )}
                     {message.split('\n').map((line, i) => (
-                      <Typography key={i}>{line}</Typography>
+                      <Typography key={i}>
+                        <MessageRegex msg={line} types={['url', 'email']} />
+                      </Typography>
                     ))}
                     {images.map((image, i) => (
                       <Image key={i} {...image} />
