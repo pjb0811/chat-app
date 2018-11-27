@@ -86,10 +86,11 @@ const withMain = (Page: any) => {
       if (socket) {
         /**
          * @desc 서버로부터 전달받은 로그아웃 응답 처리
-         * @desc 현재 사용자 정보 초기화 후 로그인 페이지로 이동
+         * @desc 로그인 페이지로 이동 후 새로고침
+         * @desc 채팅방 퇴장 시 퇴장한 사용자 정보 유지를 위해 전역 데이터 함수를 호출하지 않음
          */
         socket.on('logout', () => {
-          chat.setUser({ userId: '', socketId: '' });
+          Routes.Router.pushRoute('/');
           (document.location as Location).replace('/');
         });
 
