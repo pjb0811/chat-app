@@ -1,9 +1,10 @@
 {
   "name": "chat-app",
   "scripts": {
-    "start": "cross-env NODE_ENV=development PORT=9000 nodemon server",
+    "start": "pm2 start ecosystem.config.js",
+    "stop": "pm2 stop ecosystem.config.js",
     "build": "next build",
-    "serve": "yarn build && cross-env NODE_ENV=production PORT=9001 nodemon server",
+    "serve": "yarn build && pm2 start ecosystem.config.js --env production",
     "test:serve": "cross-env NODE_ENV=test PORT=9002 nodemon server/test",
     "test": "cross-env NODE_PATH=./ NODE_ENV=test mocha"
   },
