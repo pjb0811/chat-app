@@ -58,6 +58,16 @@ class MessageField extends Component<Props> {
   };
 
   /**
+   * 엔터키 입력 확인
+   * @desc 쉬프트키가 눌리지 않은 상태에서 엔터키 입력 시 메시지 전송
+   */
+  handleKeyUp = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      this.sendMessage();
+    }
+  };
+
+  /**
    * 렌더링
    * @desc input 필드 및 전송 버튼 컴포넌트 반환
    * @returns {Component}
@@ -77,6 +87,7 @@ class MessageField extends Component<Props> {
             className={classes.input}
             value={message}
             onChange={this.handleChange}
+            onKeyUp={this.handleKeyUp}
           />
         </div>
         <div className={classes.buttonContainer}>
