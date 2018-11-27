@@ -19,7 +19,7 @@ const chatServer = server => {
     socket.on('login', ({ user }) => {
       if (user.userId) {
         users.push({
-          userId: user.userId,
+          ...user,
           socketId: socket.id
         });
       }
@@ -83,7 +83,7 @@ const chatServer = server => {
 
       if (user.userId) {
         users.push({
-          userId: user.userId,
+          ...user,
           socketId: socket.id,
           room
         });

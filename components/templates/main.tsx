@@ -6,6 +6,8 @@ import { observer, inject } from 'mobx-react';
 import * as Routes from '../../lib/routes';
 import { Theme, createStyles } from '@material-ui/core';
 import withBackground from '../wrappers/withBackground';
+import ChatWindow from '../organisms/ChatWindow';
+import { User } from '../../mobx/Chat';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -26,8 +28,8 @@ const styles = (theme: Theme) =>
 
 type Props = {
   chat: {
-    user: { userId: string; socketId: string; room: string };
-    users: Array<{ userId: string; socketId: string; room: string }>;
+    user: User;
+    users: Array<User>;
     invites: Array<{ sender: { userId: string }; room: string; time: number }>;
     socket: {
       on: (type: string, callback: (res: any) => void) => void;
@@ -37,6 +39,7 @@ type Props = {
     setUsers: (users: Array<{}>) => void;
     setInvites: (params: {}) => void;
     removeInvites: (params: {}) => void;
+    toggleWindow: (params: {}) => void;
   };
   classes: {
     root: string;
@@ -168,7 +171,8 @@ const withMain = (Page: any) => {
      */
     render() {
       const { classes, router, chat } = this.props;
-      const { user, users, invites } = chat;
+      const { user, users, invites, toggleWindow } = chat;
+      console.log(users);
 
       return (
         <Fragment>
@@ -185,10 +189,27 @@ const withMain = (Page: any) => {
             inviteRoom={this.inviteRoom}
             removeInvite={this.removeInvite}
             moveRoom={this.moveRoom}
+            toggleWindow={toggleWindow}
           />
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />
           </div>
+          {users.map((user, i) => (
+            <ChatWindow
+              key={i}
+              width={300}
+              height={300}
+              position={'center'}
+              direction={'top'}
+              resize={true}
+              open={user.window.open}
+              onClose={() => {
+                toggleWindow({ user, open: false });
+              }}
+            >
+              test
+            </ChatWindow>
+          ))}
         </Fragment>
       );
     }

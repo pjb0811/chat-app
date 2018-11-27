@@ -8,15 +8,27 @@ type Props = {
 
 export type State = {
   socket: SocketIOClient.Socket | null;
-  user: {
-    userId: string;
-    socketId: string;
-  };
-  invites: Array<{
-    time: number;
-    sender: { socketId: string };
-  }>;
-  users: Array<{}>;
+  user: User;
+  users: Array<User>;
+  invites: Array<Invite>;
+};
+
+export type User = {
+  userId: string;
+  socketId: string;
+  room: string;
+  window: Window;
+};
+
+type Window = {
+  open: boolean;
+  messages: Array<{}>;
+};
+
+type Invite = {
+  sender: { socketId: string };
+  receiver: { socketId: string };
+  time: number;
 };
 
 class Chat {
@@ -25,7 +37,12 @@ class Chat {
     socket: null,
     user: {
       userId: '',
-      socketId: ''
+      socketId: '',
+      room: '',
+      window: {
+        open: false,
+        messages: []
+      }
     },
     invites: [],
     users: []
@@ -60,15 +77,15 @@ class Chat {
    * 사용자 정보 수정
    */
   @action
-  setUser = (user: { userId: string; socketId: string }) => {
-    this.state.user = user;
+  setUser = (user: User) => {
+    this.state.user = { ...this.state.user, ...user };
   };
 
   /**
    * 전체 사용자 목록 수정
    */
   @action
-  setUsers = (users: Array<{}>) => {
+  setUsers = (users: Array<User>) => {
     this.state.users = users;
   };
 
@@ -78,7 +95,7 @@ class Chat {
    * @desc 중복으로 들어온 초대 정보를 초대시간 관련 인스턴스를 비교하여 필터링 처리
    */
   @action
-  setInvites = (invite: { time: number; sender: { socketId: string } }) => {
+  setInvites = (invite: Invite) => {
     this.state.invites.push(invite);
     this.state.invites = this.state.invites.filter(
       (currInvite, i, self) =>
@@ -99,6 +116,18 @@ class Chat {
     );
 
     this.state.invites.splice(index, 1);
+  };
+
+  @action
+  toggleWindow = (params: { user: User; open: boolean }) => {
+    const { user, open } = params;
+
+    this.state.users = this.state.users.map((currentUser: User) => {
+      if (currentUser.socketId === user.socketId) {
+        currentUser.window.open = open;
+      }
+      return currentUser;
+    });
   };
 
   /**

@@ -4,12 +4,15 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import InviteButton from '../atoms/InviteButton';
+import WindowButton from '../atoms/WindowButton';
+import { User } from '../../mobx/Chat';
 
 type Props = {
-  users: Array<{ userId: string; socketId: string; room: string }>;
-  user: { userId: string; socketId: string; room: string };
+  user: User;
+  users: Array<User>;
   room: string;
   inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
+  toggleWindow: (params: {}) => void;
 };
 
 /**
@@ -25,7 +28,7 @@ class UserList extends Component<Props> {
    * @returns {Component}
    */
   render() {
-    const { users, room, inviteRoom } = this.props;
+    const { users, room, inviteRoom, toggleWindow } = this.props;
     const myself = this.props.user;
 
     return (
@@ -46,7 +49,16 @@ class UserList extends Component<Props> {
                 myself={myself}
                 user={user}
                 room={room}
-                inviteRoom={inviteRoom}
+                onClick={() => {
+                  inviteRoom({ sender: myself, receiver: user, room });
+                }}
+              />
+              <WindowButton
+                myself={myself}
+                user={user}
+                onClick={() => {
+                  toggleWindow({ user, open: true });
+                }}
               />
             </ListItem>
           ))}

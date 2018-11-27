@@ -11,10 +11,11 @@ import Badge from '@material-ui/core/Badge';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import InviteList from '../molecules/InviteList';
+import { User } from '../../mobx/Chat';
 
 type Props = {
-  user: { userId: string; socketId: string; room: string };
-  users: Array<{ userId: string; socketId: string; room: string }>;
+  user: User;
+  users: Array<User>;
   room: string;
   classes: {
     space: string;
@@ -24,6 +25,7 @@ type Props = {
   removeInvite: (params: {}) => void;
   moveRoom: (params: { type: 'join' | 'leave'; room: string }) => void;
   logout: () => void;
+  toggleWindow: (params: {}) => void;
 };
 
 type State = {
@@ -93,7 +95,8 @@ class CustomAppBar extends Component<Props, State> {
       invites,
       inviteRoom,
       removeInvite,
-      moveRoom
+      moveRoom,
+      toggleWindow
     } = this.props;
     const { userListEl, inviteListEl } = this.state;
 
@@ -178,6 +181,7 @@ class CustomAppBar extends Component<Props, State> {
                 users={users}
                 room={room}
                 inviteRoom={inviteRoom}
+                toggleWindow={toggleWindow}
               />
             </Popover>
             <Button user={user} color="inherit" onClick={this.props.logout}>

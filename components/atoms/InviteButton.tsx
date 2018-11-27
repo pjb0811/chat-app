@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import MailIcon from '@material-ui/icons/Mail';
+import { User } from '../../mobx/Chat';
 
 type Props = {
   myself: {
     socketId: string;
   };
-  user: {
-    userId: string;
-    socketId: string;
-    room: string;
-  };
+  user: User;
   room: string;
-  inviteRoom: (params: { sender: {}; receiver: {}; room: string }) => void;
+  onClick: () => void;
 };
 
 /**
@@ -30,7 +27,7 @@ class InviteButton extends Component<Props> {
    * @returns {Component | null}
    */
   render() {
-    const { myself, user, room, inviteRoom } = this.props;
+    const { myself, user, room, onClick } = this.props;
 
     if (!room || myself.socketId === user.socketId || user.room === room) {
       return null;
@@ -42,9 +39,7 @@ class InviteButton extends Component<Props> {
         color="primary"
         aria-label="Add"
         mini
-        onClick={() => {
-          inviteRoom({ sender: myself, receiver: user, room });
-        }}
+        onClick={onClick}
       >
         <MailIcon />
       </Button>
