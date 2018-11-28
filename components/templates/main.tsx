@@ -8,6 +8,7 @@ import { Theme, createStyles } from '@material-ui/core';
 import withBackground from '../wrappers/withBackground';
 import ChatWindow from '../organisms/ChatWindow';
 import { User } from '../../mobx/Chat';
+import Paper from '@material-ui/core/Paper';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -23,6 +24,11 @@ const styles = (theme: Theme) =>
       ...theme.mixins.gutters(),
       paddingTop: theme.spacing.unit * 2,
       paddingBottom: theme.spacing.unit * 2
+    },
+    window: {
+      margin: '5px 0',
+      boxSizing: 'border-box',
+      height: '100%'
     }
   });
 
@@ -44,6 +50,7 @@ type Props = {
   classes: {
     root: string;
     space: string;
+    window: string;
   };
   router: {
     route: string;
@@ -172,7 +179,6 @@ const withMain = (Page: any) => {
     render() {
       const { classes, router, chat } = this.props;
       const { user, users, invites, toggleWindow } = chat;
-      console.log(users);
 
       return (
         <Fragment>
@@ -207,7 +213,9 @@ const withMain = (Page: any) => {
                 toggleWindow({ user, open: false });
               }}
             >
-              test
+              <Paper className={classes.window} elevation={1}>
+                tests
+              </Paper>
             </ChatWindow>
           ))}
         </Fragment>

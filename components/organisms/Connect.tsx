@@ -16,8 +16,8 @@ type Props = {
       emit: (type: string, req: {}) => void;
     };
     user: User;
-    setUser: (user: {}) => void;
-    setUsers: (users: Array<{}>) => void;
+    setUser: (user: User) => void;
+    setUsers: (users: Array<User>) => void;
   };
 };
 

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
 
 export type Props = {
   width: number;
@@ -12,8 +14,6 @@ export type Props = {
 class ChatWindowTitle extends Component<Props> {
   render() {
     const {
-      width,
-      height,
       toggleWindowSize,
       handleMouseDown,
       removeWindow,
@@ -21,28 +21,26 @@ class ChatWindowTitle extends Component<Props> {
     } = this.props;
 
     return (
-      <div
-        style={{
-          width,
-          height,
-          boxSizing: 'border-box'
-        }}
+      <AppBar
+        position="static"
         onDoubleClick={toggleWindowSize}
         onMouseDown={handleMouseDown}
       >
-        <div>Test</div>
-        <div>
-          <span
-            color={`${isFulling ? 'green' : 'yellow'}`}
-            onClick={toggleWindowSize}
-          >
-            full
-          </span>
-          <span color="red" onClick={removeWindow}>
-            close
-          </span>
-        </div>
-      </div>
+        <Toolbar>
+          <div>
+            <div>Test</div>
+            <span
+              color={`${isFulling ? 'green' : 'yellow'}`}
+              onClick={toggleWindowSize}
+            >
+              full
+            </span>
+            <span color="red" onClick={removeWindow}>
+              close
+            </span>
+          </div>
+        </Toolbar>
+      </AppBar>
     );
   }
 }

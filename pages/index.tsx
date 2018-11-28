@@ -3,6 +3,7 @@ import mainTemplate from '../components/templates/main';
 import Connect from '../components/organisms/Connect';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
+import { User } from '../mobx/Chat';
 
 type Props = {
   classes: {
@@ -17,8 +18,9 @@ type Props = {
       on: (type: string, callback: (res: any) => void) => void;
       emit: (type: string, req: {}) => void;
     };
-    setUser: (user: {}) => void;
-    setUsers: (users: Array<{}>) => void;
+    user: User;
+    setUser: (user: User) => void;
+    setUsers: (users: Array<User>) => void;
   };
 };
 

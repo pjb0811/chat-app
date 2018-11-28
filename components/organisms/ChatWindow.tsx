@@ -26,7 +26,7 @@ class ChatWindow extends Component<Props> {
         {...this.props}
         titlebar={{
           use: true,
-          height: 50,
+          height: 64,
           component: (props: TitleProps) => <ChatWindowTitle {...props} />
         }}
       >
