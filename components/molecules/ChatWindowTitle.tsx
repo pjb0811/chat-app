@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
+import Icon from '@material-ui/core/Icon';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 
 export type Props = {
   width: number;
@@ -9,11 +12,15 @@ export type Props = {
   handleMouseDown: () => void;
   removeWindow: () => void;
   isFulling: boolean;
+  user: {
+    userId: string;
+  };
 };
 
 class ChatWindowTitle extends Component<Props> {
   render() {
     const {
+      user,
       toggleWindowSize,
       handleMouseDown,
       removeWindow,
@@ -27,18 +34,20 @@ class ChatWindowTitle extends Component<Props> {
         onMouseDown={handleMouseDown}
       >
         <Toolbar>
-          <div>
-            <div>Test</div>
-            <span
-              color={`${isFulling ? 'green' : 'yellow'}`}
-              onClick={toggleWindowSize}
-            >
-              full
-            </span>
-            <span color="red" onClick={removeWindow}>
-              close
-            </span>
-          </div>
+          <Typography
+            variant="h6"
+            style={{
+              flexGrow: 1
+            }}
+          >
+            {user.userId}
+          </Typography>
+          <IconButton onClick={toggleWindowSize}>
+            <Icon>{isFulling ? 'fullscreen_exit' : 'fullscreen'}</Icon>
+          </IconButton>
+          <IconButton onClick={removeWindow}>
+            <Icon>close</Icon>
+          </IconButton>
         </Toolbar>
       </AppBar>
     );

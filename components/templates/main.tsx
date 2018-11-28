@@ -6,8 +6,8 @@ import { observer, inject } from 'mobx-react';
 import * as Routes from '../../lib/routes';
 import { Theme, createStyles } from '@material-ui/core';
 import withBackground from '../wrappers/withBackground';
-import ChatWindow from '../organisms/ChatWindow';
 import { User } from '../../mobx/Chat';
+import ChatWindow from '../organisms/ChatWindow';
 import Paper from '@material-ui/core/Paper';
 
 const styles = (theme: Theme) =>
@@ -27,6 +27,7 @@ const styles = (theme: Theme) =>
     },
     window: {
       margin: '5px 0',
+      padding: theme.spacing.unit,
       boxSizing: 'border-box',
       height: '100%'
     }
@@ -46,6 +47,9 @@ type Props = {
     setInvites: (params: {}) => void;
     removeInvites: (params: {}) => void;
     toggleWindow: (params: {}) => void;
+    setWindow: (params: {}) => void;
+    updateWindow: (params: {}) => void;
+    removeWindow: (params: {}) => void;
   };
   classes: {
     root: string;
@@ -116,6 +120,18 @@ const withMain = (Page: any) => {
         socket.on('inviteRoom', data => {
           chat.setInvites(data);
         });
+
+        socket.on('setWindow', ({ user }) => {
+          chat.setWindow(user);
+        });
+
+        socket.on('updateWindow', ({ user }) => {
+          chat.updateWindow(user);
+        });
+
+        socket.on('removeWindow', ({ user }) => {
+          chat.removeWindow(user);
+        });
       }
     }
 
@@ -123,8 +139,8 @@ const withMain = (Page: any) => {
      * 로그아웃 처리를 위한 클라이언트 측 요청
      */
     logout = () => {
-      const { socket } = this.props.chat;
-      socket.emit('logout');
+      const { socket, user } = this.props.chat;
+      socket.emit('logout', { user });
     };
 
     /**
@@ -200,7 +216,7 @@ const withMain = (Page: any) => {
           <div className={classes.root}>
             <Page {...this.props} classes={classes} />
           </div>
-          {users.map((user, i) => (
+          {user.windows.map((window, i) => (
             <ChatWindow
               key={i}
               width={300}
@@ -208,13 +224,14 @@ const withMain = (Page: any) => {
               position={'center'}
               direction={'top'}
               resize={true}
-              open={user.window.open}
+              open={window.open}
+              user={window.user}
               onClose={() => {
-                toggleWindow({ user, open: false });
+                toggleWindow({ user: window.user, open: false });
               }}
             >
               <Paper className={classes.window} elevation={1}>
-                tests
+                window test
               </Paper>
             </ChatWindow>
           ))}

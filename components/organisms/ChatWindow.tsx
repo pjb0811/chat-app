@@ -15,11 +15,14 @@ type Props = {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  user: {
+    userId: string;
+  };
 };
 
 class ChatWindow extends Component<Props> {
   render() {
-    const { children } = this.props;
+    const { children, user } = this.props;
 
     return (
       <Window
@@ -27,7 +30,9 @@ class ChatWindow extends Component<Props> {
         titlebar={{
           use: true,
           height: 64,
-          component: (props: TitleProps) => <ChatWindowTitle {...props} />
+          component: (props: TitleProps) => (
+            <ChatWindowTitle user={user} {...props} />
+          )
         }}
       >
         {children}

@@ -42,13 +42,27 @@ const chatServer = server => {
       io.emit('updateUsers', {
         users
       });
+
+      socket.emit('setWindow', {
+        user: {
+          ...user,
+          socketId: socket.id
+        }
+      });
+
+      socket.broadcast.emit('updateWindow', {
+        user: {
+          ...user,
+          socketId: socket.id
+        }
+      });
     });
 
     /**
      * @desc 클라이언트로부터 전달받은 로그아웃 응답 처리
      * @desc 전체 사용자 목록에서 현재 사용자 정보 제거
      */
-    socket.on('logout', () => {
+    socket.on('logout', ({ user }) => {
       users = users.filter(user => user.socketId !== socket.id);
       socket.emit('logout');
 
@@ -58,6 +72,13 @@ const chatServer = server => {
        */
       io.emit('updateUsers', {
         users
+      });
+
+      socket.broadcast.emit('removeWindow', {
+        user: {
+          ...user,
+          socketId: socket.id
+        }
       });
     });
 
@@ -121,6 +142,13 @@ const chatServer = server => {
           type: 'info',
           message: `${user.userId}님이 입장했습니다.`,
           images: []
+        }
+      });
+
+      socket.broadcast.emit('updateWindow', {
+        user: {
+          ...user,
+          socketId: socket.id
         }
       });
     });

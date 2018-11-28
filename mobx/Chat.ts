@@ -17,18 +17,24 @@ export type User = {
   userId: string;
   socketId: string;
   room: string;
-  window: Window;
-};
-
-type Window = {
-  open: boolean;
-  messages: Array<{}>;
+  windows: Windows;
 };
 
 type Invite = {
   sender: { socketId: string };
   receiver: { socketId: string };
   time: number;
+};
+
+type Windows = Array<Window>;
+
+type Window = {
+  user: {
+    userId: string;
+    socketId: string;
+  };
+  open: boolean;
+  messages: Array<{}>;
 };
 
 class Chat {
@@ -39,10 +45,7 @@ class Chat {
       userId: '',
       socketId: '',
       room: '',
-      window: {
-        open: false,
-        messages: []
-      }
+      windows: []
     },
     invites: [],
     users: []
@@ -119,14 +122,47 @@ class Chat {
   };
 
   @action
+  setWindow = (user: User) => {
+    this.state.user.windows = this.state.users.map(user => ({
+      user: {
+        userId: user.userId,
+        socketId: user.socketId
+      },
+      open: false,
+      messages: []
+    }));
+    this.removeWindow(user);
+  };
+
+  @action
+  updateWindow = (user: User) => {
+    this.removeWindow(user);
+    this.state.user.windows.push({
+      user: {
+        userId: user.userId,
+        socketId: user.socketId
+      },
+      open: false,
+      messages: []
+    });
+  };
+
+  @action
+  removeWindow = (user: User) => {
+    this.state.user.windows = this.state.user.windows.filter(
+      window => window.user.socketId !== user.socketId
+    );
+  };
+
+  @action
   toggleWindow = (params: { user: User; open: boolean }) => {
     const { user, open } = params;
 
-    this.state.users = this.state.users.map((currentUser: User) => {
-      if (currentUser.socketId === user.socketId) {
-        currentUser.window.open = open;
+    this.state.user.windows = this.state.user.windows.map((window: Window) => {
+      if (window.user.socketId === user.socketId) {
+        window.open = open;
       }
-      return currentUser;
+      return window;
     });
   };
 
