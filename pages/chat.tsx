@@ -4,6 +4,7 @@ import Messages from '../components/organisms/Messages';
 import InputArea from '../components/organisms/InputArea';
 import Typography from '@material-ui/core/Typography';
 import { animateScroll as scroll } from 'react-scroll';
+import Space from '../components/atoms/Space';
 
 type Props = {
   chat: {
@@ -196,6 +197,7 @@ class Chat extends Component<Props, State> {
           {router.query.room}
         </Typography>
         <Messages messages={messages} myself={myself} />
+        <Space height={120} />
         <InputArea sendMessage={this.sendMessage} />
       </Fragment>
     );

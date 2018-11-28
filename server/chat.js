@@ -224,6 +224,18 @@ const chatServer = server => {
         time
       });
     });
+
+    socket.on('chatWindow', ({ sender, receiver, type, message, images }) => {
+      const time = new Date().getTime();
+
+      io.to(receiver.socketId).emit('chatWindow', {
+        sender,
+        type,
+        message,
+        images,
+        time
+      });
+    });
   });
 };
 

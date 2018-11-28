@@ -12,7 +12,7 @@ export type Props = {
   handleMouseDown: () => void;
   removeWindow: () => void;
   isFulling: boolean;
-  user: {
+  receiver: {
     userId: string;
   };
 };
@@ -20,7 +20,7 @@ export type Props = {
 class ChatWindowTitle extends Component<Props> {
   render() {
     const {
-      user,
+      receiver,
       toggleWindowSize,
       handleMouseDown,
       removeWindow,
@@ -40,7 +40,7 @@ class ChatWindowTitle extends Component<Props> {
               flexGrow: 1
             }}
           >
-            {user.userId}
+            {receiver.userId}
           </Typography>
           <IconButton onClick={toggleWindowSize}>
             <Icon>{isFulling ? 'fullscreen_exit' : 'fullscreen'}</Icon>

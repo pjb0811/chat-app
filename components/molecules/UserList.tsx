@@ -57,7 +57,7 @@ class UserList extends Component<Props> {
                 myself={myself}
                 user={user}
                 onClick={() => {
-                  toggleWindow({ user, open: true });
+                  toggleWindow({ receiver: user, open: true });
                 }}
               />
             </ListItem>

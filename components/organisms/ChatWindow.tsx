@@ -5,6 +5,7 @@ import ChatWindowTitle, {
 } from '../molecules/ChatWindowTitle';
 
 type Props = {
+  zIndex?: number;
   width: number;
   height: number;
   minWidth?: number;
@@ -15,14 +16,14 @@ type Props = {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
-  user: {
+  receiver: {
     userId: string;
   };
 };
 
 class ChatWindow extends Component<Props> {
   render() {
-    const { children, user } = this.props;
+    const { children, receiver } = this.props;
 
     return (
       <Window
@@ -31,7 +32,7 @@ class ChatWindow extends Component<Props> {
           use: true,
           height: 64,
           component: (props: TitleProps) => (
-            <ChatWindowTitle user={user} {...props} />
+            <ChatWindowTitle receiver={receiver} {...props} />
           )
         }}
       >

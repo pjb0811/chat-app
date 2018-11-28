@@ -30,7 +30,12 @@ class Messages extends Component<Props> {
     const { messages, myself } = this.props;
 
     return (
-      <Grid container>
+      <Grid
+        container
+        style={{
+          overflow: 'hidden auto'
+        }}
+      >
         {messages.map((message, i) => (
           <Message key={i} {...message} myself={myself} />
         ))}

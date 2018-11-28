@@ -9,6 +9,8 @@ import withBackground from '../wrappers/withBackground';
 import { User } from '../../mobx/Chat';
 import ChatWindow from '../organisms/ChatWindow';
 import Paper from '@material-ui/core/Paper';
+import InputArea from '../organisms/InputArea';
+import Messages from '../organisms/Messages';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -29,7 +31,10 @@ const styles = (theme: Theme) =>
       margin: '5px 0',
       padding: theme.spacing.unit,
       boxSizing: 'border-box',
-      height: '100%'
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between'
     }
   });
 
@@ -50,6 +55,7 @@ type Props = {
     setWindow: (params: {}) => void;
     updateWindow: (params: {}) => void;
     removeWindow: (params: {}) => void;
+    setWindowMessage: (params: {}) => void;
   };
   classes: {
     root: string;
@@ -132,6 +138,17 @@ const withMain = (Page: any) => {
         socket.on('removeWindow', ({ user }) => {
           chat.removeWindow(user);
         });
+
+        socket.on('chatWindow', ({ sender, type, message, images, time }) => {
+          chat.setWindowMessage({
+            user: sender,
+            receiver: sender,
+            type,
+            message,
+            images,
+            time
+          });
+        });
       }
     }
 
@@ -186,6 +203,27 @@ const withMain = (Page: any) => {
       });
     };
 
+    sendMessage = (params: {
+    type: string;
+    message: string;
+    images: Array<{}>;
+    receiver?: {};
+    }) => {
+      const { type, message = '', images = [], receiver } = params;
+      const { chat } = this.props;
+      const { socket, user } = chat;
+
+      chat.setWindowMessage({ user, receiver, type, message, images });
+
+      socket.emit('chatWindow', {
+        sender: user,
+        receiver,
+        type,
+        message,
+        images
+      });
+    };
+
     /**
      * 렌더링
      * @desc 상단 앱 바 컴포넌트 및 페이지 컴포넌트 반환
@@ -219,19 +257,29 @@ const withMain = (Page: any) => {
           {user.windows.map((window, i) => (
             <ChatWindow
               key={i}
+              zIndex={1200}
               width={300}
               height={300}
               position={'center'}
               direction={'top'}
               resize={true}
               open={window.open}
-              user={window.user}
+              receiver={window.receiver}
               onClose={() => {
-                toggleWindow({ user: window.user, open: false });
+                toggleWindow({ receiver: window.receiver, open: false });
               }}
             >
               <Paper className={classes.window} elevation={1}>
-                window test
+                <Messages messages={window.messages} myself={user} />
+                <InputArea
+                  receiver={window.receiver}
+                  style={{
+                    position: 'relative',
+                    padding: '0 16px',
+                    maxHeight: 100
+                  }}
+                  sendMessage={this.sendMessage}
+                />
               </Paper>
             </ChatWindow>
           ))}

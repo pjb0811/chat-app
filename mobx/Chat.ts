@@ -29,12 +29,27 @@ type Invite = {
 type Windows = Array<Window>;
 
 type Window = {
-  user: {
+  receiver: {
     userId: string;
     socketId: string;
   };
   open: boolean;
-  messages: Array<{}>;
+  messages: Array<WindowMessage>;
+};
+
+export type WindowMessage = {
+  type: string;
+  message: string;
+  user: {
+    userId: string;
+    socketId: string;
+  };
+  receiver: {
+    userId: string;
+    socketId: string;
+  };
+  images: [];
+  time: number;
 };
 
 class Chat {
@@ -124,7 +139,7 @@ class Chat {
   @action
   setWindow = (user: User) => {
     this.state.user.windows = this.state.users.map(user => ({
-      user: {
+      receiver: {
         userId: user.userId,
         socketId: user.socketId
       },
@@ -136,31 +151,68 @@ class Chat {
 
   @action
   updateWindow = (user: User) => {
+    const currWindow = this.getWindow(user);
     this.removeWindow(user);
     this.state.user.windows.push({
-      user: {
+      ...currWindow,
+      receiver: {
         userId: user.userId,
         socketId: user.socketId
-      },
-      open: false,
-      messages: []
+      }
     });
+  };
+
+  @action
+  getWindow = (user: User) => {
+    return (
+      this.state.user.windows.find(
+        window => window.receiver.socketId === user.socketId
+      ) || {
+        open: false,
+        messages: []
+      }
+    );
   };
 
   @action
   removeWindow = (user: User) => {
     this.state.user.windows = this.state.user.windows.filter(
-      window => window.user.socketId !== user.socketId
+      window => window.receiver.socketId !== user.socketId
     );
   };
 
   @action
-  toggleWindow = (params: { user: User; open: boolean }) => {
-    const { user, open } = params;
+  toggleWindow = (params: { receiver: User; open: boolean }) => {
+    const { receiver, open } = params;
 
     this.state.user.windows = this.state.user.windows.map((window: Window) => {
-      if (window.user.socketId === user.socketId) {
+      if (window.receiver.socketId === receiver.socketId) {
         window.open = open;
+      }
+      return window;
+    });
+  };
+
+  @action
+  setWindowMessage = (params: WindowMessage) => {
+    const { receiver } = params;
+
+    this.state.user.windows = this.state.user.windows.map((window: Window) => {
+      if (window.receiver.socketId === receiver.socketId) {
+        window.messages.push({
+          ...params
+        });
+      }
+      return window;
+    });
+
+    this.state.user.windows = this.state.user.windows.map((window: Window) => {
+      if (window.receiver.socketId === receiver.socketId) {
+        window.messages = window.messages.filter(
+          (currMessage, i, self) =>
+            i ===
+            self.findIndex(selfMessage => selfMessage.time === currMessage.time)
+        );
       }
       return window;
     });

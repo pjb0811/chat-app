@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MessageField from '../molecules/MessageField';
 import { NativeFiles } from 'react-dnd-component';
@@ -10,8 +10,8 @@ const styles = (theme: Theme) =>
   createStyles({
     root: {
       width: '100%',
-      position: 'fixed',
       top: 'auto',
+      position: 'fixed',
       left: 0,
       bottom: 0,
       padding: theme.spacing.unit * 2,
@@ -32,9 +32,6 @@ const styles = (theme: Theme) =>
     button: {
       margin: theme.spacing.unit
     },
-    space: {
-      height: 120
-    },
     paper: {
       padding: theme.spacing.unit,
       minHeight: 100,
@@ -53,14 +50,15 @@ const styles = (theme: Theme) =>
   });
 
 type Props = {
+  receiver?: {};
   classes: {
-    space: string;
     root: string;
     inputContainer: string;
     input: string;
     buttonContainer: string;
     button: string;
   };
+  style?: {};
   sendMessage: (
     params: {
     type: string;
@@ -83,33 +81,30 @@ class InputArea extends Component<Props> {
    * @returns {Component}
    */
   render() {
-    const { classes } = this.props;
+    const { classes, style } = this.props;
 
     return (
-      <Fragment>
-        <div className={classes.space} />
-        <NativeFiles>
-          {props => {
-            const { canDrop, files } = props;
+      <NativeFiles>
+        {props => {
+          const { canDrop, files } = props;
 
-            if (canDrop || files.length) {
-              return (
-                <div color="secondary" className={classes.root}>
-                  <ImageField {...this.props} {...props} />
-                </div>
-              );
-            }
-
+          if (canDrop || files.length) {
             return (
-              <Fade in={!canDrop}>
-                <div color="secondary" className={classes.root}>
-                  <MessageField {...this.props} />
-                </div>
-              </Fade>
+              <div color="secondary" className={classes.root} style={style}>
+                <ImageField {...this.props} {...props} />
+              </div>
             );
-          }}
-        </NativeFiles>
-      </Fragment>
+          }
+
+          return (
+            <Fade in={!canDrop}>
+              <div color="secondary" className={classes.root} style={style}>
+                <MessageField {...this.props} />
+              </div>
+            </Fade>
+          );
+        }}
+      </NativeFiles>
     );
   }
 }
