@@ -3,6 +3,7 @@ import * as Routes from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
 import * as Yup from 'yup';
+import { User } from '../../mobx/Chat';
 
 type Props = {
   chat: {
@@ -14,8 +15,9 @@ type Props = {
       on: (type: string, callback: (res: any) => void) => void;
       emit: (type: string, req: {}) => void;
     };
-    setUser: (user: {}) => void;
-    setUsers: (users: Array<{}>) => void;
+    user: User;
+    setUser: (user: User) => void;
+    setUsers: (users: Array<User>) => void;
   };
 };
 
@@ -69,7 +71,7 @@ class Connect extends Component<Props> {
     setSubmitting: (submitting: boolean) => void;
     }
   ) => {
-    const { socket } = this.props.chat;
+    const { socket, user } = this.props.chat;
     const { setErrors, setSubmitting } = params;
 
     if (!socket || socket.io.readyState === 'closed') {
@@ -84,6 +86,7 @@ class Connect extends Component<Props> {
      */
     socket.emit('login', {
       user: {
+        ...user,
         userId: values.userId
       }
     });

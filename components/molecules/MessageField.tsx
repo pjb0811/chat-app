@@ -8,6 +8,7 @@ type Props = {
     type: string;
     message: string;
     images: Array<{}>;
+    receiver?: {};
     }
   ) => void;
   classes: {
@@ -16,6 +17,7 @@ type Props = {
     buttonContainer: string;
     button: string;
   };
+  receiver?: {};
 };
 
 /**
@@ -46,12 +48,13 @@ class MessageField extends Component<Props> {
    */
   sendMessage = () => {
     const { message } = this.state;
+    const { receiver } = this.props;
 
     if (!message.trim()) {
       return;
     }
 
-    this.props.sendMessage({ type: 'text', message, images: [] });
+    this.props.sendMessage({ type: 'text', message, images: [], receiver });
     this.setState({
       message: ''
     });
@@ -88,6 +91,7 @@ class MessageField extends Component<Props> {
             value={message}
             onChange={this.handleChange}
             onKeyUp={this.handleKeyUp}
+            autoFocus={true}
           />
         </div>
         <div className={classes.buttonContainer}>

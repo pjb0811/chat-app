@@ -8,15 +8,48 @@ type Props = {
 
 export type State = {
   socket: SocketIOClient.Socket | null;
+  user: User;
+  users: Array<User>;
+  invites: Array<Invite>;
+};
+
+export type User = {
+  userId: string;
+  socketId: string;
+  room: string;
+  windows: Windows;
+};
+
+type Invite = {
+  sender: { socketId: string };
+  receiver: { socketId: string };
+  time: number;
+};
+
+type Windows = Array<Window>;
+
+type Window = {
+  receiver: {
+    userId: string;
+    socketId: string;
+  };
+  open: boolean;
+  messages: Array<WindowMessage>;
+};
+
+export type WindowMessage = {
+  type: string;
+  message: string;
   user: {
     userId: string;
     socketId: string;
   };
-  invites: Array<{
-    time: number;
-    sender: { socketId: string };
-  }>;
-  users: Array<{}>;
+  receiver: {
+    userId: string;
+    socketId: string;
+  };
+  images: [];
+  time: number;
 };
 
 class Chat {
@@ -25,7 +58,9 @@ class Chat {
     socket: null,
     user: {
       userId: '',
-      socketId: ''
+      socketId: '',
+      room: '',
+      windows: []
     },
     invites: [],
     users: []
@@ -60,15 +95,15 @@ class Chat {
    * 사용자 정보 수정
    */
   @action
-  setUser = (user: { userId: string; socketId: string }) => {
-    this.state.user = user;
+  setUser = (user: User) => {
+    this.state.user = { ...this.state.user, ...user };
   };
 
   /**
    * 전체 사용자 목록 수정
    */
   @action
-  setUsers = (users: Array<{}>) => {
+  setUsers = (users: Array<User>) => {
     this.state.users = users;
   };
 
@@ -78,7 +113,7 @@ class Chat {
    * @desc 중복으로 들어온 초대 정보를 초대시간 관련 인스턴스를 비교하여 필터링 처리
    */
   @action
-  setInvites = (invite: { time: number; sender: { socketId: string } }) => {
+  setInvites = (invite: Invite) => {
     this.state.invites.push(invite);
     this.state.invites = this.state.invites.filter(
       (currInvite, i, self) =>
@@ -99,6 +134,88 @@ class Chat {
     );
 
     this.state.invites.splice(index, 1);
+  };
+
+  @action
+  setWindow = (user: User) => {
+    this.state.user.windows = this.state.users.map(user => ({
+      receiver: {
+        userId: user.userId,
+        socketId: user.socketId
+      },
+      open: false,
+      messages: []
+    }));
+    this.removeWindow(user);
+  };
+
+  @action
+  updateWindow = (user: User) => {
+    const currWindow = this.getWindow(user);
+    this.removeWindow(user);
+    this.state.user.windows.push({
+      ...currWindow,
+      receiver: {
+        userId: user.userId,
+        socketId: user.socketId
+      }
+    });
+  };
+
+  @action
+  getWindow = (user: User) => {
+    return (
+      this.state.user.windows.find(
+        window => window.receiver.socketId === user.socketId
+      ) || {
+        open: false,
+        messages: []
+      }
+    );
+  };
+
+  @action
+  removeWindow = (user: User) => {
+    this.state.user.windows = this.state.user.windows.filter(
+      window => window.receiver.socketId !== user.socketId
+    );
+  };
+
+  @action
+  toggleWindow = (params: { receiver: User; open: boolean }) => {
+    const { receiver, open } = params;
+
+    this.state.user.windows = this.state.user.windows.map((window: Window) => {
+      if (window.receiver.socketId === receiver.socketId) {
+        window.open = open;
+      }
+      return window;
+    });
+  };
+
+  @action
+  setWindowMessage = (params: WindowMessage) => {
+    const { receiver } = params;
+
+    this.state.user.windows = this.state.user.windows.map((window: Window) => {
+      if (window.receiver.socketId === receiver.socketId) {
+        window.messages.push({
+          ...params
+        });
+      }
+      return window;
+    });
+
+    this.state.user.windows = this.state.user.windows.map((window: Window) => {
+      if (window.receiver.socketId === receiver.socketId) {
+        window.messages = window.messages.filter(
+          (currMessage, i, self) =>
+            i ===
+            self.findIndex(selfMessage => selfMessage.time === currMessage.time)
+        );
+      }
+      return window;
+    });
   };
 
   /**

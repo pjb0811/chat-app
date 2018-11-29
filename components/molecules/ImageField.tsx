@@ -8,7 +8,9 @@ import Image from '../atoms/Image';
 
 type Props = {
   files: Array<File>;
-  sendMessage: (params: { type: string; images: Array<{}> }) => void;
+  sendMessage: (
+    params: { type: string; images: Array<{}>; receiver?: {} }
+  ) => void;
   removeFiles: () => void;
   canDrop: boolean;
   isOver: boolean;
@@ -17,6 +19,7 @@ type Props = {
     active: string;
     button: string;
   };
+  receiver?: {};
 };
 
 /**
@@ -32,12 +35,12 @@ class ImageField extends Component<Props> {
    * @desc 서버 요청 후 현재 입력 필드의 이미지 목록 삭제
    */
   sendImages = async () => {
-    const { files, sendMessage, removeFiles } = this.props;
+    const { files, sendMessage, removeFiles, receiver } = this.props;
     const images = await Promise.all(
       files.map(async file => await getImageInfo(file))
     );
 
-    sendMessage({ type: 'image', images });
+    sendMessage({ type: 'image', images, receiver });
     removeFiles();
   };
 

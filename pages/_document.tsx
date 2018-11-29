@@ -66,6 +66,10 @@ export default class CustomDocument extends Document<Props> {
             rel="stylesheet"
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
           />
+          <link
+            rel="stylesheet"
+            href="https://fonts.googleapis.com/icon?family=Material+Icons"
+          />
           <link href="/static/styles/index.css" rel="stylesheet" />
           <link
             rel="shortcut icon"
