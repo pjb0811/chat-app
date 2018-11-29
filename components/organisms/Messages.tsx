@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Message from '../molecules/Message';
 import Grid from '@material-ui/core/Grid';
+import { Element } from 'react-scroll';
 
 type Props = {
   messages: Array<{
@@ -13,6 +14,7 @@ type Props = {
     images: [];
   }>;
   myself: { socketId: string };
+  id?: string;
 };
 
 /**
@@ -27,7 +29,7 @@ class Messages extends Component<Props> {
    * @returns {Component}
    */
   render() {
-    const { messages, myself } = this.props;
+    const { messages, myself, id } = this.props;
 
     return (
       <Grid
@@ -35,10 +37,12 @@ class Messages extends Component<Props> {
         style={{
           overflow: 'hidden auto'
         }}
+        id={id}
       >
         {messages.map((message, i) => (
           <Message key={i} {...message} myself={myself} />
         ))}
+        <Element name={'window'} />
       </Grid>
     );
   }

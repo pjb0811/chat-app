@@ -11,6 +11,7 @@ import ChatWindow from '../organisms/ChatWindow';
 import Paper from '@material-ui/core/Paper';
 import InputArea from '../organisms/InputArea';
 import Messages from '../organisms/Messages';
+import { scroller } from 'react-scroll';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -140,6 +141,10 @@ const withMain = (Page: any) => {
         });
 
         socket.on('chatWindow', ({ sender, type, message, images, time }) => {
+          const window = chat.user.windows.find(
+            window => window.receiver.socketId === sender.socketId
+          ) || { open: false };
+
           chat.setWindowMessage({
             user: sender,
             receiver: sender,
@@ -148,6 +153,13 @@ const withMain = (Page: any) => {
             images,
             time
           });
+
+          if (window.open) {
+            scroller.scrollTo('window', {
+              smooth: true,
+              containerId: sender.socketId
+            });
+          }
         });
       }
     }
@@ -207,13 +219,17 @@ const withMain = (Page: any) => {
     type: string;
     message: string;
     images: Array<{}>;
-    receiver?: {};
+    receiver?: { socketId: string };
     }) => {
-      const { type, message = '', images = [], receiver } = params;
+      const {
+        type,
+        message = '',
+        images = [],
+        receiver = { socketId: '' }
+      } = params;
       const { chat } = this.props;
       const { socket, user } = chat;
-
-      chat.setWindowMessage({ user, receiver, type, message, images });
+      const time = new Date().getTime();
 
       socket.emit('chatWindow', {
         sender: user,
@@ -221,6 +237,20 @@ const withMain = (Page: any) => {
         type,
         message,
         images
+      });
+
+      chat.setWindowMessage({
+        user,
+        receiver,
+        type,
+        message,
+        images,
+        time
+      });
+
+      scroller.scrollTo('window', {
+        smooth: true,
+        containerId: receiver.socketId
       });
     };
 
@@ -270,7 +300,11 @@ const withMain = (Page: any) => {
               }}
             >
               <Paper className={classes.window} elevation={1}>
-                <Messages messages={window.messages} myself={user} />
+                <Messages
+                  messages={window.messages}
+                  myself={user}
+                  id={window.receiver.socketId}
+                />
                 <InputArea
                   receiver={window.receiver}
                   style={{
