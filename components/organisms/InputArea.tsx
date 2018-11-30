@@ -43,7 +43,7 @@ const styles = (theme: Theme) =>
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      flexWrap: 'wrap',
+      flexDirection: 'column',
       overflowY: 'scroll'
     },
     active: {
