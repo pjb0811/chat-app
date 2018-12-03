@@ -27,6 +27,10 @@
     "@babel/register": "^7.0.0",
     "@material-ui/core": "^3.4.0",
     "@material-ui/icons": "^3.0.1",
+    "@types/chai": "^4.1.7",
+    "@types/enzyme": "^3.1.15",
+    "@types/enzyme-adapter-react-16": "^1.0.3",
+    "@types/mocha": "^5.2.5",
     "@types/next": "^7.0.5",
     "@types/react-jss": "^8.6.0",
     "@types/react-resize-detector": "^3.1.0",
@@ -60,6 +64,8 @@
     "react-resize-detector": "^3.2.0",
     "react-scroll": "^1.7.10",
     "socket.io": "^2.1.1",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.2.1",
     "yup": "^0.26.6"
   }
 }

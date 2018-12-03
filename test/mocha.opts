@@ -1,4 +1,4 @@
---require @babel/register
+--require ts-node/register
 --file test/mocha.setup.js
 --watch
-test/**/*.test.js
+test/**/*.test.tsx

@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import AsyncImage from 'components/atoms/AsyncImage';
 
@@ -12,10 +12,10 @@ describe('atoms', () => {
     let file = {};
 
     const wrapper = mount(
-      <AsyncImage {...props}>
+      <AsyncImage {...props as any}>
         {props => <img src={props.base64} alt={props.name} />}
       </AsyncImage>
-    );
+    ) as any;
 
     it('기본 props 전달 확인', () => {
       expect(wrapper.props().image).to.deep.equal(props.image);
@@ -69,7 +69,7 @@ describe('atoms', () => {
     it('function as child props 확인', () => {
       const childWrapper = mount(
         wrapper.props().children(wrapper.state().image)
-      );
+      ) as any;
       expect(childWrapper.props().alt).to.equal('.:test1.jpg');
     });
   });
