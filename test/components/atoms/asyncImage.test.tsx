@@ -1,18 +1,21 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import { expect } from 'chai';
-import AsyncImage from 'components/atoms/AsyncImage';
+import AsyncImage, { Props } from 'components/atoms/AsyncImage';
 
 describe('atoms', () => {
   describe('<AsyncImage />', () => {
-    const props = {
-      image: { name: 'test.js', type: 'image', base64: 'base64' }
+    const props: Props = {
+      image: new File(['test'], './test.jpg', {
+        type: 'image/jpg'
+      }),
+      children: () => <img />
     };
 
     let file = {};
 
     const wrapper = mount(
-      <AsyncImage {...props as any}>
+      <AsyncImage {...props}>
         {props => <img src={props.base64} alt={props.name} />}
       </AsyncImage>
     ) as any;

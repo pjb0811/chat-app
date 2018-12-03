@@ -1,7 +1,7 @@
 import { Component, ReactNode } from 'react';
 import getImageInfo from '../../lib/getImageInfo';
 
-type Props = {
+export type Props = {
   image: File;
   children: (image: State['image']) => ReactNode;
 };
