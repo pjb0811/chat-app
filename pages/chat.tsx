@@ -140,10 +140,14 @@ class Chat extends Component<Props, State> {
     const { messages } = params;
     const newMessages: State['messages'] = this.state.messages.concat();
     newMessages.push(messages);
-    this.setState({
-      messages: newMessages
-    });
-    scroll.scrollToBottom();
+    this.setState(
+      {
+        messages: newMessages
+      },
+      () => {
+        scroll.scrollToBottom();
+      }
+    );
   };
 
   /**
