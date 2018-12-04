@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Grid from '@material-ui/core/Grid';
 
 export type Props = {
@@ -26,7 +26,7 @@ export type Props = {
  * @class GridSpace
  * @extends {Component<Props>}
  */
-class GridSpace extends Component<Props> {
+class GridSpace extends React.Component<Props> {
   /**
    * 렌더링
    * @desc 빈공간을 만들기 위한 props 정보가 확인된 경우 컴포넌트 반환. 아닌경우 null 반환

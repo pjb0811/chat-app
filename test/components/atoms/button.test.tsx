@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import Button from 'components/atoms/Button';
 
@@ -10,7 +10,7 @@ describe('atoms', () => {
       user: { userId: 'test1', socketId: '123qwe' }
     };
 
-    const wrapper = mount(<Button {...props}>test</Button>);
+    const wrapper = mount(<Button {...props as any}>test</Button>);
 
     it('기본 props 전달 확인', () => {
       expect(wrapper.props()).to.deep.equal({ ...props, children: 'test' });
