@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Button from '@material-ui/core/Button';
 import MailIcon from '@material-ui/icons/Mail';
 import { User } from '../../mobx/Chat';
@@ -17,7 +17,7 @@ type Props = {
  * @class InviteButton
  * @extends {Component<Props>}
  */
-class InviteButton extends Component<Props> {
+class InviteButton extends React.Component<Props> {
   /**
    * 렌더링
    * @desc

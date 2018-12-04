@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import InviteButton from 'components/atoms/InviteButton';
 
@@ -19,7 +19,7 @@ describe('atoms', () => {
       room: 'moon2'
     };
 
-    const wrapper = mount(<InviteButton {...props} />);
+    const wrapper = mount(<InviteButton {...props as any} />);
 
     it('기본 props 전달 확인', () => {
       expect(wrapper.props()).to.deep.equal(props);
@@ -55,10 +55,10 @@ describe('atoms', () => {
       expect(wrapper.text()).to.equal(null);
     });
 
-    it('click 이벤트 호출 시 inviteRoom 함수 호출 확인', () => {
+    it('click 이벤트 호출 시 onClick 함수 호출 확인', () => {
       wrapper.setProps({
         ...props,
-        inviteRoom: () => {
+        onClick: () => {
           wrapper.setProps({ ...props, click: true });
         }
       });

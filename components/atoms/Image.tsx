@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type Props = {
   name: string;
@@ -10,7 +10,7 @@ type Props = {
  * @class Image
  * @extends {Component<Props>}
  */
-class Image extends Component<Props> {
+class Image extends React.Component<Props> {
   /**
    * 렌더링
    * @desc base64 정보를 가진 이미지 요소 반환

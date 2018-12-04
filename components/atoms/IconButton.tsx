@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import withAuth, { Props } from '../wrappers/withAuth';
 
@@ -8,7 +8,7 @@ import withAuth, { Props } from '../wrappers/withAuth';
  * @class CustomIconButton
  * @extends {Component<Props>}
  */
-class CustomIconButton extends Component<Props> {
+class CustomIconButton extends React.Component<Props> {
   /**
    * 렌더링
    * @desc props로 전달받은 color 값 및 children, onClick 이벤트를 설정한 아이콘 버튼 컴포넌트 렌더링
