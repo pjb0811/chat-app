@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -7,7 +7,7 @@ import InviteButton from '../atoms/InviteButton';
 import WindowButton from '../atoms/WindowButton';
 import { User } from '../../mobx/Chat';
 
-type Props = {
+export type Props = {
   user: User;
   users: Array<User>;
   room: string;
@@ -20,7 +20,7 @@ type Props = {
  * @class UserList
  * @extends {Component<Props>}
  */
-class UserList extends Component<Props> {
+class UserList extends React.Component<Props> {
   /**
    * 렌더링
    * @desc 전체 사용자 목록을 순회하며 사용자 아이디 및 초대 버튼 표시

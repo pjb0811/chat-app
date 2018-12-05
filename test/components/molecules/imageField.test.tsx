@@ -1,28 +1,37 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import ImageField from 'components/molecules/ImageField';
+import ImageField, { Props } from 'components/molecules/ImageField';
+
+type Params = {
+  type: string;
+  images: Array<{}>;
+  receiver?: {};
+};
 
 describe('molecules', () => {
   describe('<ImageField />', () => {
-    let temp = {};
+    let temp: Params = {
+      type: '',
+      images: []
+    };
     const file = new File(['test'], './test.jpg', {
       type: 'image/jpg'
     });
-    const props = {
+    const props: Props = {
       canDrop: false,
-      classes: {},
+      classes: { paper: '', active: '', button: '' },
       files: [file],
       isOver: false,
       removeFiles: () => {
         props.files = [];
       },
-      sendMessage: params => {
+      sendMessage: (params: Params) => {
         temp = params;
       }
     };
 
-    const wrapper = mount(<ImageField {...props} />);
+    const wrapper = mount(<ImageField {...props} />) as any;
 
     it('props 확인', () => {
       expect(wrapper.props()).to.deep.equal(props);
@@ -34,7 +43,7 @@ describe('molecules', () => {
         expect(temp.type).to.equal('image');
         expect(temp.images.length).to.equal(1);
         expect(temp.images).to.deep.equal([
-          { name: '.:test.jpg', type: 'image/jpg', base64: 'dGVzdA==' }
+          { name: '.:test.jpg', base64: 'dGVzdA==' }
         ]);
         expect(props.files.length).to.equal(0);
         done();

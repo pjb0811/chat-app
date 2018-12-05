@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { withStyles } from '@material-ui/core/styles';
@@ -29,7 +29,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-type Props = {
+export type Props = {
   classes: {
     paper: string;
     chip: string;
@@ -42,6 +42,7 @@ type Props = {
     socketId: string;
   };
   myself: {
+    userId: string;
     socketId: string;
   };
   images: [];
@@ -58,7 +59,7 @@ type State = {
  * @class Message
  * @extends {Component<Props, State>}
  */
-class Message extends Component<Props, State> {
+class Message extends React.Component<Props, State> {
   state: State = {
     info: {
       xs: 12
@@ -85,7 +86,7 @@ class Message extends Component<Props, State> {
     const isMyMsg = user.socketId === myself.socketId;
 
     return (
-      <Fragment>
+      <React.Fragment>
         <GridSpace hasSpace={!isInfo && isMyMsg} xs={6} />
         <Grid item xs={this.state[type].xs}>
           <ResizeDetector handleWidth>
@@ -125,7 +126,7 @@ class Message extends Component<Props, State> {
           </ResizeDetector>
         </Grid>
         <GridSpace hasSpace={!isInfo && !isMyMsg} xs={6} />
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

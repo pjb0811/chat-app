@@ -1,21 +1,21 @@
 import { shallow, mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import Message from 'components/molecules/Message';
+import Message, { Props } from 'components/molecules/Message';
 
 describe('molecules', () => {
   describe('<Message />', () => {
-    const props = {
-      classes: {},
+    const props: Props = {
+      classes: { paper: '', chip: '', myself: '' },
       type: 'text',
       message: 'test 메시지 입니다',
       user: {
         userId: 'you',
-        socketId: 1111
+        socketId: '1111'
       },
       myself: {
         userId: 'me',
-        socketId: 2222
+        socketId: '2222'
       },
       images: []
     };

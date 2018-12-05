@@ -1,7 +1,7 @@
 import { shallow, mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import InviteList from 'components/molecules/InviteList';
+import InviteList, { Props } from 'components/molecules/InviteList';
 
 describe('molecules', () => {
   describe('<InviteList />', () => {
@@ -14,15 +14,17 @@ describe('molecules', () => {
       room: 'room',
       time: 1542001188057
     };
-    const props = {
+    const props: Props = {
       invites: [invite],
-      classes: {},
+      classes: { list: '', listItem: '', button: '' },
       removeInvite: () => {
         props.invites = [];
-      }
+      },
+      moveRoom: () => {},
+      room: ''
     };
 
-    const wrapper = mount(shallow(<InviteList {...props} />).get(0));
+    const wrapper = mount(shallow(<InviteList {...props} />).get(0)) as any;
 
     it('props 확인', () => {
       expect(wrapper.props().invites).to.deep.equal(props.invites);

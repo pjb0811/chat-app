@@ -1,4 +1,4 @@
-import React, { Component, ChangeEvent } from 'react';
+import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -35,7 +35,7 @@ const styles = (theme: Theme) =>
 
 type TextFieldProps = {
   field: {
-    onChange: (e: ChangeEvent<any>) => void;
+    onChange: (e: React.ChangeEvent<any>) => void;
     onBlur: (e: any) => void;
     value: any;
     name: string;
@@ -82,7 +82,7 @@ type Props = {
  * @class ConnectForm
  * @extends {Component<Props>}
  */
-class ConnectForm extends Component<Props> {
+class ConnectForm extends React.Component<Props> {
   /**
    * 렌더링
    * @desc formik 라이브러리를 활용한 컴포넌트 반환

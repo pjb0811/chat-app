@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import ConnectForm from 'components/molecules/ConnectForm';
 import { Formik } from 'formik';
@@ -11,9 +11,9 @@ describe('molecules', () => {
       userId: ''
     };
 
-    const onSubmit = (values, { setSubmitting }) => {
+    const onSubmit = (_values: any, params: { setSubmitting: any }) => {
       setTimeout(() => {
-        setSubmitting(false);
+        params.setSubmitting(false);
       }, 100);
     };
 
@@ -30,10 +30,10 @@ describe('molecules', () => {
           <ConnectForm submitForm={submitForm} isSubmitting={isSubmitting} />
         )}
       />
-    );
+    ) as any;
 
-    const input = wrapper.find('input');
-    const button = wrapper.find('button');
+    const input = wrapper.find('input') as any;
+    const button = wrapper.find('button') as any;
 
     it('기본 props 전달 확인', () => {
       expect(wrapper.props().onSubmit).to.equal(onSubmit);

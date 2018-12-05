@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type Props = {
   msg: string;
@@ -19,7 +19,7 @@ type State = {
  * @class MessageRegex
  * @extends {Component<Props>}
  */
-class MessageRegex extends Component<Props, State> {
+class MessageRegex extends React.Component<Props, State> {
   state: State = {
     regexs: {
       url: {

@@ -2,15 +2,18 @@ import { mount } from 'enzyme';
 import * as React from 'react';
 import { expect } from 'chai';
 import IconButton from 'components/atoms/IconButton';
+import { Props } from 'components/wrappers/withAuth';
 
 describe('atoms', () => {
   describe('<IconButton />', () => {
-    const props = {
+    const props: Props = {
       color: 'primary',
-      user: { userId: 'test1', socketId: '123qwe' }
+      user: { userId: 'test1', socketId: '123qwe' },
+      children: '',
+      onClick: () => {}
     };
 
-    const wrapper = mount(<IconButton {...props as any}>test</IconButton>);
+    const wrapper = mount(<IconButton {...props}>test</IconButton>);
 
     it('기본 props 전달 확인', () => {
       expect(wrapper.props()).to.deep.equal({ ...props, children: 'test' });

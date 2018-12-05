@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -6,7 +6,7 @@ import AsyncImage from '../atoms/AsyncImage';
 import getImageInfo from '../../lib/getImageInfo';
 import Image from '../atoms/Image';
 
-type Props = {
+export type Props = {
   files: Array<File>;
   sendMessage: (
     params: { type: string; images: Array<{}>; receiver?: {} }
@@ -27,7 +27,7 @@ type Props = {
  * @class ImageField
  * @extends {Component<Props>}
  */
-class ImageField extends Component<Props> {
+class ImageField extends React.Component<Props> {
   /**
    * 이미지 전송
    * @desc props로 전달받은 이미지 파일 목록을 비동기 요청을 통해 순차적으로 파일정보 확인

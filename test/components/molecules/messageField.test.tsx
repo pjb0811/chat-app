@@ -1,23 +1,28 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import MessageField from 'components/molecules/MessageField';
+import MessageField, { Props } from 'components/molecules/MessageField';
 
 describe('molecules', () => {
   describe('<MessageField />', () => {
-    let temp;
-    const props = {
-      classes: {},
+    let temp: {};
+    const props: Props = {
+      classes: {
+        inputContainer: '',
+        input: '',
+        buttonContainer: '',
+        button: ''
+      },
       sendMessage: data => {
         temp = data;
       }
     };
 
-    const wrapper = mount(<MessageField {...props} />);
+    const wrapper = mount(<MessageField {...props} />) as any;
     wrapper.setState({ message: '' });
 
     it('props 확인', () => {
-      expect(wrapper.props().message).to.deep.equal(props.message);
+      expect(wrapper.props()).to.deep.equal(props);
     });
 
     it('message 변경 시 상태 확인', () => {
@@ -28,10 +33,20 @@ describe('molecules', () => {
 
     it('sendMessage() 호출 시 상태 확인', () => {
       wrapper.instance().sendMessage();
-      expect(temp).to.deep.equal({ type: 'text', message: 'Hello' });
+      expect(temp).to.deep.equal({
+        type: 'text',
+        message: 'Hello',
+        images: [],
+        receiver: undefined
+      });
       expect(wrapper.state().message).to.equal('');
       wrapper.instance().sendMessage();
-      expect(temp).to.deep.equal({ type: 'text', message: 'Hello' });
+      expect(temp).to.deep.equal({
+        type: 'text',
+        message: 'Hello',
+        images: [],
+        receiver: undefined
+      });
     });
   });
 });

@@ -3,9 +3,11 @@ import Button from '@material-ui/core/Button';
 import MailIcon from '@material-ui/icons/Mail';
 import { User } from '../../mobx/Chat';
 
-type Props = {
+export type Props = {
   myself: {
+    userId: string;
     socketId: string;
+    room: string;
   };
   user: User;
   room: string;

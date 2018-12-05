@@ -1,25 +1,27 @@
 import { mount } from 'enzyme';
 import * as React from 'react';
 import { expect } from 'chai';
-import InviteButton from 'components/atoms/InviteButton';
+import InviteButton, { Props } from 'components/atoms/InviteButton';
 
 describe('atoms', () => {
   describe('<InviteButton />', () => {
-    const props = {
+    const props: Props = {
       myself: {
         userId: 'test1',
-        socketId: 1,
+        socketId: '1',
         room: 'moon'
       },
       user: {
         userId: 'test',
-        socketId: 2,
-        room: 'moon'
+        socketId: '2',
+        room: 'moon',
+        windows: []
       },
-      room: 'moon2'
+      room: 'moon2',
+      onClick: () => {}
     };
 
-    const wrapper = mount(<InviteButton {...props as any} />);
+    const wrapper = mount(<InviteButton {...props} />);
 
     it('기본 props 전달 확인', () => {
       expect(wrapper.props()).to.deep.equal(props);

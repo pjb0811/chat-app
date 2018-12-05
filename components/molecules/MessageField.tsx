@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-type Props = {
+export type Props = {
   sendMessage: (
     params: {
     type: string;
@@ -25,7 +25,7 @@ type Props = {
  * @class MessageField
  * @extends {Component<Props>}
  */
-class MessageField extends Component<Props> {
+class MessageField extends React.Component<Props> {
   state = {
     message: ''
   };
@@ -80,7 +80,7 @@ class MessageField extends Component<Props> {
     const { message } = this.state;
 
     return (
-      <Fragment>
+      <React.Fragment>
         <div className={classes.inputContainer}>
           <TextField
             fullWidth
@@ -103,7 +103,7 @@ class MessageField extends Component<Props> {
             SEND
           </Button>
         </div>
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

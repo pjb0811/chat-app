@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import Paper from '@material-ui/core/Paper';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,7 +24,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-type Props = {
+export type Props = {
   removeInvite: (invite: {}) => void;
   moveRoom: (params: { type: 'join' | 'leave'; room: string }) => void;
   room: string;
@@ -41,7 +41,7 @@ type Props = {
  * @class InviteList
  * @extends {Component<Props>}
  */
-class InviteList extends Component<Props> {
+class InviteList extends React.Component<Props> {
   /**
    * 초대 요청 수락
    * @desc 사용자가 채팅방에 있는 경우에만 현재 채팅방 퇴장 및 초대받은 채팅방 입장을 위한 서버 요청
@@ -74,7 +74,7 @@ class InviteList extends Component<Props> {
           {invites.map((invite, i) => {
             const { sender, room, time } = invite;
             return (
-              <Fragment key={i}>
+              <React.Fragment key={i}>
                 <ListItem className={classes.listItem}>
                   <Typography variant="h6" gutterBottom>
                     {new Date(time).toLocaleString('ko-KR')}
@@ -107,7 +107,7 @@ class InviteList extends Component<Props> {
                   </div>
                 </ListItem>
                 {i < invites.length - 1 && <Divider />}
-              </Fragment>
+              </React.Fragment>
             );
           })}
         </List>

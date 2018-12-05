@@ -1,23 +1,28 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import UserList from 'components/molecules/UserList';
+import UserList, { Props } from 'components/molecules/UserList';
 
 describe('molecules', () => {
   describe('<UserList />', () => {
-    const props = {
+    const props: Props = {
       user: {
         userId: 'test',
-        socketId: '111'
+        socketId: '111',
+        room: '',
+        windows: []
       },
       users: [
         {
           userId: 'test',
-          socketId: '111'
+          socketId: '111',
+          room: '',
+          windows: []
         }
       ],
       room: '',
-      inviteRoom: () => {}
+      inviteRoom: () => {},
+      toggleWindow: () => {}
     };
 
     const wrapper = mount(<UserList {...props} />);
