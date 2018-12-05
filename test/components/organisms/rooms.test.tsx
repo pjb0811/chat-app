@@ -1,5 +1,5 @@
-import { mount } from 'enzyme';
-import React from 'react';
+import { mount, ReactWrapper, HTMLAttributes } from 'enzyme';
+import * as React from 'react';
 import { expect } from 'chai';
 import Rooms from 'components/organisms/Rooms';
 
@@ -16,7 +16,9 @@ describe('organisms', () => {
     });
 
     it('기본 출력 요소 확인', () => {
-      let buttons = [];
+      let buttons: Array<
+      ReactWrapper<HTMLAttributes, any, React.Component<{}, {}, any>>
+      > = [];
       wrapper.find('span').forEach(span => {
         if (span.text()) {
           buttons.push(span);

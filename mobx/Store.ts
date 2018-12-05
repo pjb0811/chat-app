@@ -2,7 +2,7 @@ import Chat, { State } from './Chat';
 
 let store: Store | null = null;
 
-type Props = {
+export type Props = {
   chat: {
     state: State;
   } | null;

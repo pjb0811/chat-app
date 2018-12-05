@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import { toJS } from 'mobx';
-import io from 'socket.io-client';
+import * as io from 'socket.io-client';
 
 type Props = {
   state: State;

@@ -1,12 +1,19 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import InputArea from 'components/organisms/InputArea';
+import InputArea, { Props } from 'components/organisms/InputArea';
 
 describe('organisms', () => {
   describe('<InputArea />', () => {
-    const props = {
-      classes: {}
+    const props: Props = {
+      classes: {
+        root: '',
+        inputContainer: '',
+        input: '',
+        buttonContainer: '',
+        button: ''
+      },
+      sendMessage: () => {}
     };
     const wrapper = mount(<InputArea {...props} />);
 
@@ -15,7 +22,7 @@ describe('organisms', () => {
     });
 
     it('기본 출력 요소 확인', () => {
-      expect(wrapper.find('div').length).to.equal(1);
+      expect(wrapper.html()).to.null;
     });
   });
 });

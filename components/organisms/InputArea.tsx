@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import MessageField from '../molecules/MessageField';
 import { NativeFiles } from 'react-dnd-component';
@@ -49,7 +49,7 @@ const styles = (theme: Theme) =>
     }
   });
 
-type Props = {
+export type Props = {
   receiver?: {};
   classes: {
     root: string;
@@ -73,7 +73,7 @@ type Props = {
  * @class InputArea
  * @extends {Component<Props>}
  */
-class InputArea extends Component<Props> {
+class InputArea extends React.Component<Props> {
   /**
    * 렌더링
    * @desc 직접 만든 react-dnd-component 를 활용한 파일 Drag & Drop 여부 감지

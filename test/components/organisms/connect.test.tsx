@@ -1,13 +1,15 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import Connect from 'components/organisms/Connect';
+import Connect, { Props } from 'components/organisms/Connect';
 import { initStore } from 'mobx/Store';
 
 describe('organisms', () => {
   describe('<Connect />', () => {
-    const store = initStore({});
-    const wrapper = mount(<Connect {...store} />);
+    const store = initStore({
+      chat: null
+    });
+    const wrapper = mount(<Connect {...store as Props} />) as any;
     const { chat } = wrapper.props();
 
     wrapper.setState({
@@ -31,10 +33,10 @@ describe('organisms', () => {
     it('onConnect 함수 호출 시 유효성 검증 및 login socket 확인', done => {
       let errors, submitting;
       const values = { userId: 'test' };
-      const setErrors = res => {
+      const setErrors = (res: {}) => {
         errors = res;
       };
-      const setSubmitting = res => {
+      const setSubmitting = (_res: {}) => {
         submitting = false;
       };
 
@@ -48,8 +50,8 @@ describe('organisms', () => {
       chat.connect('http://localhost:9002');
       wrapper.instance().onConnect(values, { setErrors, setSubmitting });
 
-      chat.socket.on('login', ({ user }) => {
-        expect(user.userId).to.equal('test');
+      chat.socket.on('login', (params: { user: { userId: string } }) => {
+        expect(params.user.userId).to.equal('test');
         done();
       });
     });
@@ -61,8 +63,8 @@ describe('organisms', () => {
 
       wrapper.instance().onConnect(values, { setErrors, setSubmitting });
 
-      chat.socket.on('updateUsers', ({ users }) => {
-        expect(users.length).to.equal(1);
+      chat.socket.on('updateUsers', (params: { users: Array<{}> }) => {
+        expect(params.users.length).to.equal(1);
         done();
       });
     });

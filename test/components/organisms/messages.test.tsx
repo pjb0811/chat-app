@@ -1,5 +1,5 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import Messages from 'components/organisms/Messages';
 
@@ -20,7 +20,7 @@ describe('organisms', () => {
     });
 
     it('기본 출력 요소 확인', () => {
-      expect(wrapper.find('div').length).to.equal(1);
+      expect(wrapper.find('div').length).to.equal(2);
     });
   });
 });

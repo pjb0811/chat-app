@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import * as Routes from '../../lib/routes';
 import { Formik } from 'formik';
 import ConnectForm from '../molecules/ConnectForm';
 import * as Yup from 'yup';
 import { User } from '../../mobx/Chat';
 
-type Props = {
+export type Props = {
   chat: {
     connect: () => void;
     socket: {
@@ -26,7 +26,7 @@ type Props = {
  * @class Connect
  * @extends {Component<Props>}
  */
-class Connect extends Component<Props> {
+class Connect extends React.Component<Props> {
   state = {
     form: {
       userId: ''

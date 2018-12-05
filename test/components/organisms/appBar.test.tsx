@@ -1,29 +1,36 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import AppBar from 'components/organisms/AppBar';
+import AppBar, { Props } from 'components/organisms/AppBar';
 
 describe('organisms', () => {
   describe('<AppBar />', () => {
-    const props = {
+    const props: Props = {
       user: {
         userId: 'test',
-        socketId: '111'
+        socketId: '111',
+        room: '',
+        windows: []
       },
       users: [
         {
           userId: 'test',
-          socketId: '111'
+          socketId: '111',
+          room: '',
+          windows: []
         }
       ],
       room: '',
       invites: [],
-      classes: {},
+      classes: { space: '' },
       inviteRoom: () => {},
-      removeInvite: () => {}
+      removeInvite: () => {},
+      moveRoom: () => {},
+      logout: () => {},
+      toggleWindow: () => {}
     };
 
-    const wrapper = mount(<AppBar {...props} />);
+    const wrapper = mount(<AppBar {...props} />) as any;
     wrapper.setState({
       userListEl: null,
       inviteListEl: null

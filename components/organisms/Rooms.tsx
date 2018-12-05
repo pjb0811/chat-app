@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -13,7 +13,7 @@ type Props = {
  * @class Rooms
  * @extends {Component<Props>}
  */
-class Rooms extends Component<Props> {
+class Rooms extends React.Component<Props> {
   /**
    * 렌더링
    * @desc 채팅방 목록을 순회하여 링크가 연결된 채팅방 이름 컴포넌트 반환

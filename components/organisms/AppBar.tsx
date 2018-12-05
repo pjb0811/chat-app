@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
@@ -13,7 +13,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import InviteList from '../molecules/InviteList';
 import { User } from '../../mobx/Chat';
 
-type Props = {
+export type Props = {
   user: User;
   users: Array<User>;
   room: string;
@@ -37,7 +37,7 @@ type State = {
  * @class CustomAppBar
  * @extends {Component<Props, State>}
  */
-class CustomAppBar extends Component<Props, State> {
+class CustomAppBar extends React.Component<Props, State> {
   state = {
     userListEl: null,
     inviteListEl: null
@@ -101,7 +101,7 @@ class CustomAppBar extends Component<Props, State> {
     const { userListEl, inviteListEl } = this.state;
 
     return (
-      <Fragment>
+      <React.Fragment>
         <AppBar position="fixed">
           <Toolbar>
             <Typography
@@ -190,7 +190,7 @@ class CustomAppBar extends Component<Props, State> {
           </Toolbar>
         </AppBar>
         <div className={classes.space} />
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

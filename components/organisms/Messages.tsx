@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import Message from '../molecules/Message';
 import Grid from '@material-ui/core/Grid';
 import { Element } from 'react-scroll';
@@ -13,7 +13,7 @@ type Props = {
     };
     images: [];
   }>;
-  myself: { socketId: string };
+  myself: { userId: string; socketId: string };
   id?: string;
 };
 
@@ -22,7 +22,7 @@ type Props = {
  * @class Messages
  * @extends {Component<Props>}
  */
-class Messages extends Component<Props> {
+class Messages extends React.Component<Props> {
   /**
    * 렌더링
    * @desc 메시지 목록을 순회하며 메시지 컴포넌트 반환
