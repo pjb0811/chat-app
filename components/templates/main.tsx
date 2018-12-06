@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import * as React from 'react';
 import Head from 'next/head';
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '../organisms/AppBar';
@@ -69,6 +69,7 @@ type Props = {
       room: string;
     };
   };
+  bgStyle: {};
 };
 
 /**
@@ -262,11 +263,11 @@ const withMain = (Page: any) => {
      * @returns {Component}
      */
     render() {
-      const { classes, router, chat } = this.props;
+      const { classes, router, chat, bgStyle } = this.props;
       const { user, users, invites, toggleWindow } = chat;
 
       return (
-        <Fragment>
+        <div style={{ ...bgStyle }}>
           <Head>
             <title>Chat App</title>
           </Head>
@@ -318,13 +319,13 @@ const withMain = (Page: any) => {
               </Paper>
             </ChatWindow>
           ))}
-        </Fragment>
+        </div>
       );
     }
   }
 
   return withStyles(styles, { name: 'MainWrapper' })(
-    withBackground(MainWrapper)
+    withBackground(MainWrapper as any)
   );
 };
 

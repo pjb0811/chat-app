@@ -1,12 +1,14 @@
 import { shallow, mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import Index from 'pages/index';
 import { initStore } from 'mobx/Store';
 
 describe('pages', () => {
   describe('<Index />', () => {
-    const store = initStore({});
+    const store = initStore({
+      chat: null
+    }) as any;
     const router = { query: {} };
     const props = {
       classes: {}
@@ -20,7 +22,9 @@ describe('pages', () => {
 
     const wrapper = mount(
       shallow(
-        shallow(<Index router={router} {...store} {...props} />).get(0)
+        shallow(
+          shallow(<Index router={router} {...store} {...props} />).get(0)
+        ).get(0)
       ).get(0)
     );
 

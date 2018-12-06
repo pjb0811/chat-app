@@ -1,19 +1,14 @@
 import { shallow, mount } from 'enzyme';
-import React, { Component } from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import main from 'components/templates/main';
 import { initStore } from 'mobx/Store';
-
-@main
-class EmptyPage extends Component {
-  render() {
-    return <div {...this.props} />;
-  }
-}
+import EmptyPage from './EmptyPage';
 
 describe('templates', () => {
   describe('main', () => {
-    const store = initStore({});
+    const store = initStore({
+      chat: null
+    }) as any;
     const props = {};
     const router = { query: {} };
     const user = {
@@ -25,9 +20,11 @@ describe('templates', () => {
 
     const wrapper = mount(
       shallow(
-        shallow(<EmptyPage router={router} {...store} {...props} />).get(0)
+        shallow(
+          shallow(<EmptyPage router={router} {...store} {...props} />).get(0)
+        ).get(0)
       ).get(0)
-    );
+    ) as any;
     const { chat } = wrapper.props();
     wrapper.setState({});
 
@@ -44,7 +41,9 @@ describe('templates', () => {
         chat.setUser({ userId: '', socketId: '' });
         expect(chat.user).to.deep.equal({
           userId: '',
-          socketId: ''
+          socketId: '',
+          room: '',
+          windows: []
         });
         done();
       });
@@ -54,9 +53,9 @@ describe('templates', () => {
       let tempUser = {};
       let tempInvite = {};
       it('inviteRoom() 호출 전 다른 사용자 로그인 하기', done => {
-        chat.socket.on('login', ({ user }) => {
-          tempUser = user;
-          expect(user.userId).to.equal('test');
+        chat.socket.on('login', (params: { user: { userId: string } }) => {
+          tempUser = params.user;
+          expect(params.user.userId).to.equal('test');
           done();
         });
         chat.socket.emit('login', {
@@ -70,7 +69,7 @@ describe('templates', () => {
         wrapper
           .instance()
           .inviteRoom({ sender: user, receiver: tempUser, room: 'test' });
-        chat.socket.on('inviteRoom', data => {
+        chat.socket.on('inviteRoom', (data: { sender: {}; room: string }) => {
           expect(data.sender).to.deep.equal(user);
           expect(data.room).to.equal('test');
           tempInvite = data;
@@ -87,21 +86,27 @@ describe('templates', () => {
       it('moveRoom() 호출로 socket join 시 상태 확인', done => {
         chat.setUser({ userId: 'haha', socketId: 'hoho' });
         wrapper.instance().moveRoom({ type: 'join', room: 'test1' });
-        chat.socket.on('join', ({ messages }) => {
-          expect(messages.type).to.equal('info');
-          expect(messages.message).to.equal('haha님이 입장했습니다.');
-          done();
-        });
+        chat.socket.on(
+          'join',
+          (params: { messages: { type: string; message: string } }) => {
+            expect(params.messages.type).to.equal('info');
+            expect(params.messages.message).to.equal('haha님이 입장했습니다.');
+            done();
+          }
+        );
       });
 
       it('moveRoom() 호출로 socket leave 시 상태 확인', done => {
         chat.setUser({ userId: 'haha', socketId: 'hoho' });
         wrapper.instance().moveRoom({ type: 'leave', room: 'test1' });
-        chat.socket.on('leave', ({ messages }) => {
-          expect(messages.type).to.equal('info');
-          expect(messages.message).to.equal('haha님이 퇴장했습니다.');
-          done();
-        });
+        chat.socket.on(
+          'leave',
+          (params: { messages: { type: string; message: string } }) => {
+            expect(params.messages.type).to.equal('info');
+            expect(params.messages.message).to.equal('haha님이 퇴장했습니다.');
+            done();
+          }
+        );
       });
     });
   });

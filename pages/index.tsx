@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import mainTemplate from '../components/templates/main';
 import Connect from '../components/organisms/Connect';
 import Paper from '@material-ui/core/Paper';
@@ -29,7 +29,7 @@ type Props = {
  * @class Index
  * @extends {Component<Props>}
  */
-class Index extends Component<Props> {
+class Index extends React.Component<Props> {
   /**
    * 렌더링
    * @desc 로그인 폼 컴포넌트 반환

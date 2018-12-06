@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import mainTemplate from '../components/templates/main';
 import Rooms from '../components/organisms/Rooms';
 import Paper from '@material-ui/core/Paper';
@@ -15,7 +15,7 @@ type Props = {
  * @class List
  * @extends {Component<Props>}
  */
-class List extends Component<Props> {
+class List extends React.Component<Props> {
   state = {
     rooms: ['Moon', 'Mercury', 'Mars', 'Earth', 'Pluto', 'Uranus']
   };

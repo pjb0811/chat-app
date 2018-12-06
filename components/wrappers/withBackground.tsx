@@ -1,19 +1,17 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 
 type Props = {
-  router: {
-    route: string;
-  };
+  children?: React.ReactNode;
+  router: { route: string };
+  bgStyle: {};
 };
 
 /**
  * 배경색 변경 HOC
  * @param WrappedComponent 확인할 컴포넌트
  */
-const withBackground = <P extends Props>(
-  WrappedComponent: React.ComponentType<P>
-) => {
-  return class Background extends Component<Props> {
+const withBackground = (WrappedComponent: React.ComponentType<Props>) => {
+  return class Background extends React.Component<Props> {
     /**
      * 렌더링
      * @desc 라우팅명이 '/chat'일 경우에만 배경색 변경
@@ -24,11 +22,7 @@ const withBackground = <P extends Props>(
       const style = { background: '#9bbbd4', minHeight: '100%' };
 
       if (route === '/chat') {
-        return (
-          <div style={style}>
-            <WrappedComponent {...this.props} />
-          </div>
-        );
+        return <WrappedComponent {...this.props} bgStyle={style} />;
       }
 
       return <WrappedComponent {...this.props} />;

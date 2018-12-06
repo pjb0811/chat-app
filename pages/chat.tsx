@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import * as React from 'react';
 import mainTemplate from '../components/templates/main';
 import Messages from '../components/organisms/Messages';
 import InputArea from '../components/organisms/InputArea';
@@ -13,7 +13,7 @@ type Props = {
       emit: (type: string, req?: {}) => void;
       on: (type: string, callback: (res: any) => void) => void;
     };
-    user: { socketId: string };
+    user: { userId: string; socketId: string };
     setUser: (user: {}) => void;
   };
   router: {
@@ -32,7 +32,7 @@ type State = {
  * @class Chat
  * @extends {Component<Props, State>}
  */
-class Chat extends Component<Props, State> {
+class Chat extends React.Component<Props, State> {
   state = {
     messages: []
   };
@@ -196,14 +196,14 @@ class Chat extends Component<Props, State> {
     const { messages } = this.state;
 
     return (
-      <Fragment>
+      <React.Fragment>
         <Typography variant="h3" gutterBottom>
           {router.query.room}
         </Typography>
         <Messages messages={messages} myself={myself} />
         <Space height={120} />
         <InputArea sendMessage={this.sendMessage} />
-      </Fragment>
+      </React.Fragment>
     );
   }
 }

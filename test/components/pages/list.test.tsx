@@ -1,12 +1,14 @@
 import { shallow, mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
 import List from 'pages/list';
 import { initStore } from 'mobx/Store';
 
 describe('pages', () => {
   describe('<List />', () => {
-    const store = initStore({});
+    const store = initStore({
+      chat: null
+    }) as any;
     const router = { query: {} };
     const props = {
       classes: {}
@@ -20,11 +22,16 @@ describe('pages', () => {
 
     const wrapper = mount(
       shallow(
-        shallow(<List router={router} {...store} {...props} />).get(0)
+        shallow(
+          shallow(<List router={router} {...store} {...props} />).get(0)
+        ).get(0)
       ).get(0)
     );
 
-    const wrappedComponent = wrapper.childAt(2).childAt(0);
+    const wrappedComponent = wrapper
+      .childAt(0)
+      .childAt(2)
+      .childAt(0);
     const { chat } = wrapper.props();
 
     it('props 확인', () => {

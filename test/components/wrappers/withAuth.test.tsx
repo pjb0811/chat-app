@@ -1,14 +1,7 @@
 import { mount } from 'enzyme';
-import React from 'react';
+import * as React from 'react';
 import { expect } from 'chai';
-import withAuth from 'components/wrappers/withAuth';
-
-@withAuth
-class Test extends React.Component {
-  render() {
-    return <div>test</div>;
-  }
-}
+import Test from './AuthTest';
 
 describe('wrappers', () => {
   describe('<withAuth />', () => {
