@@ -234,7 +234,10 @@ const withMain = (Page: any) => {
       const time = new Date().getTime();
 
       socket.emit('chatWindow', {
-        sender: user,
+        sender: {
+          userId: user.userId,
+          socketId: user.socketId
+        },
         receiver,
         type,
         message,
@@ -242,7 +245,10 @@ const withMain = (Page: any) => {
       });
 
       chat.setWindowMessage({
-        user,
+        user: {
+          userId: user.userId,
+          socketId: user.socketId
+        },
         receiver,
         type,
         message,
