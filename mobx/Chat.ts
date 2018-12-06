@@ -188,6 +188,9 @@ class Chat {
     this.state.user.windows = this.state.user.windows.map((window: Window) => {
       if (window.receiver.socketId === receiver.socketId) {
         window.open = open;
+        if (!open) {
+          window.messages = [];
+        }
       }
       return window;
     });

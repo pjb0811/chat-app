@@ -89,7 +89,7 @@ class Message extends React.Component<Props, State> {
       <React.Fragment>
         <GridSpace hasSpace={!isInfo && isMyMsg} xs={6} />
         <Grid item xs={this.state[type].xs}>
-          <ResizeDetector handleWidth>
+          <ResizeDetector handleWidth refreshMode="debounce" refreshRate={100}>
             {(width = 0) => (
               <Motion
                 style={{
