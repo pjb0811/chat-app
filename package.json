@@ -5,7 +5,9 @@
     "build": "next build",
     "serve": "yarn build && cross-env NODE_ENV=production PORT=9001 nodemon server",
     "test:serve": "cross-env NODE_ENV=test PORT=9002 nodemon server/test",
-    "test": "cross-env NODE_PATH=./ NODE_ENV=test mocha"
+    "test": "cross-env NODE_PATH=./ NODE_ENV=test mocha",
+    "export": "next export",
+    "deploy": "npm run build && npm run export"
   },
   "description": "chat web app using react",
   "author": "pjb0811",
